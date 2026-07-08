@@ -332,6 +332,7 @@ export default function App() {
       setTimeout(
         () => {
           setPhase("done");
+          setTicketVisible(true);
           // Alternating flash: odd indices (0,2,4…) and even indices (1,3,5…) flash in turn, 3 pairs, then off
           const STEP_MS = 320;
           let group = 0; // 0 = odd-indexed lights, 1 = even-indexed lights
@@ -343,9 +344,6 @@ export default function App() {
             if (flashes >= 8) {
               clearInterval(wave);
               setActiveLightGroup(-1);
-              timers.current.push(
-                setTimeout(() => setTicketVisible(true), 300),
-              );
             }
           }, STEP_MS);
           intervals.current.push(wave);
