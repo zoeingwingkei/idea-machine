@@ -38,6 +38,17 @@ const BG = "#000000";
 // Background SVG is 500×187.5 viewBox (perforated ticket shape). Rendered at
 // exact 1600×600px (×3.2 scale) so the perforations stay round — never skewed.
 // overflow:hidden on the outer div crops whatever background extends below content.
+
+// Picks "a"/"an" by sound, not just spelling — handles the common exceptions
+// (silent-h words, "u-" words that start with a consonant sound) since new
+// product-form items can be added to the data later.
+function articleFor(word: string): "A" | "An" {
+  const firstWord = word.trim().split(/\s+/)[0]?.toLowerCase() ?? "";
+  if (/^(uni|use|user|one|eu)/.test(firstWord)) return "A";
+  if (/^(hour|honest|honor|heir)/.test(firstWord)) return "An";
+  return /^[aeiou]/.test(firstWord) ? "An" : "A";
+}
+
 function GoldenTicket({
   format,
   space,
@@ -163,7 +174,7 @@ function GoldenTicket({
             margin: 0,
           }}
         >
-          <em>A </em>
+          <em>{articleFor(format)} </em>
           <strong>{format}</strong>
           <em> for </em>
           <strong>{space}</strong>
