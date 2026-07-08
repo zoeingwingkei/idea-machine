@@ -1,0 +1,61 @@
+{
+  "meta": {
+    "title": "The Map of Human Life",
+    "subtitle": "The fundamental domains where humans spend their time, attention, energy, and money.",
+    "note": "A living framework, not exhaustive. This is meant to inspire, not validate — reel 1 lands on a sub-item, with its domain shown as context, and the builder is expected to dig into that space themselves.",
+    "reel_structure": {
+      "reel_1_space": "domains[].subItems",
+      "reel_2_product_form": "map-of-product-forms.json → categories[].subItems"
+    }
+  },
+  "domains": [
+    {
+      "domain": "Health & Wellbeing",
+      "subItems": ["Sleep", "Exercise & Fitness", "Nutrition & Eating", "Mental Health", "Stress Management", "Physical Health", "Healthcare", "Preventive Care", "Longevity"]
+    },
+    {
+      "domain": "Money & Finances",
+      "subItems": ["Earning Income", "Saving Money", "Spending", "Investing", "Taxes", "Insurance", "Debt Management", "Financial Planning", "Retirement"]
+    },
+    {
+      "domain": "Career & Work",
+      "subItems": ["Finding a Job", "Learning Skills", "Career Growth", "Networking", "Daily Productivity", "Collaboration", "Work-Life Balance", "Freelancing", "Entrepreneurship"]
+    },
+    {
+      "domain": "Relationships & Connections",
+      "subItems": ["Dating & Romance", "Friendships", "Family Relationships", "Parenting", "Communication", "Social Life", "Community", "Trust & Intimacy", "Conflict Resolution"]
+    },
+    {
+      "domain": "Productivity & Focus",
+      "subItems": ["Time Management", "Task Management", "Focus & Deep Work", "Habits & Routines", "Planning & Goals", "Decision Making", "Information Management", "Reduce Distractions", "Mental Clarity"]
+    },
+    {
+      "domain": "Home & Daily Life",
+      "subItems": ["Home Management", "Cleaning & Chores", "Cooking & Meals", "Organizing & Decluttering", "Home Maintenance", "Moving & Relocation", "Life Administration", "Documents & Paperwork", "Digital Life"]
+    },
+    {
+      "domain": "Travel & Exploration",
+      "subItems": ["Trip Planning", "Booking & Reservations", "Transportation", "Accommodation", "Navigation", "Packing", "Budget Travel", "Local Experiences", "Safety & Security"]
+    },
+    {
+      "domain": "Learning & Growth",
+      "subItems": ["Formal Education", "Online Learning", "Reading & Books", "Skill Development", "Memory & Retention", "Personal Growth", "Curiosity & Exploration", "Mentorship", "Teaching & Sharing"]
+    },
+    {
+      "domain": "Creativity & Expression",
+      "subItems": ["Idea Generation", "Writing", "Design & Art", "Music & Performance", "Content Creation", "Creative Projects", "Storytelling", "Photography & Video", "Innovation"]
+    },
+    {
+      "domain": "Leisure & Enjoyment",
+      "subItems": ["Hobbies", "Entertainment", "Sports & Recreation", "Gaming", "Relaxation", "Mindfulness", "Nature & Outdoors", "Fun & Play", "Passions"]
+    },
+    {
+      "domain": "Life Events & Transitions",
+      "subItems": ["Marriage & Weddings", "Having Children", "Graduation", "Career Changes", "Moving", "Starting Over", "Sabbaticals", "Celebrations", "Loss & Grief"]
+    },
+    {
+      "domain": "Giving & Purpose",
+      "subItems": ["Helping Others", "Volunteering", "Donations", "Advocacy", "Spirituality", "Faith", "Personal Values", "Making an Impact", "Legacy"]
+    }
+  ]
+}

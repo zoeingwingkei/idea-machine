@@ -1,0 +1,306 @@
+{
+  "meta": {
+    "title": "The Map of Twists",
+    "subtitle": "Unexpected constraints, mechanics, audiences, aesthetics, and angles that make an idea feel fresh.",
+    "note": "Reel 3 = what makes the combination interesting. These twists are designed to be compatible with many human life areas and many product forms.",
+    "reel_structure": {
+      "reel_1_space": "map-of-human-life.json → domains[].subItems",
+      "reel_2_product_form": "map-of-product-forms.json → categories[].subItems",
+      "reel_3_twist": "categories[].subItems"
+    }
+  },
+  "categories": [
+    {
+      "category": "Audience Twist",
+      "subItems": [
+        "For Complete Beginners",
+        "For Busy Parents",
+        "For People Starting Over",
+        "For Skeptics",
+        "For Overthinkers",
+        "For Night Owls",
+        "For Couples Doing It Together",
+        "For Recent Arrivals",
+        "For the Chronically Inconsistent",
+        "For Experts Who Plateaued",
+        "For People Who Hate This Topic",
+        "For Kids and Grownups Together",
+        "For Digital Nomads",
+        "For Retirees",
+        "For Burned Out Professionals",
+        "For Caregivers",
+        "For Side Hustlers",
+        "For Empty Nesters",
+        "For Neurodivergent Folks"
+      ]
+    },
+    {
+      "category": "Constraint Twist",
+      "subItems": [
+        "One Screen Only",
+        "No Login Required",
+        "Works Fully Offline",
+        "Five Minutes a Day",
+        "Text Messages Only",
+        "No Numbers Shown",
+        "One Decision at a Time",
+        "Uses Only What You Have",
+        "Expires in 30 Days",
+        "Paper First, Screen Second",
+        "Nothing to Install",
+        "Zero Budget Version",
+        "Phone Only Experience",
+        "Battery Conscious",
+        "Privacy First Design",
+        "Carbon Neutral"
+      ]
+    },
+    {
+      "category": "Interaction Twist",
+      "subItems": [
+        "Voice Only",
+        "Swipe to Decide",
+        "One Question Per Day",
+        "Fill-in-the-Blank",
+        "Conversation, Not Forms",
+        "Camera as the Input",
+        "Ambient and Glanceable",
+        "Done in One Sitting",
+        "You Teach It Back",
+        "Drag Things Until It Feels Right",
+        "Gamified Like Duolingo",
+        "Ritual Based Entry",
+        "Branching Story Paths",
+        "Mirror Your Inputs",
+        "Collaborative Editing",
+        "Solo Reflection Mode"
+      ]
+    },
+    {
+      "category": "Emotional Twist",
+      "subItems": [
+        "Gently Judgmental",
+        "Radically Non-Judgmental",
+        "Weirdly Calming",
+        "Playfully Competitive",
+        "Brutally Honest",
+        "Celebrates Tiny Wins",
+        "Gives Permission to Quit",
+        "Nostalgic on Purpose",
+        "Anti-Hustle Energy",
+        "Dead Serious About Fun",
+        "Cheeky British Humor",
+        "Whimsical Fairytale",
+        "Stoic Warrior Energy",
+        "Warm Grandma Wisdom",
+        "Rebellious Punk Vibe",
+        "Fierce Confident Boost"
+      ]
+    },
+    {
+      "category": "Social Twist",
+      "subItems": [
+        "Anonymous but Together",
+        "Strangers Paired Weekly",
+        "Bring Exactly One Friend",
+        "Public Streaks",
+        "Vote Before You See Results",
+        "Group Wins or Nobody Wins",
+        "Mentor Matched Automatically",
+        "Confess and Compare",
+        "Households Compete",
+        "Everyone Answers the Same Prompt",
+        "Accountability Buddies",
+        "Secret Society Feel",
+        "Family Legacy Chain",
+        "Stranger Wisdom Exchange",
+        "Gratitude Chain Reaction",
+        "Group Memory Jar"
+      ]
+    },
+    {
+      "category": "Time Twist",
+      "subItems": [
+        "Sundays Only",
+        "Seasonal, Not Daily",
+        "One-Year Countdown",
+        "Built for 2 A.M.",
+        "Once and Done Forever",
+        "Slow by Design",
+        "Ends on Purpose",
+        "Same Time Every Day",
+        "Triggered by Real Life Events",
+        "Fits Inside Calendar Gaps",
+        "Daily Micro Moments",
+        "Weekly Reset Ritual",
+        "Moon Phase Aligned",
+        "Evening Wind Down",
+        "Quarterly Reflection",
+        "Binge Then Integrate"
+      ]
+    },
+    {
+      "category": "Business Model Twist",
+      "subItems": [
+        "Pay What It Saved You",
+        "Free Until It Works",
+        "One-Time Purchase, Forever",
+        "Deposit You Earn Back",
+        "Refund for Finishing",
+        "Gift-Only Pricing",
+        "Employers Pay, Individuals Use",
+        "Sponsor a Stranger",
+        "Pay to Skip, Free to Grind",
+        "Lifetime Price for First 100",
+        "Pay What You Want",
+        "Barter For Entry",
+        "Profit Share Community",
+        "Subscription With Pause",
+        "Crowdfunded By Users",
+        "Mystery Box Pricing"
+      ]
+    },
+    {
+      "category": "Data Twist",
+      "subItems": [
+        "Compare Against Past You",
+        "Anonymous Peer Benchmarks",
+        "One Number That Matters",
+        "Beautiful Annual Report",
+        "Logged by Hand on Purpose",
+        "Predicts Your Next Week",
+        "Shows the Boring Truth",
+        "Turns Your Data into a Story",
+        "Compare With Ancestors",
+        "Future Self Projection",
+        "Weird Pattern Spotter",
+        "Shadow Side Mirror",
+        "Alternate Timeline Sim",
+        "Hidden Correlation Finder"
+      ]
+    },
+    {
+      "category": "AI Twist",
+      "subItems": [
+        "AI as Skeptical Coach",
+        "AI Interviews You First",
+        "AI Plays Devil's Advocate",
+        "AI Does the Boring 80%",
+        "Human Approves Every Step",
+        "AI with a Strong Character",
+        "AI That Forgets on Purpose",
+        "AI Only When You're Stuck",
+        "Two AIs Debate for You",
+        "AI Drafts, You Decide",
+        "Sassy Best Friend",
+        "Wise Old Mentor",
+        "Curious Student Mode",
+        "Strict Drill Sergeant",
+        "Dream Interpreter",
+        "Playful Trickster"
+      ]
+    },
+    {
+      "category": "Aesthetic Twist",
+      "subItems": [
+        "Brutalist and Plain",
+        "Warm Analog Feel",
+        "Terminal Aesthetic",
+        "Feels Like a Zine",
+        "Luxury Object Energy",
+        "Hand-Drawn Everything",
+        "Monochrome and Editorial",
+        "Retro Operating System",
+        "Feels Like Fine Stationery",
+        "Invisible Until Needed",
+        "Vaporwave Nostalgia",
+        "Cottagecore Cozy",
+        "Cyberpunk Edge",
+        "Dark Academia Vibe",
+        "Wabi Sabi Imperfect",
+        "Maximalist Chaos"
+      ]
+    },
+    {
+      "category": "Cultural Borrow Twist",
+      "subItems": [
+        "Like a Tamagotchi",
+        "Like a Trading Card Game",
+        "Like an Advent Calendar",
+        "Like a Cooking Show",
+        "Like a Gym Buddy",
+        "Like a Farmers Market",
+        "Like a Pilgrimage",
+        "Like a Tarot Deck",
+        "Like a Boss Fight",
+        "Like a Library Card",
+        "Japanese Kaizen",
+        "Scandinavian Hygge",
+        "Stoic Roman Wisdom",
+        "Monastic Discipline",
+        "Samurai Code",
+        "Sufi Mystic Flow",
+        "Viking Resilience"
+      ]
+    },
+    {
+      "category": "Outcome Twist",
+      "subItems": [
+        "A Finished Artifact in Hand",
+        "One Habit That Sticks",
+        "A Decision Finally Made",
+        "Something to Show Your Kids",
+        "Closure, Not Optimization",
+        "Confidence Before Competence",
+        "Makes the Invisible Visible",
+        "The First Small Win, Fast",
+        "Build Lasting Legacy",
+        "Heal Old Wounds",
+        "Foster Deep Belonging",
+        "Cultivate Radical Rest",
+        "Rediscover Playfulness",
+        "Navigate Uncertainty"
+      ]
+    },
+    {
+      "category": "Distribution Twist",
+      "subItems": [
+        "Lives in the Group Chat",
+        "Passed Person to Person",
+        "Found in Physical Places",
+        "Embedded Where You Already Work",
+        "Invitation Only",
+        "Rides on Calendar Invites",
+        "Sold Through Practitioners",
+        "Starts as a Gift",
+        "Fridge Door Magnet",
+        "Bathroom Mirror Sticky",
+        "Podcast Ad Read",
+        "Physical Trading Cards",
+        "Desktop Widget Home",
+        "Smartwatch Glances"
+      ]
+    },
+    {
+      "category": "Wildcard Mechanic Twist",
+      "subItems": [
+        "You Can Only Do It Once",
+        "Deletes Itself When Done",
+        "Gets Harder as You Improve",
+        "Random Daily Assignment",
+        "Costs Something to Skip",
+        "Built Around a Physical Ritual",
+        "You Play as Someone Else",
+        "Everything Is a Small Bet",
+        "Starts at the End",
+        "Opposite Day Mode",
+        "One Button Magic",
+        "Trade With Others",
+        "Plant A Seed Daily",
+        "Confession Booth Style",
+        "Future Postcard Sender",
+        "Failure Resume Builder"
+      ]
+    }
+  ]
+}
