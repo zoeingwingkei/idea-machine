@@ -3,17 +3,20 @@ import {
   useEffect,
   useRef,
   useCallback,
-  forwardRef,
-  useImperativeHandle,
 } from "react";
-import { flushSync } from "react-dom";
-import svgPaths from "@/imports/SlotMachine/svg-wjwgi5pl1w";
 import ticketSvgPaths from "@/imports/Ticket-1/svg-jkajgizkpe";
 import machinePaths from "@/imports/SlotMachine-1/svg-u88248n22q";
-import leverPaths from "@/imports/Slots-1/svg-2nolbmjll6";
 import productFormsData from "@/imports/map-of-product-forms.json";
 import humanLifeData from "@/imports/map-of-human-life.json";
 import twistsData from "@/imports/map-of-twists.json";
+import {
+  SlotWindow,
+  DECEL_MS,
+  pick,
+  type SlotWindowHandle,
+} from "@/app/components/slot-machine/SlotWindow";
+import { LightsRow } from "@/app/components/slot-machine/LightsRow";
+import { Lever } from "@/app/components/slot-machine/Lever";
 
 const FORMAT_ITEMS = productFormsData.categories.flatMap(
   (c) => c.subItems,
@@ -25,326 +28,11 @@ const TWIST_ITEMS = twistsData.categories.flatMap(
   (c) => c.subItems,
 );
 
-function pick<T>(arr: T[]): T {
-  return arr[Math.floor(Math.random() * arr.length)];
-}
-
 // ─── Constants ────────────────────────────────────────────────────────────────
 // Machine natural coordinate space: 1800px wide (matching the slot SVG paths)
 const MACHINE_W = 1960; // 1800 body + 160 lever overhang
 const MACHINE_H = 1850; // title(608) + body(~884) + ticket-overflow-space; ticket is absolute so body doesn't grow
 const BG = "#000000";
-
-// ─── Lights Row ──────────────────────────────────────────────────────────────
-// Pure flex layout matching Figma "0 0 560 37" geometry scaled ×3.214 to 1800px.
-// activeLightGroup: -1=all white, 0=odd indices (0,2,4…) gold, 1=even indices (1,3,5…) gold.
-// Borders: top 6px, bottom 13px. Padding: 35px top, 32px bottom, 106px sides. Gap: 109px.
-function LightsRow({
-  activeLightGroup,
-  variant = "top",
-}: {
-  activeLightGroup: number;
-  variant?: "top" | "bottom";
-}) {
-  return (
-    <div
-      style={{
-        width: "100%",
-        flexShrink: 0,
-        borderTop:
-          variant === "bottom"
-            ? "13px solid white"
-            : "6px solid white",
-        borderBottom: "13px solid white",
-        paddingTop: 35,
-        paddingBottom: 32,
-        paddingLeft: 106,
-        paddingRight: 106,
-        display: "flex",
-        flexDirection: "row",
-        gap: 109,
-        alignItems: "center",
-      }}
-    >
-      {Array.from({ length: 12 }, (_, i) => {
-        const isActive =
-          activeLightGroup !== -1 && i % 2 === activeLightGroup;
-        return (
-          <div
-            key={i}
-            style={{
-              width: 32,
-              height: 32,
-              borderRadius: "50%",
-              flexShrink: 0,
-              backgroundColor: isActive ? "#FFD700" : "white",
-              boxShadow: isActive
-                ? "0 0 8px 2px #FFD700, 0 0 20px 6px rgba(255,210,0,0.7)"
-                : undefined,
-              transition:
-                "background-color 0.12s, box-shadow 0.12s",
-            }}
-          />
-        );
-      })}
-    </div>
-  );
-}
-
-// ─── Slot Window ─────────────────────────────────────────────────────────────
-const SLOT_VIEWBOXES = [
-  "32 32 572 360",
-  "612 32 576 360",
-  "1201 32 567 360",
-];
-const SLOT_BG_PATHS = [
-  svgPaths.pd81fd80,
-  svgPaths.p6527600,
-  svgPaths.p100c1d00,
-];
-
-const ITEM_H = 360;
-const SPIN_SPEED = 8000; // local CSS px/sec at full speed (translateY coordinate space)
-const DECEL_MS = 850; // deceleration window
-const DECEL_ITEMS = 12; // extra random items consumed during decel for tactile stop
-
-function easeOutQuint(t: number): number {
-  return 1 - Math.pow(1 - t, 5);
-}
-
-export interface SlotWindowHandle {
-  spin: (final: string, spinMs: number) => Promise<void>;
-}
-
-const SlotWindow = forwardRef<
-  SlotWindowHandle,
-  { allItems: string[]; slotIdx: number }
->(({ allItems, slotIdx }, ref) => {
-  const windowRef = useRef<HTMLDivElement>(null);
-  const trackRef = useRef<HTMLDivElement>(null);
-  const rafRef = useRef<number | null>(null);
-  const [items, setItems] = useState<string[]>(() => [
-    pick(allItems),
-  ]);
-
-  useEffect(
-    () => () => {
-      if (rafRef.current != null)
-        cancelAnimationFrame(rafRef.current);
-    },
-    [],
-  );
-
-  useImperativeHandle(ref, () => ({
-    spin(final, spinMs) {
-      if (rafRef.current != null) {
-        cancelAnimationFrame(rafRef.current);
-        rafRef.current = null;
-      }
-
-      return new Promise<void>((resolve) => {
-        const windowEl = windowRef.current;
-        const trackEl = trackRef.current;
-        if (!windowEl || !trackEl) {
-          resolve();
-          return;
-        }
-
-        // Use the element's local CSS px height (not getBoundingClientRect, which
-        // returns scaled screen px — translateY operates in local px, not screen px)
-        const itemHeight = ITEM_H;
-        const spinItems = Math.round(
-          (SPIN_SPEED * (spinMs / 1000)) / itemHeight,
-        );
-        const finalIndex = spinItems + DECEL_ITEMS;
-
-        const strip = Array.from({ length: finalIndex }, () =>
-          pick(allItems),
-        );
-        strip.push(final);
-
-        // flushSync so React commits the new strip before the rAF reads the DOM
-        flushSync(() => setItems(strip));
-
-        requestAnimationFrame(() => {
-          trackEl.style.transition = "";
-          trackEl.style.transform = "translateY(0px)";
-          void trackEl.offsetHeight; // force reflow before animating
-
-          const targetY = -finalIndex * itemHeight;
-          const startTime = performance.now();
-          let phase: "spin" | "decel" = "spin";
-          let decelStart = 0;
-          let decelFromY = 0;
-
-          const tick = (now: number) => {
-            if (phase === "spin") {
-              const elapsed = now - startTime;
-              const y = -((elapsed / 1000) * SPIN_SPEED);
-              trackEl.style.transform = `translateY(${y}px)`;
-              trackEl.style.filter = "blur(3px)";
-              if (elapsed >= spinMs) {
-                phase = "decel";
-                decelStart = now;
-                decelFromY = y;
-              }
-              rafRef.current = requestAnimationFrame(tick);
-            } else {
-              const t = Math.min(
-                1,
-                (now - decelStart) / DECEL_MS,
-              );
-              const eased = easeOutQuint(t);
-              const y =
-                decelFromY + (targetY - decelFromY) * eased;
-              trackEl.style.transform = `translateY(${y}px)`;
-              trackEl.style.filter = `blur(${((1 - eased) * 3).toFixed(2)}px)`;
-              if (t < 1) {
-                rafRef.current = requestAnimationFrame(tick);
-              } else {
-                trackEl.style.filter = "blur(0px)";
-                resolve();
-              }
-            }
-          };
-          rafRef.current = requestAnimationFrame(tick);
-        });
-      });
-    },
-  }));
-
-  return (
-    <div
-      style={{
-        flex: "1 0 0",
-        height: ITEM_H,
-        minWidth: 0,
-        position: "relative",
-      }}
-    >
-      <svg
-        style={{
-          position: "absolute",
-          display: "block",
-          inset: 0,
-          width: "100%",
-          height: "100%",
-        }}
-        fill="none"
-        preserveAspectRatio="none"
-        viewBox={SLOT_VIEWBOXES[slotIdx]}
-      >
-        <path
-          d={SLOT_BG_PATHS[slotIdx]}
-          fill="white"
-          fillRule="evenodd"
-          clipRule="evenodd"
-        />
-      </svg>
-      <div
-        ref={windowRef}
-        style={{
-          position: "absolute",
-          inset: "0 48px",
-          overflow: "hidden",
-        }}
-      >
-        <div
-          ref={trackRef}
-          style={{ display: "flex", flexDirection: "column" }}
-        >
-          {items.map((text, i) => (
-            <p
-              key={i}
-              style={{
-                height: ITEM_H,
-                flexShrink: 0,
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                fontFamily: "'Arvo', sans-serif",
-                fontWeight: 700,
-                fontSize: 64,
-                lineHeight: 1.2,
-                color: "#1e1e1e",
-                textAlign: "center",
-                wordBreak: "break-word",
-                margin: 0,
-                padding: "0 16px",
-              }}
-            >
-              {text}
-            </p>
-          ))}
-        </div>
-      </div>
-    </div>
-  );
-});
-
-// ─── Lever ───────────────────────────────────────────────────────────────────
-// Figma: 34×64px div at 560px slot scale → ×3.214 = 109×206px in machine space.
-// SVG viewBox 0 0 100.89 253.785. Base is a near-full circle, center (17.22, 221.79).
-// Pivot = left-center of base circle = (15.22, 221.79) in viewBox units.
-function Lever({
-  pulled,
-  onClick,
-}: {
-  pulled: boolean;
-  onClick: () => void;
-}) {
-  return (
-    <div
-      style={{
-        position: "absolute",
-        top: "50%",
-        right: -141,
-        width: 109,
-        height: 206,
-        transform: "translateY(-50%)",
-      }}
-    >
-      <div
-        style={{
-          position: "absolute",
-          inset: "-296.54% -151.98% 0 -44.76%",
-        }}
-      >
-        <svg
-          style={{
-            display: "block",
-            width: "100%",
-            height: "100%",
-            overflow: "visible",
-          }}
-          fill="none"
-          preserveAspectRatio="none"
-          viewBox="0 0 100.89 253.785"
-        >
-          {/* Base — stays fixed */}
-          <path d={leverPaths.p31c33cb2} fill="white" />
-
-          {/* Pull group — rotates around left-center of base circle */}
-          <g
-            onClick={onClick}
-            style={{
-              cursor: "pointer",
-              transform: `rotate(${pulled ? 130 : 0}deg)`,
-              transformBox: "view-box",
-              transformOrigin: "15.22px 221.79px",
-              transition: pulled
-                ? "transform 0.18s ease-out"
-                : "transform 0.55s cubic-bezier(0.34, 1.56, 0.64, 1)",
-            }}
-          >
-            <path d={leverPaths.p244e4a00} fill="#EE0000" />
-            <path d={leverPaths.p2cb82f00} fill="white" />
-          </g>
-        </svg>
-      </div>
-    </div>
-  );
-}
 
 // ─── Golden Ticket ────────────────────────────────────────────────────────────
 // Background SVG is 500×187.5 viewBox (perforated ticket shape). Rendered at
@@ -618,12 +306,12 @@ export default function App() {
 
     setLeverPulled(true);
     timers.current.push(
-      setTimeout(() => setLeverPulled(false), 520),
+      setTimeout(() => setLeverPulled(false), 150),
     );
 
     // Spin times: full-speed duration per slot. Stops left→right.
     // Each slot also runs DECEL_MS (850ms) of easing after its spinMs.
-    const SPIN_TIMES = [1200, 2500, 3700] as const;
+    const SPIN_TIMES = [1000, 2000, 3000] as const;
     slot0Ref.current?.spin(finals[0], SPIN_TIMES[0]);
     slot1Ref.current?.spin(finals[1], SPIN_TIMES[1]);
     slot2Ref.current?.spin(finals[2], SPIN_TIMES[2]);
