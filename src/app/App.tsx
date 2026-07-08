@@ -32,6 +32,10 @@ const TWIST_ITEMS = twistsData.categories.flatMap(
 // Machine natural coordinate space: 1800px wide (matching the slot SVG paths)
 const MACHINE_W = 1960; // 1800 body + 160 lever overhang
 const MACHINE_H = 1850; // title(608) + body(~884) + ticket-overflow-space; ticket is absolute so body doesn't grow
+// The lever's SVG art bleeds further right than MACHINE_W's 160px overhang budget
+// (measured: body-left to resting-lever-tip ≈ 2093px) — used only to size the
+// mobile viewport-width target so the whole resting lever stays on-screen.
+const MACHINE_W_WITH_LEVER = 2100;
 const BG = "#000000";
 
 // ─── Golden Ticket ────────────────────────────────────────────────────────────
@@ -355,13 +359,20 @@ export default function App() {
     );
   }, [phase, clearAll]);
 
-  // Scale: machine body ~50% of viewport width, centered with margins
+  // Scale: machine body ~50% of viewport width, centered with margins.
+  // Below 500px (mobile) the 0.2 floor used on desktop would overflow the
+  // viewport, so scale directly off a 75%-of-viewport target using
+  // MACHINE_W_WITH_LEVER instead, keeping the whole resting lever on-screen.
   const [scale, setScale] = useState(0.35);
   useEffect(() => {
     const update = () => {
-      // Target: machine visible at ~50% of viewport width
-      const s = (window.innerWidth * 0.5) / MACHINE_W;
-      setScale(Math.min(0.75, Math.max(0.2, s)));
+      const w = window.innerWidth;
+      if (w < 500) {
+        setScale((w * 0.75) / MACHINE_W_WITH_LEVER);
+      } else {
+        const s = (w * 0.5) / MACHINE_W;
+        setScale(Math.min(0.75, Math.max(0.2, s)));
+      }
     };
     update();
     window.addEventListener("resize", update);
