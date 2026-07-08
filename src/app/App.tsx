@@ -363,16 +363,21 @@ export default function App() {
   // Below 500px (mobile) the 0.2 floor used on desktop would overflow the
   // viewport, so scale directly off a 75%-of-viewport target using
   // MACHINE_W_WITH_LEVER instead, keeping the whole resting lever on-screen.
+  // Whatever width-based scale comes out of that, it's then capped so the
+  // machine's height never exceeds 75% of viewport height either.
   const [scale, setScale] = useState(0.35);
   useEffect(() => {
     const update = () => {
       const w = window.innerWidth;
+      const h = window.innerHeight;
+      let s: number;
       if (w < 500) {
-        setScale((w * 0.75) / MACHINE_W_WITH_LEVER);
+        s = (w * 0.75) / MACHINE_W_WITH_LEVER;
       } else {
-        const s = (w * 0.5) / MACHINE_W;
-        setScale(Math.min(0.75, Math.max(0.2, s)));
+        s = Math.min(0.75, Math.max(0.2, (w * 0.5) / MACHINE_W));
       }
+      const heightCap = (h * 0.75) / MACHINE_H;
+      setScale(Math.min(s, heightCap));
     };
     update();
     window.addEventListener("resize", update);
