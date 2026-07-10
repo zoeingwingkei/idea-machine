@@ -56,6 +56,11 @@ export function Lever({
         width: 109,
         height: 206,
         transform: "translateY(-50%)",
+        // Chromium doesn't register touch-action on SVG structural elements
+        // (like the <g> below) in its compositor hit-test regions, so a touch
+        // drag gets a spurious pointercancel after the first move unless
+        // touch-action: none also sits on an ancestor HTML element.
+        touchAction: "none",
       }}
     >
       <div
