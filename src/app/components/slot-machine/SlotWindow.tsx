@@ -256,12 +256,12 @@ export const SlotWindow = forwardRef<
           d={SLOT_BG_PATHS[slotIdx]}
           fill="none"
           stroke="#EECC6D"
-          strokeWidth={40}
+          strokeWidth={56}
           fillRule="evenodd"
           clipRule="evenodd"
           clipPath={`url(#slot-glow-clip-${slotIdx})`}
           style={{
-            opacity: hovered ? 1 : 0,
+            opacity: hovered ? 0.5 : 0,
             transition: "opacity 0.2s ease",
             filter:
               "drop-shadow(0 0 10px rgba(238,204,109,0.9))",

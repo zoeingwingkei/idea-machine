@@ -23,6 +23,22 @@ import {
   type SlotCategory,
 } from "@/app/components/slot-machine/SlotSelectMenu";
 
+// Devices with no hover capability (touchscreens) never fire the
+// onMouseEnter that normally reveals the lock icon, so those icons must be
+// shown unconditionally there — otherwise touch users have no way to
+// discover that a slot can be locked.
+function useNoHoverPointer(): boolean {
+  const [noHover, setNoHover] = useState(false);
+  useEffect(() => {
+    const mql = window.matchMedia("(hover: none)");
+    setNoHover(mql.matches);
+    const onChange = () => setNoHover(mql.matches);
+    mql.addEventListener("change", onChange);
+    return () => mql.removeEventListener("change", onChange);
+  }, []);
+  return noHover;
+}
+
 const FORMAT_ITEMS = productFormsData.categories.flatMap(
   (c) => c.subItems,
 );
@@ -381,6 +397,7 @@ export default function App() {
   const [selectOpenSlot, setSelectOpenSlot] = useState<
     number | null
   >(null);
+  const noHoverPointer = useNoHoverPointer();
 
   const slot0Ref = useRef<SlotWindowHandle>(null);
   const slot1Ref = useRef<SlotWindowHandle>(null);
@@ -582,7 +599,7 @@ export default function App() {
                 <SlotTitleLabel
                   label="FORMAT"
                   locked={locked[0]}
-                  hovered={hoveredSlot === 0}
+                  hovered={hoveredSlot === 0 || noHoverPointer}
                   hasValue={finalValues[0] !== ""}
                   onToggleLock={() => toggleLock(0)}
                   onMouseEnter={() => setHoveredSlot(0)}
@@ -593,7 +610,7 @@ export default function App() {
                 <SlotTitleLabel
                   label="SPACE"
                   locked={locked[1]}
-                  hovered={hoveredSlot === 1}
+                  hovered={hoveredSlot === 1 || noHoverPointer}
                   hasValue={finalValues[1] !== ""}
                   onToggleLock={() => toggleLock(1)}
                   onMouseEnter={() => setHoveredSlot(1)}
@@ -604,7 +621,7 @@ export default function App() {
                 <SlotTitleLabel
                   label="TWIST"
                   locked={locked[2]}
-                  hovered={hoveredSlot === 2}
+                  hovered={hoveredSlot === 2 || noHoverPointer}
                   hasValue={finalValues[2] !== ""}
                   onToggleLock={() => toggleLock(2)}
                   onMouseEnter={() => setHoveredSlot(2)}
@@ -635,24 +652,32 @@ export default function App() {
                   {(
                     [
                       {
+                        label: "FORMAT",
+                        mapHref: "/maps/format",
                         items: FORMAT_ITEMS,
                         ref: slot0Ref,
                         categories: FORMAT_CATEGORIES,
                       },
                       {
+                        label: "SPACE",
+                        mapHref: "/maps/space",
                         items: SPACE_ITEMS,
                         ref: slot1Ref,
                         categories: SPACE_CATEGORIES,
                       },
                       {
+                        label: "TWIST",
+                        mapHref: "/maps/twist",
                         items: TWIST_ITEMS,
                         ref: slot2Ref,
                         categories: TWIST_CATEGORIES,
                       },
                     ] as const
-                  ).map(({ items, ref, categories }, i) => (
+                  ).map(({ label, mapHref, items, ref, categories }, i) => (
                     <SlotSelectMenu
                       key={i}
+                      label={label}
+                      mapHref={mapHref}
                       categories={categories}
                       open={selectOpenSlot === i}
                       onOpenChange={(o) =>
