@@ -8,7 +8,7 @@
   import "./styles/index.css";
 
   createRoot(document.getElementById("root")!).render(
-    <BrowserRouter>
+    <BrowserRouter basename="/idea-machine">
       <Routes>
         <Route path="/" element={<App />} />
         <Route path="/maps/space" element={<SpaceMapPage />} />
