@@ -4,6 +4,7 @@ import {
   useRef,
   useCallback,
 } from "react";
+import { Lock, LockOpen } from "lucide-react";
 import ticketSvgPaths from "@/imports/Ticket-1/svg-jkajgizkpe";
 import machinePaths from "@/imports/SlotMachine-1/svg-u88248n22q";
 import productFormsData from "@/imports/map-of-product-forms.json";
@@ -17,6 +18,10 @@ import {
 } from "@/app/components/slot-machine/SlotWindow";
 import { LightsRow } from "@/app/components/slot-machine/LightsRow";
 import { Lever } from "@/app/components/slot-machine/Lever";
+import {
+  SlotSelectMenu,
+  type SlotCategory,
+} from "@/app/components/slot-machine/SlotSelectMenu";
 
 const FORMAT_ITEMS = productFormsData.categories.flatMap(
   (c) => c.subItems,
@@ -26,6 +31,18 @@ const SPACE_ITEMS = humanLifeData.domains.flatMap(
 );
 const TWIST_ITEMS = twistsData.categories.flatMap(
   (c) => c.subItems,
+);
+
+const FORMAT_CATEGORIES: SlotCategory[] =
+  productFormsData.categories.map((c) => ({
+    category: c.category,
+    items: c.subItems,
+  }));
+const SPACE_CATEGORIES: SlotCategory[] = humanLifeData.domains.map(
+  (d) => ({ category: d.domain, items: d.subItems }),
+);
+const TWIST_CATEGORIES: SlotCategory[] = twistsData.categories.map(
+  (c) => ({ category: c.category, items: c.subItems }),
 );
 
 // ─── Constants ────────────────────────────────────────────────────────────────
@@ -277,6 +294,75 @@ function TitleSection() {
   );
 }
 
+// ─── Slot Title Label ─────────────────────────────────────────────────────────
+// Column header (FORMAT / SPACE / TWIST) with a lock/unlock toggle. Only the
+// label text is centered in the column — the icon is absolutely positioned
+// off the label itself (not laid out in flow), so its presence never shifts
+// the title off-center.
+function SlotTitleLabel({
+  label,
+  locked,
+  hovered,
+  hasValue,
+  onToggleLock,
+  onMouseEnter,
+  onMouseLeave,
+}: {
+  label: string;
+  locked: boolean;
+  hovered: boolean;
+  hasValue: boolean;
+  onToggleLock: () => void;
+  onMouseEnter: () => void;
+  onMouseLeave: () => void;
+}) {
+  const showIcon = hasValue && (locked || hovered);
+  return (
+    <div
+      onMouseEnter={onMouseEnter}
+      onMouseLeave={onMouseLeave}
+      style={{
+        flex: "1 0 0",
+        minWidth: 0,
+        margin: 0,
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+      }}
+    >
+      <span style={{ position: "relative" }}>
+        {label}
+        <button
+          type="button"
+          onClick={onToggleLock}
+          aria-label={locked ? `Unlock ${label}` : `Lock ${label}`}
+          aria-pressed={locked}
+          style={{
+            position: "absolute",
+            left: "100%",
+            top: "50%",
+            marginLeft: 10,
+            transform: "translateY(-50%)",
+            background: "none",
+            border: "none",
+            padding: 0,
+            lineHeight: 0,
+            cursor: "pointer",
+            color: locked ? "#EECC6D" : "white",
+            opacity: showIcon ? 1 : 0,
+            pointerEvents: showIcon ? "auto" : "none",
+            transition: "opacity 0.2s ease, color 0.2s ease",
+            display: "flex",
+            alignItems: "center",
+          }}
+        >
+          {locked ? <Lock size={44} /> : <LockOpen size={44} />}
+        </button>
+      </span>
+    </div>
+  );
+}
+
 // ─── App ──────────────────────────────────────────────────────────────────────
 export default function App() {
   const [phase, setPhase] = useState<
@@ -286,10 +372,20 @@ export default function App() {
   const [finalValues, setFinalValues] = useState(["", "", ""]);
   const [activeLightGroup, setActiveLightGroup] = useState(-1);
   const [ticketVisible, setTicketVisible] = useState(false);
+  const [locked, setLocked] = useState<
+    [boolean, boolean, boolean]
+  >([false, false, false]);
+  const [hoveredSlot, setHoveredSlot] = useState<number | null>(
+    null,
+  );
+  const [selectOpenSlot, setSelectOpenSlot] = useState<
+    number | null
+  >(null);
 
   const slot0Ref = useRef<SlotWindowHandle>(null);
   const slot1Ref = useRef<SlotWindowHandle>(null);
   const slot2Ref = useRef<SlotWindowHandle>(null);
+  const slotRefs = [slot0Ref, slot1Ref, slot2Ref] as const;
 
   const intervals = useRef<ReturnType<typeof setInterval>[]>(
     [],
@@ -305,15 +401,40 @@ export default function App() {
 
   useEffect(() => () => clearAll(), [clearAll]);
 
+  const toggleLock = useCallback((i: number) => {
+    setLocked((prev) => {
+      const next = [...prev] as [boolean, boolean, boolean];
+      next[i] = !next[i];
+      return next;
+    });
+  }, []);
+
+  const handleSelect = useCallback((i: number, item: string) => {
+    setFinalValues((prev) => {
+      const next = [...prev];
+      next[i] = item;
+      return next;
+    });
+    setLocked((prev) => {
+      const next = [...prev] as [boolean, boolean, boolean];
+      next[i] = true;
+      return next;
+    });
+    slotRefs[i].current?.setStatic(item);
+    setSelectOpenSlot(null);
+  }, []);
+
+  const allLocked = locked.every(Boolean);
+
   const spin = useCallback(() => {
     if (phase === "spinning") return;
+    if (locked.every(Boolean)) return;
     clearAll();
 
-    const finals = [
-      pick(FORMAT_ITEMS),
-      pick(SPACE_ITEMS),
-      pick(TWIST_ITEMS),
-    ];
+    const itemsBySlot = [FORMAT_ITEMS, SPACE_ITEMS, TWIST_ITEMS];
+    const finals = finalValues.map((prev, i) =>
+      locked[i] ? prev : pick(itemsBySlot[i]),
+    );
     setFinalValues(finals);
     setPhase("spinning");
     setActiveLightGroup(-1);
@@ -326,10 +447,11 @@ export default function App() {
 
     // Spin times: full-speed duration per slot. Stops left→right.
     // Each slot also runs DECEL_MS (850ms) of easing after its spinMs.
+    // Locked slots skip the reel animation and keep their current value.
     const SPIN_TIMES = [1000, 2000, 3000] as const;
-    slot0Ref.current?.spin(finals[0], SPIN_TIMES[0]);
-    slot1Ref.current?.spin(finals[1], SPIN_TIMES[1]);
-    slot2Ref.current?.spin(finals[2], SPIN_TIMES[2]);
+    slotRefs.forEach((ref, i) => {
+      if (!locked[i]) ref.current?.spin(finals[i], SPIN_TIMES[i]);
+    });
 
     // Lights start after the last slot finishes (spinMs + DECEL_MS + small buffer)
     timers.current.push(
@@ -357,7 +479,7 @@ export default function App() {
         SPIN_TIMES[2] + DECEL_MS + 150,
       ),
     );
-  }, [phase, clearAll]);
+  }, [phase, clearAll, locked, finalValues]);
 
   // Scale: machine body ~50% of viewport width, centered with margins.
   // Below 500px (mobile) the 0.2 floor used on desktop would overflow the
@@ -457,33 +579,39 @@ export default function App() {
                   textAlign: "center",
                 }}
               >
-                <p
-                  style={{
-                    flex: "1 0 0",
-                    minWidth: 0,
-                    margin: 0,
-                  }}
-                >
-                  FORMAT
-                </p>
-                <p
-                  style={{
-                    flex: "1 0 0",
-                    minWidth: 0,
-                    margin: 0,
-                  }}
-                >
-                  SPACE
-                </p>
-                <p
-                  style={{
-                    flex: "1 0 0",
-                    minWidth: 0,
-                    margin: 0,
-                  }}
-                >
-                  TWIST
-                </p>
+                <SlotTitleLabel
+                  label="FORMAT"
+                  locked={locked[0]}
+                  hovered={hoveredSlot === 0}
+                  hasValue={finalValues[0] !== ""}
+                  onToggleLock={() => toggleLock(0)}
+                  onMouseEnter={() => setHoveredSlot(0)}
+                  onMouseLeave={() =>
+                    setHoveredSlot((h) => (h === 0 ? null : h))
+                  }
+                />
+                <SlotTitleLabel
+                  label="SPACE"
+                  locked={locked[1]}
+                  hovered={hoveredSlot === 1}
+                  hasValue={finalValues[1] !== ""}
+                  onToggleLock={() => toggleLock(1)}
+                  onMouseEnter={() => setHoveredSlot(1)}
+                  onMouseLeave={() =>
+                    setHoveredSlot((h) => (h === 1 ? null : h))
+                  }
+                />
+                <SlotTitleLabel
+                  label="TWIST"
+                  locked={locked[2]}
+                  hovered={hoveredSlot === 2}
+                  hasValue={finalValues[2] !== ""}
+                  onToggleLock={() => toggleLock(2)}
+                  onMouseEnter={() => setHoveredSlot(2)}
+                  onMouseLeave={() =>
+                    setHoveredSlot((h) => (h === 2 ? null : h))
+                  }
+                />
               </div>
 
               {/* Slot windows + lever */}
@@ -506,20 +634,61 @@ export default function App() {
                 >
                   {(
                     [
-                      { items: FORMAT_ITEMS, ref: slot0Ref },
-                      { items: SPACE_ITEMS, ref: slot1Ref },
-                      { items: TWIST_ITEMS, ref: slot2Ref },
+                      {
+                        items: FORMAT_ITEMS,
+                        ref: slot0Ref,
+                        categories: FORMAT_CATEGORIES,
+                      },
+                      {
+                        items: SPACE_ITEMS,
+                        ref: slot1Ref,
+                        categories: SPACE_CATEGORIES,
+                      },
+                      {
+                        items: TWIST_ITEMS,
+                        ref: slot2Ref,
+                        categories: TWIST_CATEGORIES,
+                      },
                     ] as const
-                  ).map(({ items, ref }, i) => (
-                    <SlotWindow
+                  ).map(({ items, ref, categories }, i) => (
+                    <SlotSelectMenu
                       key={i}
-                      ref={ref}
-                      slotIdx={i}
-                      allItems={items}
-                    />
+                      categories={categories}
+                      open={selectOpenSlot === i}
+                      onOpenChange={(o) =>
+                        setSelectOpenSlot(o ? i : null)
+                      }
+                      onSelect={(item) => handleSelect(i, item)}
+                    >
+                      <div
+                        style={{
+                          flex: "1 0 0",
+                          minWidth: 0,
+                          position: "relative",
+                          cursor: "pointer",
+                        }}
+                        onMouseEnter={() => setHoveredSlot(i)}
+                        onMouseLeave={() =>
+                          setHoveredSlot((h) =>
+                            h === i ? null : h,
+                          )
+                        }
+                      >
+                        <SlotWindow
+                          ref={ref}
+                          slotIdx={i}
+                          allItems={items}
+                          hovered={hoveredSlot === i}
+                        />
+                      </div>
+                    </SlotSelectMenu>
                   ))}
                 </div>
-                <Lever pulled={leverPulled} onClick={spin} />
+                <Lever
+                  pulled={leverPulled}
+                  onClick={spin}
+                  disabled={allLocked}
+                />
               </div>
 
               {/* Bottom lights */}

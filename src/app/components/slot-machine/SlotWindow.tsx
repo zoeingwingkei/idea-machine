@@ -91,12 +91,13 @@ function bounceY(
 
 export interface SlotWindowHandle {
   spin: (final: string, spinMs: number) => Promise<void>;
+  setStatic: (value: string) => void;
 }
 
 export const SlotWindow = forwardRef<
   SlotWindowHandle,
-  { allItems: string[]; slotIdx: number }
->(({ allItems, slotIdx }, ref) => {
+  { allItems: string[]; slotIdx: number; hovered?: boolean }
+>(({ allItems, slotIdx, hovered = false }, ref) => {
   const windowRef = useRef<HTMLDivElement>(null);
   const trackRef = useRef<HTMLDivElement>(null);
   const rafRef = useRef<number | null>(null);
@@ -197,14 +198,27 @@ export const SlotWindow = forwardRef<
         });
       });
     },
+    setStatic(value) {
+      if (rafRef.current != null) {
+        cancelAnimationFrame(rafRef.current);
+        rafRef.current = null;
+      }
+      setItems([value]);
+      const trackEl = trackRef.current;
+      requestAnimationFrame(() => {
+        if (!trackEl) return;
+        trackEl.style.transition = "";
+        trackEl.style.transform = "translateY(0px)";
+        trackEl.style.filter = "blur(0px)";
+      });
+    },
   }));
 
   return (
     <div
       style={{
-        flex: "1 0 0",
-        height: ITEM_H,
-        minWidth: 0,
+        width: "100%",
+        height: "100%",
         position: "relative",
       }}
     >
@@ -225,6 +239,34 @@ export const SlotWindow = forwardRef<
           fill="white"
           fillRule="evenodd"
           clipRule="evenodd"
+        />
+        {/* Inner golden glow — hover affordance indicating the slot can be clicked to pick an exact item.
+            strokeWidth is 2x the intended visible band: the clip-path (same shape as the ticket) cuts
+            away the outer half, so the glow hugs the inside edge instead of bleeding past the ticket. */}
+        <defs>
+          <clipPath id={`slot-glow-clip-${slotIdx}`}>
+            <path
+              d={SLOT_BG_PATHS[slotIdx]}
+              fillRule="evenodd"
+              clipRule="evenodd"
+            />
+          </clipPath>
+        </defs>
+        <path
+          d={SLOT_BG_PATHS[slotIdx]}
+          fill="none"
+          stroke="#EECC6D"
+          strokeWidth={40}
+          fillRule="evenodd"
+          clipRule="evenodd"
+          clipPath={`url(#slot-glow-clip-${slotIdx})`}
+          style={{
+            opacity: hovered ? 1 : 0,
+            transition: "opacity 0.2s ease",
+            filter:
+              "drop-shadow(0 0 10px rgba(238,204,109,0.9))",
+            pointerEvents: "none",
+          }}
         />
       </svg>
       <div

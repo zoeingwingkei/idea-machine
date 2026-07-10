@@ -6,9 +6,11 @@ import leverPaths from "@/imports/Slots-1/svg-2nolbmjll6";
 export function Lever({
   pulled,
   onClick,
+  disabled = false,
 }: {
   pulled: boolean;
   onClick: () => void;
+  disabled?: boolean;
 }) {
   return (
     <div
@@ -43,9 +45,9 @@ export function Lever({
 
           {/* Pull group — rotates around left-center of base circle */}
           <g
-            onClick={onClick}
+            onClick={disabled ? undefined : onClick}
             style={{
-              cursor: "pointer",
+              cursor: disabled ? "default" : "pointer",
               transform: `rotate(${pulled ? 120 : 0}deg)`,
               transformBox: "view-box",
               transformOrigin: "15.22px 221.79px",
@@ -54,7 +56,11 @@ export function Lever({
                 : "transform 0.75s cubic-bezier(0.34, 1.5, 0.6, 1)",
             }}
           >
-            <path d={leverPaths.p244e4a00} fill="#EE0000" />
+            <path
+              d={leverPaths.p244e4a00}
+              fill={disabled ? "#9E9E9E" : "#EE0000"}
+              style={{ transition: "fill 0.25s ease" }}
+            />
             <path d={leverPaths.p2cb82f00} fill="white" />
           </g>
         </svg>
