@@ -275,6 +275,15 @@ export const SlotWindow = forwardRef<
           position: "absolute",
           inset: "0 48px",
           overflow: "hidden",
+          // Forces its own compositing layer. Without this, Safari can fail
+          // to clip the reel track during the spin animation — the track
+          // gets both a transform (translateY, applied imperatively in the
+          // rAF loop below) and a blur() filter at the same time, and on
+          // iOS that combination has been observed to paint outside this
+          // ancestor's overflow:hidden bounds, widening the page's
+          // scrollable area and enabling a horizontal swipe past the
+          // viewport edge.
+          transform: "translateZ(0)",
         }}
       >
         <div

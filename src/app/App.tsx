@@ -820,7 +820,15 @@ export default function App() {
   return (
     <>
       <style>{`
-        body { overflow-x: hidden; background: ${BG}; }
+        /* overflow-x must be set on both html and body — on iOS Safari the
+           page's real horizontal scroll/swipe boundary is the html element,
+           not body, so body-only hidden overflow still lets you rubber-band
+           swipe sideways if anything (even a transform-scaled box whose
+           unscaled layout size is wider than the viewport) reaches past the
+           viewport edge. overscroll-behavior-x is belt-and-suspenders against
+           the same class of Safari swipe-past-the-edge behavior. */
+        html, body { overflow-x: hidden; overscroll-behavior-x: none; max-width: 100%; }
+        body { background: ${BG}; }
         .about-toggle-btn { transition: color 0.2s ease; }
         .about-toggle-btn:hover { color: rgba(255,255,255,1); }
         .about-close-btn, .about-github-link { transition: opacity 0.2s ease; }
