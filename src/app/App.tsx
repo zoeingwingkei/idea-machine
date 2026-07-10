@@ -70,6 +70,8 @@ const MACHINE_H = 1850; // title(608) + body(~884) + ticket-overflow-space; tick
 // mobile viewport-width target so the whole resting lever stays on-screen.
 const MACHINE_W_WITH_LEVER = 2100;
 const BG = "#000000";
+// Must match the ticket slide-in transition duration below (1.6s).
+const TICKET_SLIDE_MS = 1600;
 
 // ─── Golden Ticket ────────────────────────────────────────────────────────────
 // Background SVG is 500×187.5 viewBox (perforated ticket shape). Rendered at
@@ -385,6 +387,7 @@ export default function App() {
     "idle" | "spinning" | "done"
   >("idle");
   const [leverPulled, setLeverPulled] = useState(false);
+  const [roundInProgress, setRoundInProgress] = useState(false);
   const [finalValues, setFinalValues] = useState(["", "", ""]);
   const [activeLightGroup, setActiveLightGroup] = useState(-1);
   const [ticketVisible, setTicketVisible] = useState(false);
@@ -445,6 +448,7 @@ export default function App() {
 
   const spin = useCallback(() => {
     if (phase === "spinning") return;
+    if (roundInProgress) return;
     if (locked.every(Boolean)) return;
     clearAll();
 
@@ -454,6 +458,7 @@ export default function App() {
     );
     setFinalValues(finals);
     setPhase("spinning");
+    setRoundInProgress(true);
     setActiveLightGroup(-1);
     setTicketVisible(false);
 
@@ -476,7 +481,15 @@ export default function App() {
         () => {
           setPhase("done");
           timers.current.push(
-            setTimeout(() => setTicketVisible(true), 1500),
+            setTimeout(() => {
+              setTicketVisible(true);
+              timers.current.push(
+                setTimeout(
+                  () => setRoundInProgress(false),
+                  TICKET_SLIDE_MS,
+                ),
+              );
+            }, 1500),
           );
           // Alternating flash: odd indices (0,2,4…) and even indices (1,3,5…) flash in turn, 3 pairs, then off
           const STEP_MS = 320;
@@ -496,7 +509,7 @@ export default function App() {
         SPIN_TIMES[2] + DECEL_MS + 150,
       ),
     );
-  }, [phase, clearAll, locked, finalValues]);
+  }, [phase, roundInProgress, clearAll, locked, finalValues]);
 
   // Scale: machine body ~50% of viewport width, centered with margins.
   // Below 500px (mobile) the 0.2 floor used on desktop would overflow the
@@ -712,7 +725,7 @@ export default function App() {
                 <Lever
                   pulled={leverPulled}
                   onClick={spin}
-                  disabled={allLocked}
+                  disabled={allLocked || roundInProgress}
                 />
               </div>
 

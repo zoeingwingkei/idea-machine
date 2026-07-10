@@ -1,8 +1,13 @@
+import { useRef, useState } from "react";
 import leverPaths from "@/imports/Slots-1/svg-2nolbmjll6";
 
 // Figma: 34×64px div at 560px slot scale → ×3.214 = 109×206px in machine space.
 // SVG viewBox 0 0 100.89 253.785. Base is a near-full circle, center (17.22, 221.79).
 // Pivot = left-center of base circle = (15.22, 221.79) in viewBox units.
+const MAX_ANGLE = 120;
+const DRAG_DISTANCE = 90; // px of downward drag mapped to a full pull
+const PULL_THRESHOLD = 0.4; // fraction of full pull that fires the spin
+
 export function Lever({
   pulled,
   onClick,
@@ -12,6 +17,36 @@ export function Lever({
   onClick: () => void;
   disabled?: boolean;
 }) {
+  const [dragAngle, setDragAngle] = useState(0);
+  const [dragging, setDragging] = useState(false);
+  const startY = useRef(0);
+
+  const handlePointerDown = (e: React.PointerEvent<SVGGElement>) => {
+    if (disabled) return;
+    e.currentTarget.setPointerCapture(e.pointerId);
+    startY.current = e.clientY;
+    setDragging(true);
+    setDragAngle(0);
+  };
+
+  const handlePointerMove = (e: React.PointerEvent<SVGGElement>) => {
+    if (!dragging) return;
+    const deltaY = e.clientY - startY.current;
+    setDragAngle(
+      Math.min(MAX_ANGLE, Math.max(0, (deltaY / DRAG_DISTANCE) * MAX_ANGLE)),
+    );
+  };
+
+  const handlePointerUp = () => {
+    if (!dragging) return;
+    setDragging(false);
+    const pulledFarEnough = dragAngle >= MAX_ANGLE * PULL_THRESHOLD;
+    setDragAngle(0);
+    if (pulledFarEnough) onClick();
+  };
+
+  const angle = pulled ? MAX_ANGLE : dragging ? dragAngle : 0;
+
   return (
     <div
       style={{
@@ -45,15 +80,21 @@ export function Lever({
 
           {/* Pull group — rotates around left-center of base circle */}
           <g
-            onClick={disabled ? undefined : onClick}
+            onPointerDown={handlePointerDown}
+            onPointerMove={handlePointerMove}
+            onPointerUp={handlePointerUp}
+            onPointerCancel={handlePointerUp}
             style={{
-              cursor: disabled ? "default" : "pointer",
-              transform: `rotate(${pulled ? 120 : 0}deg)`,
+              cursor: disabled ? "default" : dragging ? "grabbing" : "grab",
+              touchAction: "none",
+              transform: `rotate(${angle}deg)`,
               transformBox: "view-box",
               transformOrigin: "15.22px 221.79px",
-              transition: pulled
-                ? "transform 0.18s ease-out"
-                : "transform 0.75s cubic-bezier(0.34, 1.5, 0.6, 1)",
+              transition: dragging
+                ? "none"
+                : pulled
+                  ? "transform 0.18s ease-out"
+                  : "transform 0.75s cubic-bezier(0.34, 1.5, 0.6, 1)",
             }}
           >
             <path
