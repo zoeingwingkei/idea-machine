@@ -3,6 +3,7 @@ import {
   useEffect,
   useRef,
   useCallback,
+  useMemo,
 } from "react";
 import { Lock, LockOpen, X, ArrowUpRight } from "lucide-react";
 import { Link } from "react-router";
@@ -90,6 +91,11 @@ const MACHINE_H = 1850; // title(608) + body(~884) + ticket-overflow-space; tick
 // center: the body's left edge (900) or the lever tip (2093 − 900 = 1193).
 // The lever tip wins, so it sets the constraint.
 const MACHINE_SYMMETRIC_W = 2 * (2093 - MACHINE_BODY_W / 2);
+// Below this container width there's no room for the lever's own art plus
+// its overhang, so the machine switches to "mobile mode": the real lever
+// is replaced by a Start button, and the machine fills the container
+// instead of being capped at a fraction of it.
+const MACHINE_MOBILE_BREAKPOINT = 500;
 const BG = "#000000";
 // Desktop About sidebar: shares half the row with the machine by default,
 // capped at this reading width so the text column never gets too wide.
@@ -623,7 +629,63 @@ export default function App() {
   const noHoverPointer = useNoHoverPointer();
   const [aboutOpen, setAboutOpen] = useState(false);
   const isMobile = useIsMobile();
-  const showDesktopAbout = aboutOpen && !isMobile;
+
+  // The machine's own container is the "machine column" div rendered below
+  // (ref attached there) — by default it's the screen width minus page
+  // margins (flexbox gives it the full row when About is closed), and the
+  // right-hand share of the row once About opens as a desktop sidebar. It's
+  // measured directly via ResizeObserver rather than re-derived from
+  // window.innerWidth plus sidebar math, so the machine always matches
+  // what's actually on screen (including mid-transition as About opens).
+  const containerRef = useRef<HTMLDivElement>(null);
+  const [containerWidth, setContainerWidth] = useState(
+    () => window.innerWidth,
+  );
+  const [viewportSize, setViewportSize] = useState(() => ({
+    width: window.innerWidth,
+    height: window.innerHeight,
+  }));
+
+  useEffect(() => {
+    const el = containerRef.current;
+    if (!el) return;
+    const ro = new ResizeObserver(([entry]) => {
+      setContainerWidth(entry.contentRect.width);
+    });
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, []);
+
+  useEffect(() => {
+    const update = () =>
+      setViewportSize({
+        width: window.innerWidth,
+        height: window.innerHeight,
+      });
+    window.addEventListener("resize", update);
+    return () => window.removeEventListener("resize", update);
+  }, []);
+
+  const isMachineMobile =
+    containerWidth < MACHINE_MOBILE_BREAKPOINT;
+
+  // Stacking About above the machine (instead of beside it) is normally
+  // just a narrow-window thing (isMobile). But a desktop-width window with
+  // About expanded can still squeeze the machine's own share of the row
+  // below the mobile breakpoint — in that case, prefer stacking over
+  // rendering the machine in cramped mobile mode next to the sidebar.
+  // This must be computed from the *hypothetical* row-layout width (a
+  // formula, not the live measured `containerWidth`) rather than from
+  // `isMachineMobile` itself: once stacked, the machine column regains the
+  // full viewport width, which would flip `isMachineMobile` back to false
+  // and immediately undo the stack — an infinite row/column ping-pong.
+  const wouldBeRowContainerWidth = aboutOpen
+    ? viewportSize.width -
+      Math.min(viewportSize.width / 2, ABOUT_SIDEBAR_MAX)
+    : viewportSize.width;
+  const stackAboutAndMachine =
+    isMobile ||
+    wouldBeRowContainerWidth < MACHINE_MOBILE_BREAKPOINT;
 
   const slot0Ref = useRef<SlotWindowHandle>(null);
   const slot1Ref = useRef<SlotWindowHandle>(null);
@@ -734,45 +796,26 @@ export default function App() {
     );
   }, [phase, roundInProgress, clearAll, locked, finalValues]);
 
-  // Scale: machine body ~50% of viewport width, centered with margins.
-  // Below 500px (mobile) the 0.2 floor used on desktop would overflow the
-  // viewport, so scale directly off a 75%-of-viewport target using
-  // MACHINE_SYMMETRIC_W instead, keeping the whole resting lever on-screen.
-  // Whatever width-based scale comes out of that, it's then capped so the
-  // machine's height never exceeds 75% of viewport height either. When the
-  // About sidebar is open on desktop it eats into the machine's own share
-  // of the row, so the machine is rescaled against the width left over
-  // after the sidebar — the same "previous rule", just fed a narrower `w`
-  // — which is why the machine visibly shrinks while About is expanded.
-  // A hard width cap (using the symmetric, lever-inclusive extent) is also
-  // enforced so the 0.2 floor can never push the machine — and the lever
-  // specifically — past 75% of that narrowed width once About has eaten
-  // most of it.
-  const [scale, setScale] = useState(0.35);
-  useEffect(() => {
-    const update = () => {
-      const w = window.innerWidth;
-      const h = window.innerHeight;
-      const availableW = showDesktopAbout
-        ? w - Math.min(w / 2, ABOUT_SIDEBAR_MAX)
-        : w;
-      let s: number;
-      if (w < 500) {
-        s = (w * 0.75) / MACHINE_SYMMETRIC_W;
-      } else {
-        s = Math.min(
-          0.75,
-          Math.max(0.2, (availableW * 0.5) / MACHINE_W),
-        );
-      }
-      const widthCap = (availableW * 0.75) / MACHINE_SYMMETRIC_W;
-      const heightCap = (h * 0.75) / MACHINE_H;
-      setScale(Math.min(s, widthCap, heightCap));
-    };
-    update();
-    window.addEventListener("resize", update);
-    return () => window.removeEventListener("resize", update);
-  }, [showDesktopAbout]);
+  // Scale, derived from the measured container (see containerRef/
+  // isMachineMobile above):
+  // - Mobile mode (container < MACHINE_MOBILE_BREAKPOINT): no lever to
+  //   reserve room for, so fill the container width minus a 12px margin
+  //   on each side.
+  // - Otherwise: cap width at 75% of the container and height at 80% of
+  //   the viewport, then use whichever is more restrictive — the machine
+  //   gets as large as it can while respecting both. Width is measured
+  //   against the lever-inclusive symmetric extent (not just the
+  //   1800-wide body) since centering is pinned to the body's own center,
+  //   so the lever's tip reaches further from that center than the body's
+  //   own left edge does — see MACHINE_SYMMETRIC_W above.
+  const scale = useMemo(() => {
+    if (isMachineMobile) {
+      return (containerWidth - 24) / MACHINE_BODY_W;
+    }
+    const widthCap = (containerWidth * 0.75) / MACHINE_SYMMETRIC_W;
+    const heightCap = (viewportSize.height * 0.8) / MACHINE_H;
+    return Math.min(widthCap, heightCap);
+  }, [containerWidth, viewportSize.height, isMachineMobile]);
 
   return (
     <>
@@ -796,25 +839,34 @@ export default function App() {
           minHeight: "100vh",
           backgroundColor: BG,
           display: "flex",
-          // Desktop: About sidebar and machine sit side by side in a row.
-          // Mobile: About stacks above the machine in a column, unchanged.
-          flexDirection: isMobile ? "column" : "row",
+          // Row: About sidebar and machine sit side by side. Column: About
+          // stacks above the machine — either because the window itself is
+          // narrow (isMobile), or because an expanded About sidebar would
+          // otherwise squeeze the machine's own share of the row into
+          // mobile territory (see stackAboutAndMachine above).
+          flexDirection: stackAboutAndMachine ? "column" : "row",
           alignItems: "center",
           justifyContent: "center",
           padding: "60px 0",
         }}
       >
-        {isMobile && <AboutPanelMobile open={aboutOpen} />}
-        {!isMobile && <AboutSidebar open={aboutOpen} />}
+        {stackAboutAndMachine && (
+          <AboutPanelMobile open={aboutOpen} />
+        )}
+        {!stackAboutAndMachine && (
+          <AboutSidebar open={aboutOpen} />
+        )}
 
         {/* Machine column: flex:1 on desktop so it fills whatever width the
-            About sidebar leaves it, full-width on mobile as before. */}
+            About sidebar leaves it, full-width on mobile as before. This is
+            also the machine's measured "container" (see containerRef). */}
         <div
+          ref={containerRef}
           style={{
             position: "relative",
-            flex: isMobile ? "0 0 auto" : "1 1 0%",
+            flex: stackAboutAndMachine ? "0 0 auto" : "1 1 0%",
             minWidth: 0,
-            width: isMobile ? "100%" : undefined,
+            width: stackAboutAndMachine ? "100%" : undefined,
           }}
         >
           {/* Height placeholder so layout doesn't collapse under the scaled element */}
@@ -1000,11 +1052,13 @@ export default function App() {
                     </SlotSelectMenu>
                   ))}
                 </div>
-                <Lever
-                  pulled={leverPulled}
-                  onClick={spin}
-                  disabled={allLocked || roundInProgress}
-                />
+                {!isMachineMobile && (
+                  <Lever
+                    pulled={leverPulled}
+                    onClick={spin}
+                    disabled={allLocked || roundInProgress}
+                  />
+                )}
               </div>
 
               {/* Bottom lights */}
@@ -1034,7 +1088,7 @@ export default function App() {
                       pointerEvents: "none",
                     }}
                   />
-                  {phase === "idle" && (
+                  {phase === "idle" && !isMachineMobile && (
                     <div
                       onClick={spin}
                       style={{
@@ -1090,6 +1144,34 @@ export default function App() {
             </div>
           </div>
         </div>
+
+        {isMachineMobile && (
+          <button
+            type="button"
+            onClick={spin}
+            disabled={allLocked || roundInProgress}
+            style={{
+              display: "block",
+              width: "calc(100% - 24px)",
+              margin: "24px auto 0",
+              padding: "10px",
+              background: "#EECC6D",
+              border: "none",
+              borderRadius: 12,
+              fontFamily: "'Limelight', sans-serif",
+              fontSize: 24,
+              color: "black",
+              textAlign: "center",
+              cursor:
+                allLocked || roundInProgress
+                  ? "default"
+                  : "pointer",
+              opacity: allLocked || roundInProgress ? 0.5 : 1,
+            }}
+          >
+            Start
+          </button>
+        )}
         </div>
       </div>
     </>
