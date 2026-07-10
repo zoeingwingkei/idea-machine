@@ -34,7 +34,7 @@ function BulletIcon() {
 // Shared layout for the three "map" pages (space / format / twist). Each page
 // just normalizes its own JSON into { title, subtitle, note, groups } — this
 // component stays purely presentational so all three stay visually identical.
-export function MapPage({ title, subtitle, note, groups }: MapPageProps) {
+export function MapPage({ title, subtitle, groups }: MapPageProps) {
   return (
     <>
       <style>{`
@@ -102,30 +102,9 @@ export function MapPage({ title, subtitle, note, groups }: MapPageProps) {
               maxWidth: 780,
             }}
           >
-            <p
-              style={{
-                fontFamily: "'Inter', sans-serif",
-                fontSize: 16,
-                lineHeight: 1.6,
-                color: "rgba(255,255,255,0.85)",
-                margin: 0,
-              }}
-            >
+            <p className="text-body" style={{ margin: 0 }}>
               {subtitle}
             </p>
-            {note && (
-              <p
-                style={{
-                  fontFamily: "'Inter', sans-serif",
-                  fontSize: 14,
-                  lineHeight: 1.6,
-                  color: "rgba(255,255,255,0.55)",
-                  margin: 0,
-                }}
-              >
-                {note}
-              </p>
-            )}
           </div>
 
           <div className="map-page-grid">

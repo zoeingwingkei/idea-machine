@@ -489,11 +489,8 @@ function AboutBody() {
   return (
     <div style={{ paddingTop: 24 }}>
       <div
+        className="text-body"
         style={{
-          fontFamily: "'Inter', sans-serif",
-          fontSize: 16,
-          lineHeight: 1.5,
-          color: "white",
           marginBottom: 24,
         }}
       >
