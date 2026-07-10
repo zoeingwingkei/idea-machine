@@ -21,7 +21,6 @@
         "For Night Owls",
         "For Couples Doing It Together",
         "For Recent Arrivals",
-        "For the Chronically Inconsistent",
         "For Experts Who Plateaued",
         "For People Who Hate This Topic",
         "For Kids and Grownups Together",
@@ -50,7 +49,6 @@
         "Nothing to Install",
         "Zero Budget Version",
         "Phone Only Experience",
-        "Battery Conscious",
         "Privacy First Design",
         "Carbon Neutral"
       ]
@@ -68,7 +66,7 @@
         "Done in One Sitting",
         "You Teach It Back",
         "Drag Things Until It Feels Right",
-        "Gamified Like Duolingo",
+        "Gamified",
         "Ritual Based Entry",
         "Branching Story Paths",
         "Mirror Your Inputs",
@@ -86,12 +84,9 @@
         "Brutally Honest",
         "Celebrates Tiny Wins",
         "Gives Permission to Quit",
-        "Nostalgic on Purpose",
         "Anti-Hustle Energy",
         "Dead Serious About Fun",
-        "Cheeky British Humor",
         "Whimsical Fairytale",
-        "Stoic Warrior Energy",
         "Warm Grandma Wisdom",
         "Rebellious Punk Vibe",
         "Fierce Confident Boost"
@@ -103,7 +98,6 @@
         "Anonymous but Together",
         "Strangers Paired Weekly",
         "Bring Exactly One Friend",
-        "Public Streaks",
         "Vote Before You See Results",
         "Group Wins or Nobody Wins",
         "Mentor Matched Automatically",
@@ -111,10 +105,7 @@
         "Households Compete",
         "Everyone Answers the Same Prompt",
         "Accountability Buddies",
-        "Secret Society Feel",
-        "Family Legacy Chain",
         "Stranger Wisdom Exchange",
-        "Gratitude Chain Reaction",
         "Group Memory Jar"
       ]
     },
@@ -133,10 +124,8 @@
         "Fits Inside Calendar Gaps",
         "Daily Micro Moments",
         "Weekly Reset Ritual",
-        "Moon Phase Aligned",
         "Evening Wind Down",
-        "Quarterly Reflection",
-        "Binge Then Integrate"
+        "Quarterly Reflection"
       ]
     },
     {
@@ -145,7 +134,6 @@
         "Pay What It Saved You",
         "Free Until It Works",
         "One-Time Purchase, Forever",
-        "Deposit You Earn Back",
         "Refund for Finishing",
         "Gift-Only Pricing",
         "Employers Pay, Individuals Use",
@@ -153,7 +141,6 @@
         "Pay to Skip, Free to Grind",
         "Lifetime Price for First 100",
         "Pay What You Want",
-        "Barter For Entry",
         "Profit Share Community",
         "Subscription With Pause",
         "Crowdfunded By Users",
@@ -173,10 +160,7 @@
         "Turns Your Data into a Story",
         "Compare With Ancestors",
         "Future Self Projection",
-        "Weird Pattern Spotter",
-        "Shadow Side Mirror",
-        "Alternate Timeline Sim",
-        "Hidden Correlation Finder"
+        "Weird Pattern Spotter"
       ]
     },
     {
@@ -192,12 +176,9 @@
         "AI Only When You're Stuck",
         "Two AIs Debate for You",
         "AI Drafts, You Decide",
-        "Sassy Best Friend",
-        "Wise Old Mentor",
-        "Curious Student Mode",
-        "Strict Drill Sergeant",
-        "Dream Interpreter",
-        "Playful Trickster"
+        "AI as Sassy Best Friend",
+        "AI as Wise Old Mentor",
+        "AI as Curious Student"
       ]
     },
     {
@@ -206,41 +187,17 @@
         "Brutalist and Plain",
         "Warm Analog Feel",
         "Terminal Aesthetic",
-        "Feels Like a Zine",
         "Luxury Object Energy",
         "Hand-Drawn Everything",
         "Monochrome and Editorial",
         "Retro Operating System",
         "Feels Like Fine Stationery",
         "Invisible Until Needed",
-        "Vaporwave Nostalgia",
         "Cottagecore Cozy",
         "Cyberpunk Edge",
         "Dark Academia Vibe",
         "Wabi Sabi Imperfect",
         "Maximalist Chaos"
-      ]
-    },
-    {
-      "category": "Cultural Borrow Twist",
-      "subItems": [
-        "Like a Tamagotchi",
-        "Like a Trading Card Game",
-        "Like an Advent Calendar",
-        "Like a Cooking Show",
-        "Like a Gym Buddy",
-        "Like a Farmers Market",
-        "Like a Pilgrimage",
-        "Like a Tarot Deck",
-        "Like a Boss Fight",
-        "Like a Library Card",
-        "Japanese Kaizen",
-        "Scandinavian Hygge",
-        "Stoic Roman Wisdom",
-        "Monastic Discipline",
-        "Samurai Code",
-        "Sufi Mystic Flow",
-        "Viking Resilience"
       ]
     },
     {
@@ -257,7 +214,6 @@
         "Build Lasting Legacy",
         "Heal Old Wounds",
         "Foster Deep Belonging",
-        "Cultivate Radical Rest",
         "Rediscover Playfulness",
         "Navigate Uncertainty"
       ]
@@ -273,10 +229,6 @@
         "Rides on Calendar Invites",
         "Sold Through Practitioners",
         "Starts as a Gift",
-        "Fridge Door Magnet",
-        "Bathroom Mirror Sticky",
-        "Podcast Ad Read",
-        "Physical Trading Cards",
         "Desktop Widget Home",
         "Smartwatch Glances"
       ]
@@ -296,10 +248,7 @@
         "Opposite Day Mode",
         "One Button Magic",
         "Trade With Others",
-        "Plant A Seed Daily",
-        "Confession Booth Style",
-        "Future Postcard Sender",
-        "Failure Resume Builder"
+        "Plant A Seed Daily"
       ]
     }
   ]
