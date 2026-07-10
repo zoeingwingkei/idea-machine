@@ -4,7 +4,8 @@ import {
   useRef,
   useCallback,
 } from "react";
-import { Lock, LockOpen } from "lucide-react";
+import { Lock, LockOpen, X, ArrowUpRight } from "lucide-react";
+import { Link } from "react-router";
 import ticketSvgPaths from "@/imports/Ticket-1/svg-jkajgizkpe";
 import machinePaths from "@/imports/SlotMachine-1/svg-u88248n22q";
 import productFormsData from "@/imports/map-of-product-forms.json";
@@ -39,6 +40,21 @@ function useNoHoverPointer(): boolean {
   return noHover;
 }
 
+// Below this width the About panel drops the machine's 1800-unit coordinate
+// space (which would otherwise shrink its text into illegibility) and
+// switches to normal, fixed-size, full-width-minus-margin CSS.
+function useIsMobile(breakpoint = 640): boolean {
+  const [isMobile, setIsMobile] = useState(false);
+  useEffect(() => {
+    const mql = window.matchMedia(`(max-width: ${breakpoint}px)`);
+    setIsMobile(mql.matches);
+    const onChange = () => setIsMobile(mql.matches);
+    mql.addEventListener("change", onChange);
+    return () => mql.removeEventListener("change", onChange);
+  }, [breakpoint]);
+  return isMobile;
+}
+
 const FORMAT_ITEMS = productFormsData.categories.flatMap(
   (c) => c.subItems,
 );
@@ -64,12 +80,23 @@ const TWIST_CATEGORIES: SlotCategory[] = twistsData.categories.map(
 // ─── Constants ────────────────────────────────────────────────────────────────
 // Machine natural coordinate space: 1800px wide (matching the slot SVG paths)
 const MACHINE_W = 1960; // 1800 body + 160 lever overhang
+const MACHINE_BODY_W = 1800;
 const MACHINE_H = 1850; // title(608) + body(~884) + ticket-overflow-space; ticket is absolute so body doesn't grow
-// The lever's SVG art bleeds further right than MACHINE_W's 160px overhang budget
-// (measured: body-left to resting-lever-tip ≈ 2093px) — used only to size the
-// mobile viewport-width target so the whole resting lever stays on-screen.
-const MACHINE_W_WITH_LEVER = 2100;
+// The lever's SVG art bleeds further right than the body's edge (measured:
+// body-left to resting-lever-tip ≈ 2093px). The white-bordered body — not
+// a lever-inclusive box — is what gets centered in its container (see the
+// transform comment below), so the binding width constraint for "must fit
+// on screen" purposes is double whichever is further from the body's own
+// center: the body's left edge (900) or the lever tip (2093 − 900 = 1193).
+// The lever tip wins, so it sets the constraint.
+const MACHINE_SYMMETRIC_W = 2 * (2093 - MACHINE_BODY_W / 2);
 const BG = "#000000";
+// Desktop About sidebar: shares half the row with the machine by default,
+// capped at this reading width so the text column never gets too wide.
+// (Was 480 with a 40px right margin baked into the box; the margin was
+// removed to give that width straight to the machine, so this shrank by
+// the same 40px to keep the actual text-reading width unchanged.)
+const ABOUT_SIDEBAR_MAX = 440;
 // Must match the ticket slide-in transition duration below (1.6s).
 const TICKET_SLIDE_MS = 1600;
 
@@ -381,6 +408,202 @@ function SlotTitleLabel({
   );
 }
 
+// ─── About ────────────────────────────────────────────────────────────────────
+// Always mounted, always at the same fixed position and size — collapsed and
+// expanded states are just this trigger with the close icon faded in/out, so
+// the "About" label itself never jumps or resizes when toggling. Sized at
+// the design's true 20px (not tied to the machine's scale): on desktop the
+// body text now lives in a fixed-max-width reading column rather than
+// scaling proportionally with the machine, so there's no ratio to track.
+function AboutHeader({
+  open,
+  onToggle,
+}: {
+  open: boolean;
+  onToggle: () => void;
+}) {
+  return (
+    <div
+      style={{
+        position: "fixed",
+        top: 24,
+        left: 24,
+        zIndex: 20,
+        display: "flex",
+        alignItems: "center",
+        gap: 10,
+      }}
+    >
+      <button
+        type="button"
+        onClick={onToggle}
+        className="about-toggle-btn"
+        style={{
+          background: "none",
+          border: "none",
+          padding: 0,
+          cursor: "pointer",
+          fontFamily: "'Limelight', sans-serif",
+          fontSize: 20,
+          color: open ? "white" : "rgba(255,255,255,0.75)",
+        }}
+      >
+        About
+      </button>
+      <button
+        type="button"
+        onClick={onToggle}
+        aria-label="Close about"
+        className="about-close-btn"
+        style={{
+          background: "none",
+          border: "none",
+          padding: 0,
+          cursor: "pointer",
+          color: "white",
+          display: "flex",
+          opacity: open ? 1 : 0,
+          transform: open ? "scale(1)" : "scale(0.5)",
+          pointerEvents: open ? "auto" : "none",
+          transition:
+            "opacity 0.25s ease, transform 0.25s ease",
+        }}
+      >
+        <X size={24} />
+      </button>
+    </div>
+  );
+}
+
+// Body copy shared by both layout variants. `unit` is the px-per-Figma-px
+// multiplier: 3.192 for desktop (rendered inside the machine's scaled
+// coordinate space, so the ambient CSS transform shrinks it with the
+// machine) or 1 for mobile (rendered unscaled, at true Figma sizes). The
+// "About" header itself lives outside this — see AboutHeader above.
+// True Figma sizes throughout: on desktop this now sits in a fixed-max-width
+// reading column beside the machine rather than scaling proportionally with
+// it, and on mobile it always ignored the machine's scale anyway — so there
+// is no longer a scaling relationship to track here. `paddingTop` reserves
+// room for the fixed AboutHeader sitting above it (both layouts stack them).
+function AboutBody() {
+  return (
+    <div style={{ paddingTop: 24 }}>
+      <div
+        style={{
+          fontFamily: "'Inter', sans-serif",
+          fontSize: 16,
+          lineHeight: 1.5,
+          color: "white",
+          marginBottom: 24,
+        }}
+      >
+        <p style={{ margin: "0 0 12px" }}>
+          The Idea Machine is a playful generator that combines
+          three things: a{" "}
+          <Link to="/maps/space" className="about-inline-link">
+            human need
+          </Link>
+          , a{" "}
+          <Link to="/maps/format" className="about-inline-link">
+            product form
+          </Link>
+          , and an{" "}
+          <Link to="/maps/twist" className="about-inline-link">
+            unexpected twist
+          </Link>
+          .
+        </p>
+        <p style={{ margin: "0 0 12px" }}>
+          Pull the lever to discover one of more than 1,000,000
+          possible ideas.
+        </p>
+        <p style={{ margin: 0 }}>
+          Built on a simple belief: good ideas often begin with an
+          unlikely combination — and a little serendipity.
+        </p>
+      </div>
+      <a
+        href="https://github.com/zoeingwingkei/idea-machine"
+        target="_blank"
+        rel="noopener noreferrer"
+        className="about-github-link"
+        style={{
+          display: "inline-flex",
+          alignItems: "center",
+          gap: 4,
+          fontFamily: "'Inter', sans-serif",
+          fontSize: 16,
+          color: "white",
+          textDecoration: "none",
+        }}
+      >
+        Github
+        <ArrowUpRight size={20} />
+      </a>
+    </div>
+  );
+}
+
+// Desktop: a sidebar to the LEFT of the machine (not stacked above it). Its
+// width animates between 0 (closed) and min(50vw, 440px) (open); the inner
+// content is always rendered at that same open-width so text never
+// reflows mid-transition — the outer wrapper's overflow:hidden just wipes
+// it in/out. Because the machine sits in a flex:1 sibling column, shrinking
+// this sidebar's width smoothly reflows (and re-centers) the machine for
+// free, no extra JS needed for that part — see the App() layout below. No
+// right padding: the sidebar's box ends right where the machine's column
+// begins, so all of its width goes to the machine instead of a dead gap.
+function AboutSidebar({ open }: { open: boolean }) {
+  const w = `min(50vw, ${ABOUT_SIDEBAR_MAX}px)`;
+  return (
+    <div
+      style={{
+        alignSelf: "flex-start",
+        flexShrink: 0,
+        width: open ? w : 0,
+        overflow: "hidden",
+        transition: "width 0.45s ease",
+      }}
+    >
+      <div
+        style={{
+          width: w,
+          boxSizing: "border-box",
+          paddingLeft: 24,
+        }}
+      >
+        <AboutBody />
+      </div>
+    </div>
+  );
+}
+
+// Mobile: stacked above the machine instead of beside it, so it collapses
+// via height (grid "0fr → 1fr", which — unlike a max-height cap — always
+// animates to the content's true height and so can never clip content
+// taller than an estimate, a real bug hit earlier with the GitHub link).
+function AboutPanelMobile({ open }: { open: boolean }) {
+  return (
+    <div
+      style={{
+        display: "grid",
+        gridTemplateRows: open ? "1fr" : "0fr",
+        marginBottom: open ? 32 : 0,
+        opacity: open ? 1 : 0,
+        width: "100%",
+        transition:
+          "grid-template-rows 0.45s ease, margin-bottom 0.45s ease, opacity 0.35s ease",
+      }}
+    >
+      <div style={{ overflow: "hidden", minHeight: 0 }}>
+        <div style={{ width: "calc(100% - 40px)", margin: "0 auto" }}>
+          <AboutBody />
+        </div>
+      </div>
+    </div>
+  );
+}
+
 // ─── App ──────────────────────────────────────────────────────────────────────
 export default function App() {
   const [phase, setPhase] = useState<
@@ -401,6 +624,9 @@ export default function App() {
     number | null
   >(null);
   const noHoverPointer = useNoHoverPointer();
+  const [aboutOpen, setAboutOpen] = useState(false);
+  const isMobile = useIsMobile();
+  const showDesktopAbout = aboutOpen && !isMobile;
 
   const slot0Ref = useRef<SlotWindowHandle>(null);
   const slot1Ref = useRef<SlotWindowHandle>(null);
@@ -514,65 +740,120 @@ export default function App() {
   // Scale: machine body ~50% of viewport width, centered with margins.
   // Below 500px (mobile) the 0.2 floor used on desktop would overflow the
   // viewport, so scale directly off a 75%-of-viewport target using
-  // MACHINE_W_WITH_LEVER instead, keeping the whole resting lever on-screen.
+  // MACHINE_SYMMETRIC_W instead, keeping the whole resting lever on-screen.
   // Whatever width-based scale comes out of that, it's then capped so the
-  // machine's height never exceeds 75% of viewport height either.
+  // machine's height never exceeds 75% of viewport height either. When the
+  // About sidebar is open on desktop it eats into the machine's own share
+  // of the row, so the machine is rescaled against the width left over
+  // after the sidebar — the same "previous rule", just fed a narrower `w`
+  // — which is why the machine visibly shrinks while About is expanded.
+  // A hard width cap (using the symmetric, lever-inclusive extent) is also
+  // enforced so the 0.2 floor can never push the machine — and the lever
+  // specifically — past 75% of that narrowed width once About has eaten
+  // most of it.
   const [scale, setScale] = useState(0.35);
   useEffect(() => {
     const update = () => {
       const w = window.innerWidth;
       const h = window.innerHeight;
+      const availableW = showDesktopAbout
+        ? w - Math.min(w / 2, ABOUT_SIDEBAR_MAX)
+        : w;
       let s: number;
       if (w < 500) {
-        s = (w * 0.75) / MACHINE_W_WITH_LEVER;
+        s = (w * 0.75) / MACHINE_SYMMETRIC_W;
       } else {
-        s = Math.min(0.75, Math.max(0.2, (w * 0.5) / MACHINE_W));
+        s = Math.min(
+          0.75,
+          Math.max(0.2, (availableW * 0.5) / MACHINE_W),
+        );
       }
+      const widthCap = (availableW * 0.75) / MACHINE_SYMMETRIC_W;
       const heightCap = (h * 0.75) / MACHINE_H;
-      setScale(Math.min(s, heightCap));
+      setScale(Math.min(s, widthCap, heightCap));
     };
     update();
     window.addEventListener("resize", update);
     return () => window.removeEventListener("resize", update);
-  }, []);
+  }, [showDesktopAbout]);
 
   return (
     <>
       <style>{`
         body { overflow-x: hidden; background: ${BG}; }
+        .about-toggle-btn { transition: color 0.2s ease; }
+        .about-toggle-btn:hover { color: rgba(255,255,255,1); }
+        .about-close-btn, .about-github-link { transition: opacity 0.2s ease; }
+        .about-close-btn:hover, .about-github-link:hover { opacity: 0.6; }
+        .about-inline-link { color: inherit; text-decoration: underline; transition: opacity 0.2s ease; }
+        .about-inline-link:hover { opacity: 0.6; }
       `}</style>
+
+      <AboutHeader
+        open={aboutOpen}
+        onToggle={() => setAboutOpen((o) => !o)}
+      />
 
       <div
         style={{
           minHeight: "100vh",
           backgroundColor: BG,
           display: "flex",
-          flexDirection: "column",
+          // Desktop: About sidebar and machine sit side by side in a row.
+          // Mobile: About stacks above the machine in a column, unchanged.
+          flexDirection: isMobile ? "column" : "row",
           alignItems: "center",
           justifyContent: "center",
           padding: "60px 0",
         }}
       >
-        {/* Height placeholder so layout doesn't collapse under the scaled element */}
+        {isMobile && <AboutPanelMobile open={aboutOpen} />}
+        {!isMobile && <AboutSidebar open={aboutOpen} />}
+
+        {/* Machine column: flex:1 on desktop so it fills whatever width the
+            About sidebar leaves it, full-width on mobile as before. */}
         <div
           style={{
             position: "relative",
-            width: "100%",
-            height: MACHINE_H * scale,
+            flex: isMobile ? "0 0 auto" : "1 1 0%",
+            minWidth: 0,
+            width: isMobile ? "100%" : undefined,
           }}
         >
+          {/* Height placeholder so layout doesn't collapse under the scaled element */}
           <div
             style={{
-              position: "absolute",
-              top: 0,
-              left: "50%",
-              width: MACHINE_W,
-              transformOrigin: "top center",
-              transform: `translateX(-50%) scale(${scale})`,
+              position: "relative",
+              width: "100%",
+              height: MACHINE_H * scale,
+              transition: "height 0.45s ease",
             }}
           >
-            {/* ── TITLE ─────────────────────────────────────────────────── */}
-            <TitleSection />
+            <div
+              style={{
+                position: "absolute",
+                top: 0,
+                left: "50%",
+                width: MACHINE_W,
+                // Centers the 1800-wide BODY (not this 1960-wide box, which
+                // reserves extra room on the right for the lever's overhang):
+                // the origin is pinned to the body's own center (900px from
+                // this box's left edge — the body sits flush there) rather
+                // than this box's center (980px), and translateX(-900px) is
+                // a flat pixel offset that exactly cancels that origin's
+                // "+900" term at every scale (leaving only the origin's own
+                // -900·scale term) — unlike -50%, whose reference width
+                // would still be this box's 1960px, not the body's 1800px.
+                // A mismatched origin/translate pair here does NOT cancel
+                // proportionally across scales, which is what caused an
+                // earlier version of this fix to overshoot off-center.
+                transformOrigin: `${MACHINE_BODY_W / 2}px top`,
+                transform: `translateX(-${MACHINE_BODY_W / 2}px) scale(${scale})`,
+                transition: "transform 0.45s ease",
+              }}
+            >
+              {/* ── TITLE ─────────────────────────────────────────────────── */}
+              <TitleSection />
 
             {/* ── MACHINE BODY ──────────────────────────────────────────── */}
             <div
@@ -811,6 +1092,7 @@ export default function App() {
               </div>
             </div>
           </div>
+        </div>
         </div>
       </div>
     </>
