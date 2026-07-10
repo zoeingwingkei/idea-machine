@@ -1,8 +1,8 @@
 {
   "meta": {
-    "title": "The Map of Twists",
+    "title": "The Map of Twist",
     "subtitle": "Unexpected constraints, mechanics, audiences, aesthetics, and angles that make an idea feel fresh.",
-    "note": "Reel 3 = what makes the combination interesting. These twists are designed to be compatible with many human life areas and many product forms.",
+    "note": "These twists are designed to be compatible with many human life areas and many product forms.",
     "reel_structure": {
       "reel_1_space": "map-of-human-life.json → domains[].subItems",
       "reel_2_product_form": "map-of-product-forms.json → categories[].subItems",

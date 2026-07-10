@@ -2,7 +2,7 @@
   "meta": {
     "title": "The Map of Human Life",
     "subtitle": "The fundamental domains where humans spend their time, attention, energy, and money.",
-    "note": "A living framework, not exhaustive. This is meant to inspire, not validate — reel 1 lands on a sub-item, with its domain shown as context, and the builder is expected to dig into that space themselves.",
+    "note": "A living framework, not exhaustive. This is meant to inspire, not validate. The builder is expected to dig into that space themselves.",
     "reel_structure": {
       "reel_1_space": "domains[].subItems",
       "reel_2_product_form": "map-of-product-forms.json → categories[].subItems"

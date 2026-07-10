@@ -2,7 +2,7 @@
   "meta": {
     "title": "The Map of Product Forms",
     "subtitle": "The fundamental ways people package and deliver value.",
-    "note": "A living framework, not exhaustive. Reel 2 lands on a sub-item, with its category shown as context. Reel 2 = what the thing is; Reel 3 (twist) = what makes it different.",
+    "note": "A living framework, not exhaustive.",
     "reel_structure": {
       "reel_1_space": "map-of-human-life.json → domains[].subItems",
       "reel_2_product_form": "categories[].subItems",
