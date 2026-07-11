@@ -1120,7 +1120,12 @@ export default function App() {
                 {/* Clip container — anchored at slot-bottom minus overlap (top:96).
                     overflow:hidden clips the ticket above its top edge, so when the ticket
                     is at translateY(-100%) it is fully hidden inside the machine.
-                    Sliding to translateY(0) reveals it downward from the slot opening. */}
+                    Sliding to translateY(0) reveals it downward from the slot opening.
+                    transform:translateZ(0) forces its own compositing layer — same fix as
+                    the reel window (SlotWindow.tsx): without it, iOS Safari can fail to
+                    clip a transform-animated child against this overflow:hidden ancestor,
+                    so the ticket appears to emerge from partway up the machine instead of
+                    fully hidden until it slides out of the opening. */}
                 <div
                   style={{
                     position: "absolute",
@@ -1130,6 +1135,7 @@ export default function App() {
                     width: 1600,
                     overflow: "hidden",
                     zIndex: 15,
+                    transform: "translateZ(0)",
                   }}
                 >
                   <div
