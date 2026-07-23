@@ -262,7 +262,7 @@ function GoldenTicket({
 // ─── Title Section ───────────────────────────────────────────────────────────
 // Figma: h=188px in 564px-wide frame → ×3.192 = 600px. Oval inset -1.06%/-0.36%.
 // Text SVG: 464×130px → 1481×415px, vertically centered at 50%+29px (9×3.192).
-function TitleSection() {
+function TitleSection({ scale }: { scale: number }) {
   return (
     <div
       style={{
@@ -289,7 +289,11 @@ function TitleSection() {
           <path d={machinePaths.p794c270} fill="white" />
         </svg>
       </div>
-      {/* Text paths — 30 paths in 464×130 viewBox, centered with +9px vertical offset */}
+      {/* Text paths — 30 paths in 464×130 viewBox, centered with +9px vertical offset.
+          Glow matches the starfield's warm off-white halo. Blur is divided by
+          `scale` since this div sits inside the machine's outer scale(scale)
+          transform — that keeps the on-screen glow ~constant regardless of how
+          large or small the machine renders. */}
       <div
         style={{
           position: "absolute",
@@ -298,6 +302,7 @@ function TitleSection() {
           transform: "translate(-50%, -50%)",
           width: 1481,
           height: 415,
+          filter: `drop-shadow(0 0 ${5 / scale}px rgba(251, 243, 221, 0.55)) drop-shadow(0 0 ${14 / scale}px rgba(251, 243, 221, 0.32))`,
         }}
       >
         <svg
@@ -908,13 +913,6 @@ export default function App() {
                 top: 0,
                 left: "50%",
                 width: MACHINE_W,
-                // Solid black backing so the starfield behind never shows
-                // through the machine's transparent gaps (behind the title,
-                // between slots, around the output). Invisible on the black
-                // page; it just guarantees no star overlaps the machine — a
-                // hard guarantee on top of the canvas shield in
-                // StarfieldBackground.
-                backgroundColor: BG,
                 // Centers the 1800-wide BODY (not this 1960-wide box, which
                 // reserves extra room on the right for the lever's overhang):
                 // the origin is pinned to the body's own center (900px from
@@ -933,7 +931,7 @@ export default function App() {
               }}
             >
               {/* ── TITLE ─────────────────────────────────────────────────── */}
-              <TitleSection />
+              <TitleSection scale={scale} />
 
             {/* ── MACHINE BODY ──────────────────────────────────────────── */}
             <div
@@ -956,7 +954,7 @@ export default function App() {
               />
 
               {/* Top lights */}
-              <LightsRow activeLightGroup={activeLightGroup} />
+              <LightsRow activeLightGroup={activeLightGroup} scale={scale} />
 
               {/* Column labels */}
               <div
@@ -1096,6 +1094,7 @@ export default function App() {
               <LightsRow
                 activeLightGroup={activeLightGroup}
                 variant="bottom"
+                scale={scale}
               />
 
               {/* Output / ticket area — position:relative so ticket can be absolute inside */}

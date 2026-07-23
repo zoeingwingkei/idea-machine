@@ -4,10 +4,18 @@
 export function LightsRow({
   activeLightGroup,
   variant = "top",
+  scale,
 }: {
   activeLightGroup: number;
   variant?: "top" | "bottom";
+  scale: number;
 }) {
+  // Ambient glow matching the starfield's warm off-white halo, always on.
+  // Blur is divided by `scale` since these dots sit inside the machine's
+  // outer scale(scale) transform — that keeps the on-screen glow ~constant
+  // regardless of how large or small the machine renders. Layered before the
+  // existing gold flash glow so an active light's box-shadow keeps working.
+  const ambientGlow = `0 0 ${5 / scale}px rgba(251, 243, 221, 0.55), 0 0 ${14 / scale}px rgba(251, 243, 221, 0.32)`;
   return (
     <div
       style={{
@@ -41,8 +49,8 @@ export function LightsRow({
               flexShrink: 0,
               backgroundColor: isActive ? "#FFD700" : "white",
               boxShadow: isActive
-                ? "0 0 8px 2px #FFD700, 0 0 20px 6px rgba(255,210,0,0.7)"
-                : undefined,
+                ? `0 0 8px 2px #FFD700, 0 0 20px 6px rgba(255,210,0,0.7), ${ambientGlow}`
+                : ambientGlow,
               transition:
                 "background-color 0.12s, box-shadow 0.12s",
             }}
