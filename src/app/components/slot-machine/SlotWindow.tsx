@@ -236,7 +236,7 @@ export const SlotWindow = forwardRef<
       >
         <path
           d={SLOT_BG_PATHS[slotIdx]}
-          fill="white"
+          fill="#FFF0C4"
           fillRule="evenodd"
           clipRule="evenodd"
         />

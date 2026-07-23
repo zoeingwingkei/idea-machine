@@ -24,6 +24,7 @@ import {
   SlotSelectMenu,
   type SlotCategory,
 } from "@/app/components/slot-machine/SlotSelectMenu";
+import { StarfieldBackground } from "@/app/components/StarfieldBackground";
 
 // Devices with no hover capability (touchscreens) never fire the
 // onMouseEnter that normally reveals the lock icon, so those icons must be
@@ -638,6 +639,10 @@ export default function App() {
   // window.innerWidth plus sidebar math, so the machine always matches
   // what's actually on screen (including mid-transition as About opens).
   const containerRef = useRef<HTMLDivElement>(null);
+  // The scaled machine wrapper — measured by the starfield background so its
+  // stars fade out over the machine (which is otherwise transparent) and never
+  // clutter behind the slot text.
+  const machineRef = useRef<HTMLDivElement>(null);
   const [containerWidth, setContainerWidth] = useState(
     () => window.innerWidth,
   );
@@ -837,6 +842,11 @@ export default function App() {
         .about-inline-link:hover { opacity: 0.6; }
       `}</style>
 
+      {/* Ambient line-art starfield — fixed full-viewport canvas between the
+          black page background (body) and the machine. Machine content sits in
+          the z-index:1 container below, so it always paints above the stars. */}
+      <StarfieldBackground machineRef={machineRef} />
+
       <AboutHeader
         open={aboutOpen}
         onToggle={() => setAboutOpen((o) => !o)}
@@ -845,7 +855,12 @@ export default function App() {
       <div
         style={{
           minHeight: "100vh",
-          backgroundColor: BG,
+          // Background is transparent so the starfield canvas (behind, z-0)
+          // shows through; the black base still comes from `body` (see the
+          // <style> block above). This container is a z-index:1 stacking
+          // context, lifting all machine/About content above the stars.
+          position: "relative",
+          zIndex: 1,
           display: "flex",
           // Row: About sidebar and machine sit side by side. Column: About
           // stacks above the machine — either because the window itself is
@@ -887,11 +902,19 @@ export default function App() {
             }}
           >
             <div
+              ref={machineRef}
               style={{
                 position: "absolute",
                 top: 0,
                 left: "50%",
                 width: MACHINE_W,
+                // Solid black backing so the starfield behind never shows
+                // through the machine's transparent gaps (behind the title,
+                // between slots, around the output). Invisible on the black
+                // page; it just guarantees no star overlaps the machine — a
+                // hard guarantee on top of the canvas shield in
+                // StarfieldBackground.
+                backgroundColor: BG,
                 // Centers the 1800-wide BODY (not this 1960-wide box, which
                 // reserves extra room on the right for the lever's overhang):
                 // the origin is pinned to the body's own center (900px from
