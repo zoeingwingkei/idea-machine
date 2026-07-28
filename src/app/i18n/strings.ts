@@ -60,7 +60,7 @@ export const STRINGS: Record<Lang, Strings> = {
   zh: {
     about: "关于",
     closeAbout: "关闭关于",
-    aboutP1Pre: "点子机把三样东西摇在一起：一个",
+    aboutP1Pre: "The Idea Machine（点子机）把三样东西摇在一起：一个",
     aboutHumanNeed: "生活场景",
     aboutP1Mid1: "、一种",
     aboutProductForm: "产品形态",
@@ -73,7 +73,7 @@ export const STRINGS: Record<Lang, Strings> = {
     pullLever: "拉下拉杆 →",
     start: "开始",
     yourIdea: "你的点子",
-    backToMachine: "← 返回老虎机",
+    backToMachine: "← 返回点子机",
     format: "形态",
     space: "场景",
     twist: "转折",
