@@ -315,36 +315,28 @@ function TitleSection({ scale }: { scale: number }) {
           preserveAspectRatio="none"
           viewBox="0 0 464 130"
         >
-          <path d={machinePaths.p14c61700} fill="white" />
-          <path d={machinePaths.p2584a800} fill="white" />
-          <path d={machinePaths.p19df41a0} fill="white" />
-          <path d={machinePaths.pafe9b80} fill="white" />
-          <path d={machinePaths.p2c114300} fill="white" />
-          <path d={machinePaths.p54de680} fill="white" />
-          <path d={machinePaths.p15b52500} fill="white" />
-          <path d={machinePaths.p7c56780} fill="white" />
-          <path d={machinePaths.p3807d340} fill="white" />
-          <path d={machinePaths.p3e69aa00} fill="white" />
-          <path d={machinePaths.p21de0ab0} fill="white" />
-          <path d={machinePaths.p2917d80} fill="white" />
-          <path d={machinePaths.p1c217320} fill="white" />
-          <path d={machinePaths.pfee8e40} fill="white" />
-          <path d={machinePaths.p218d4300} fill="white" />
-          <path d={machinePaths.p37472bb0} fill="white" />
-          <path d={machinePaths.p3b0d9a00} fill="white" />
-          <path d={machinePaths.p2b029200} fill="white" />
-          <path d={machinePaths.p1a177b80} fill="white" />
-          <path d={machinePaths.p33779b00} fill="white" />
-          <path d={machinePaths.p15e88ff0} fill="white" />
-          <path d={machinePaths.p37111e00} fill="white" />
-          <path d={machinePaths.p1ad87180} fill="white" />
-          <path d={machinePaths.p2e438b80} fill="white" />
-          <path d={machinePaths.pac91400} fill="white" />
-          <path d={machinePaths.p193dbd00} fill="white" />
-          <path d={machinePaths.p9d82e80} fill="white" />
-          <path d={machinePaths.p249dac80} fill="white" />
-          <path d={machinePaths.p1a755d00} fill="white" />
-          <path d={machinePaths.p1cf56b80} fill="white" />
+          <path d={machinePaths.pCreateT01} fill="white" />
+          <path d={machinePaths.pCreateT02} fill="white" />
+          <path d={machinePaths.pCreateT03} fill="white" />
+          <path d={machinePaths.pCreateT04} fill="white" />
+          <path d={machinePaths.pCreateT05} fill="white" fillRule="evenodd" clipRule="evenodd" />
+          <path d={machinePaths.pCreateT06} fill="white" fillRule="evenodd" clipRule="evenodd" />
+          <path d={machinePaths.pCreateT07} fill="white" />
+          <path d={machinePaths.pCreateT08} fill="white" />
+          <path d={machinePaths.pCreateT09} fill="white" />
+          <path d={machinePaths.pCreateT10} fill="white" />
+          <path d={machinePaths.pCreateT11} fill="white" fillRule="evenodd" clipRule="evenodd" />
+          <path d={machinePaths.pCreateT12} fill="white" />
+          <path d={machinePaths.pCreateT13} fill="white" />
+          <path d={machinePaths.pCreateT14} fill="white" />
+          <path d={machinePaths.pCreateSparkle} fill="white" />
+          <path d={machinePaths.pCreateScript01} fill="white" />
+          <path d={machinePaths.pCreateScript02} fill="white" />
+          <path d={machinePaths.pCreateScript03} fill="white" fillRule="evenodd" clipRule="evenodd" />
+          <path d={machinePaths.pCreateScript04} fill="white" />
+          <path d={machinePaths.pCreateScript05} fill="white" fillRule="evenodd" clipRule="evenodd" />
+          <path d={machinePaths.pCreateScript06} fill="white" />
+          <path d={machinePaths.pCreateScript07} fill="white" fillRule="evenodd" clipRule="evenodd" />
         </svg>
       </div>
     </div>

@@ -304,7 +304,7 @@ function Title1() {
           <g id="title">
             <path d={svgPaths.p2a559b00} fill="var(--stroke-0, white)" id="oval-background" />
             <g id="title_2">
-              <g id="What to Build?">
+              <g id="What to Create?">
                 <path d={svgPaths.p3aa5a700} fill="var(--fill-0, white)" id="Vector" />
                 <path d={svgPaths.p2bf70c40} fill="var(--fill-0, white)" id="Vector_2" />
                 <path d={svgPaths.p364a8440} fill="var(--fill-0, white)" id="Vector_3" />
