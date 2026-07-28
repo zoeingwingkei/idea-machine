@@ -1,4 +1,7 @@
 import { Link } from "react-router";
+import { LanguageToggle } from "@/app/components/LanguageToggle";
+import { useLanguage } from "@/app/i18n/LanguageContext";
+import { getStrings } from "@/app/i18n/strings";
 
 const BG = "#000000";
 
@@ -31,10 +34,12 @@ function BulletIcon() {
   );
 }
 
-// Shared layout for the three "map" pages (space / format / twist). Each page
+// Shared layout for the three "map" pages (space / form / twist). Each page
 // just normalizes its own JSON into { title, subtitle, note, groups } — this
 // component stays purely presentational so all three stay visually identical.
 export function MapPage({ title, subtitle, groups }: MapPageProps) {
+  const { lang } = useLanguage();
+  const t = getStrings(lang);
   return (
     <>
       <style>{`
@@ -53,7 +58,11 @@ export function MapPage({ title, subtitle, groups }: MapPageProps) {
         @media (max-width: 560px) {
           .map-page-container { padding: 48px 20px 56px; }
         }
+        .lang-toggle-btn { transition: color 0.2s ease, border-color 0.2s ease; }
+        .lang-toggle-btn:hover { color: white; border-color: rgba(255,255,255,0.6); }
       `}</style>
+
+      <LanguageToggle />
 
       <div
         style={{
@@ -78,7 +87,7 @@ export function MapPage({ title, subtitle, groups }: MapPageProps) {
               letterSpacing: 0.3,
             }}
           >
-            ← Back to the machine
+            {t.backToMachine}
           </Link>
 
           <h1

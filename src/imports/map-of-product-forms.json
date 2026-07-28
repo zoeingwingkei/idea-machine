@@ -1,8 +1,11 @@
 {
   "meta": {
     "title": "The Map of Product Forms",
+    "title_zh": "产品形态地图",
     "subtitle": "The fundamental ways people package and deliver value.",
+    "subtitle_zh": "人们打包与交付价值的基本方式。",
     "note": "A living framework, not exhaustive.",
+    "note_zh": "这是一个不断发展的框架，并非详尽无遗。",
     "reel_structure": {
       "reel_1_space": "map-of-human-life.json → domains[].subItems",
       "reel_2_product_form": "categories[].subItems",
@@ -12,51 +15,75 @@
   "categories": [
     {
       "category": "App",
-      "subItems": ["Mobile App", "Web App", "Browser Extension", "Desktop App", "Chatbot", "Voice Interface", "Widget", "Game"]
+      "category_zh": "应用",
+      "subItems": ["Mobile App", "Web App", "Browser Extension", "Desktop App", "Chatbot", "Voice Interface", "Widget", "Game"],
+      "subItems_zh": ["手机App", "网页", "浏览器插件", "电脑App", "聊天机器人", "语音界面", "小组件", "游戏"]
     },
     {
       "category": "Automation",
-      "subItems": ["AI Agent", "Workflow Automation", "Messaging Bot", "Scheduled Digest", "Monitoring & Alerts", "Smart Reminders"]
+      "category_zh": "自动化",
+      "subItems": ["AI Agent", "Workflow Automation","Scheduled Digest", "Monitoring & Alerts", "Smart Reminders"],
+      "subItems_zh": ["AI 智能体", "工作流自动化", "定时摘要", "监控与提醒", "智能提醒"]
     },
     {
       "category": "Developer Tool",
-      "subItems": ["API", "CLI Tool", "Open Source Library", "Starter Kit", "MCP Server"]
+      "category_zh": "开发者工具",
+      "subItems": ["API", "CLI Tool", "Open Source Library", "Starter Kit", "MCP Server"],
+      "subItems_zh": ["API", "命令行工具", "开源库", "模板", "MCP 服务器"]
     },
     {
       "category": "Data & Analytics",
-      "subItems": ["Dashboard", "Personal Tracker", "Calculator & Estimator", "Quiz & Assessment", "Benchmark & Rankings", "Industry Report", "Data Visualization", "Curated Dataset"]
+      "category_zh": "数据与分析",
+      "subItems": ["Dashboard", "Personal Tracker", "Calculator & Estimator", "Quiz & Assessment", "Benchmark & Rankings", "Industry Report", "Data Visualization", "Curated Dataset"],
+      "subItems_zh": ["数据看板", "个人数据追踪器", "计算器与估算工具", "评估测验", "排行榜", "行业报告", "数据可视化", "精选数据集"]
     },
     {
       "category": "Content & Media",
-      "subItems": ["Newsletter", "Blog", "Podcast", "Video Channel", "Short-Form Video", "Book & eBook", "Curated Digest", "Visual Essay"]
+      "category_zh": "内容与媒体",
+      "subItems": ["Newsletter", "Blog", "Podcast", "Video Channel", "Short-Form Video", "Book & eBook", "Curated Digest", "Visual Essay"],
+      "subItems_zh": ["邮件订阅", "博客", "播客", "视频", "短视频", "图书与电子书", "精选摘要", "图文长文"]
     },
     {
       "category": "Education",
-      "subItems": ["Online Course", "Tutorial Series", "Bootcamp", "Coaching Program", "Certification", "Interactive Learning"]
+      "category_zh": "教育",
+      "subItems": ["Online Course", "Tutorial Series", "Bootcamp", "Coaching Program", "Certification", "Interactive Learning"],
+      "subItems_zh": ["在线课程", "教程系列", "训练营", "辅导项目", "认证", "互动学习"]
     },
     {
       "category": "Template & Asset",
-      "subItems": ["Notion Template", "Spreadsheet Template", "Design Kit", "Prompt Library", "Checklist & Worksheet"]
+      "category_zh": "模板与素材",
+      "subItems": ["Notion Template", "Spreadsheet Template", "Design Kit", "Prompt Library", "Checklist & Worksheet"],
+      "subItems_zh": ["Notion 模板", "表格模板", "设计素材包", "提示词库", "清单与练习表"]
     },
     {
       "category": "Community",
-      "subItems": ["Forum", "Chat Community", "Accountability Group"]
+      "category_zh": "社区",
+      "subItems": ["Forum", "Chat Community", "Accountability Group"],
+      "subItems_zh": ["论坛", "聊天社群", "互助小组"]
     },
     {
       "category": "Marketplace",
-      "subItems": ["Two-Sided Marketplace", "Job Board", "Directory", "Booking Platform", "Rental Platform", "Digital Goods Store", "Comparison Site", "Matchmaking Platform"]
+      "category_zh": "交易平台",
+      "subItems": ["Two-Sided Marketplace", "Job Board", "Directory", "Booking Platform", "Rental Platform", "Digital Goods Store", "Comparison Site", "Matchmaking Platform"],
+      "subItems_zh": ["交易平台", "招聘平台", "信息目录", "预订平台", "租赁平台", "数字商品商店", "比价网站", "匹配平台"]
     },
     {
       "category": "Service",
-      "subItems": ["Consulting Service", "Agency", "Audit & Review Service", "On-Demand Service", "Subscription Service"]
+      "category_zh": "服务",
+      "subItems": ["Consulting Service", "Agency", "Audit & Review Service", "On-Demand Service", "Subscription Service"],
+      "subItems_zh": ["咨询服务", "代理服务", "评估服务", "按需服务", "订阅服务"]
     },
     {
       "category": "Physical Product",
-      "subItems": ["Hardware Gadget", "Print & Zine", "Merchandise", "Subscription Box", "DIY Kit", "Card & Board Game", "Stationery & Paper Goods", "Wearable Accessory"]
+      "category_zh": "实体产品",
+      "subItems": ["Hardware Gadget", "Print & Zine", "Merchandise", "Subscription Box", "DIY Kit", "Card & Board Game", "Stationery & Paper Goods", "Wearable Accessory"],
+      "subItems_zh": ["硬件小工具", "印刷品与自出版杂志", "周边商品", "订阅盒子", "DIY 套件", "桌游与卡牌游戏", "文具与纸品", "可穿戴配件"]
     },
     {
       "category": "Experience",
-      "subItems": ["In-Person Workshop", "Retreat", "Conference", "Guided Tour", "Hackathon", "Challenge & Competition"]
+      "category_zh": "体验活动",
+      "subItems": ["In-Person Workshop", "Retreat", "Conference", "Guided Tour", "Hackathon", "Challenge & Competition"],
+      "subItems_zh": ["线下工作坊", "静修营", "大会", "导览行程", "黑客松", "挑战赛"]
     }
   ]
 }

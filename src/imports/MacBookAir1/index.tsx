@@ -75,7 +75,7 @@ function Lights() {
 function SlotTitle() {
   return (
     <div className="[word-break:break-word] content-stretch flex font-['Limelight:Regular',sans-serif] gap-[1.25px] items-center leading-[normal] not-italic overflow-clip pt-[15px] px-[10px] relative shrink-0 text-[15px] text-center text-white w-[562.5px]" data-name="slot-title">
-      <p className="flex-[1_0_0] min-w-px relative">FORMAT</p>
+      <p className="flex-[1_0_0] min-w-px relative">FORM</p>
       <p className="flex-[1_0_0] min-w-px relative">SPACE</p>
       <p className="flex-[1_0_0] min-w-px relative">TWIST</p>
     </div>

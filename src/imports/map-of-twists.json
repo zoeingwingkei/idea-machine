@@ -1,8 +1,11 @@
 {
   "meta": {
     "title": "The Map of Twist",
+    "title_zh": "转折地图",
     "subtitle": "Unexpected constraints, mechanics, audiences, aesthetics, and angles that make an idea feel fresh.",
+    "subtitle_zh": "让点子焕然一新的意外约束、机制、受众、美学与视角。",
     "note": "These twists are designed to be compatible with many human life areas and many product forms.",
+    "note_zh": "这些转折设计为可以与多种生活场景和多种产品形态相搭配。",
     "reel_structure": {
       "reel_1_space": "map-of-human-life.json → domains[].subItems",
       "reel_2_product_form": "map-of-product-forms.json → categories[].subItems",
@@ -12,6 +15,7 @@
   "categories": [
     {
       "category": "Audience Twist",
+      "category_zh": "受众转折",
       "subItems": [
         "For Complete Beginners",
         "For Busy Parents",
@@ -31,10 +35,31 @@
         "For Side Hustlers",
         "For Empty Nesters",
         "For Neurodivergent Folks"
+      ],
+      "subItems_zh": [
+        "面向新手小白",
+        "面向忙碌的父母",
+        "面向重启人生的人",
+        "面向怀疑论者",
+        "面向想太多的人",
+        "面向夜猫子",
+        "面向共同参与的情侣",
+        "面向初来乍到的人",
+        "面向陷入瓶颈的高手",
+        "面向讨厌这个话题的人",
+        "面向亲子共同参与",
+        "面向数字游民",
+        "面向退休人士",
+        "面向职场倦怠者",
+        "面向照护者",
+        "面向副业人群",
+        "面向空巢族",
+        "面向神经多样性人群"
       ]
     },
     {
       "category": "Constraint Twist",
+      "category_zh": "限制转折",
       "subItems": [
         "One Screen Only",
         "No Login Required",
@@ -51,10 +76,28 @@
         "Phone Only Experience",
         "Privacy First Design",
         "Carbon Neutral"
+      ],
+      "subItems_zh": [
+        "只有一个屏幕",
+        "无需登录",
+        "完全离线可用",
+        "每天五分钟",
+        "仅通过短信",
+        "不显示数字",
+        "一次只做一个决定",
+        "只用你已有的东西",
+        "30 天后失效",
+        "纸笔优先，屏幕其次",
+        "无需安装",
+        "零预算版本",
+        "仅限手机体验",
+        "隐私优先设计",
+        "碳中和"
       ]
     },
     {
       "category": "Interaction Twist",
+      "category_zh": "互动转折",
       "subItems": [
         "Voice Only",
         "Swipe to Decide",
@@ -62,20 +105,35 @@
         "Fill-in-the-Blank",
         "Conversation, Not Forms",
         "Camera as the Input",
-        "Ambient and Glanceable",
         "Done in One Sitting",
         "You Teach It Back",
         "Drag Things Until It Feels Right",
         "Gamified",
         "Ritual Based Entry",
         "Branching Story Paths",
-        "Mirror Your Inputs",
         "Collaborative Editing",
         "Solo Reflection Mode"
+      ],
+      "subItems_zh": [
+        "仅语音",
+        "滑动决定",
+        "每天一个问题",
+        "填空题",
+        "仅用对话",
+        "用摄像头作为输入",
+        "一次即可完成",
+        "你来反向教它",
+        "拖动直到感觉对了为止",
+        "游戏化",
+        "仪式感开场",
+        "分支剧情",
+        "协作编辑",
+        "独自反思模式"
       ]
     },
     {
       "category": "Emotional Twist",
+      "category_zh": "情绪转折",
       "subItems": [
         "Gently Judgmental",
         "Radically Non-Judgmental",
@@ -90,10 +148,26 @@
         "Warm Grandma Wisdom",
         "Rebellious Punk Vibe",
         "Fierce Confident Boost"
+      ],
+      "subItems_zh": [
+        "温柔的评判",
+        "彻底不评判",
+        "莫名让人平静",
+        "好玩的竞争感",
+        "直言不讳",
+        "庆祝微小的胜利",
+        "给你放弃的权利",
+        "反内卷",
+        "认真对待玩乐",
+        "奇幻童话感",
+        "温暖的祖母智慧",
+        "叛逆朋克气质",
+        "强势自信"
       ]
     },
     {
       "category": "Social Twist",
+      "category_zh": "社交转折",
       "subItems": [
         "Anonymous but Together",
         "Strangers Paired Weekly",
@@ -101,16 +175,29 @@
         "Vote Before You See Results",
         "Group Wins or Nobody Wins",
         "Mentor Matched Automatically",
-        "Confess and Compare",
         "Households Compete",
         "Everyone Answers the Same Prompt",
         "Accountability Buddies",
         "Stranger Wisdom Exchange",
         "Group Memory Jar"
+      ],
+      "subItems_zh": [
+        "匿名却在一起",
+        "每周匹配陌生人",
+        "只带一位朋友",
+        "投票后才能看结果",
+        "全组皆赢或全输",
+        "自动匹配导师",
+        "家庭对战",
+        "所有人回答同一个问题",
+        "互相监督的搭档",
+        "陌生人智慧交换",
+        "集体记忆罐"
       ]
     },
     {
       "category": "Time Twist",
+      "category_zh": "时间转折",
       "subItems": [
         "Sundays Only",
         "Seasonal, Not Daily",
@@ -126,16 +213,32 @@
         "Weekly Reset Ritual",
         "Evening Wind Down",
         "Quarterly Reflection"
+      ],
+      "subItems_zh": [
+        "仅限周日",
+        "季节性而非每日",
+        "一年倒计时",
+        "为凌晨两点而生",
+        "一次性，永久完成",
+        "刻意慢下来",
+        "刻意设定终点",
+        "每天同一时间",
+        "由真实生活事件触发",
+        "见缝插针进日程",
+        "每日微小瞬间",
+        "每周重启仪式",
+        "夜晚放松时刻",
+        "季度复盘"
       ]
     },
     {
       "category": "Business Model Twist",
+      "category_zh": "商业模式转折",
       "subItems": [
         "Pay What It Saved You",
         "Free Until It Works",
         "One-Time Purchase, Forever",
         "Refund for Finishing",
-        "Gift-Only Pricing",
         "Employers Pay, Individuals Use",
         "Sponsor a Stranger",
         "Pay to Skip, Free to Grind",
@@ -145,14 +248,28 @@
         "Subscription With Pause",
         "Crowdfunded By Users",
         "Mystery Box Pricing"
+      ],
+      "subItems_zh": [
+        "按为你省下的钱付费",
+        "有效之前免费",
+        "一次购买，终身使用",
+        "完成即退款",
+        "雇主付费，个人使用",
+        "资助一位陌生人",
+        "花钱跳过，免费慢慢来",
+        "前 100 名享终身价",
+        "随心付费",
+        "利润分享社群",
+        "可暂停的订阅",
+        "由用户众筹",
+        "盲盒式定价"
       ]
     },
     {
       "category": "Data Twist",
+      "category_zh": "数据转折",
       "subItems": [
         "Compare Against Past You",
-        "Anonymous Peer Benchmarks",
-        "One Number That Matters",
         "Beautiful Annual Report",
         "Logged by Hand on Purpose",
         "Predicts Your Next Week",
@@ -161,10 +278,22 @@
         "Compare With Ancestors",
         "Future Self Projection",
         "Weird Pattern Spotter"
+      ],
+      "subItems_zh": [
+        "与过去的自己比较",
+        "精美的年度报告",
+        "刻意手动记录",
+        "预测你的下一周",
+        "呈现平淡的真相",
+        "把数据变成故事",
+        "与前辈对比",
+        "未来自我预测",
+        "发现古怪的规律"
       ]
     },
     {
       "category": "AI Twist",
+      "category_zh": "AI 转折",
       "subItems": [
         "AI as Skeptical Coach",
         "AI Interviews You First",
@@ -179,10 +308,26 @@
         "AI as Sassy Best Friend",
         "AI as Wise Old Mentor",
         "AI as Curious Student"
+      ],
+      "subItems_zh": [
+        "AI 作为质疑你的教练",
+        "AI 先来采访你",
+        "AI 唱反调",
+        "AI 承包无聊的 80%",
+        "人类逐步审核",
+        "AI 拥有鲜明人格",
+        "刻意会遗忘的 AI",
+        "卡住时才出现的 AI",
+        "两个 AI 替你辩论",
+        "AI 起草，你决定",
+        "AI 作为毒舌闺蜜",
+        "AI 作为睿智的长者",
+        "AI 作为好奇的学生"
       ]
     },
     {
       "category": "Aesthetic Twist",
+      "category_zh": "美学转折",
       "subItems": [
         "Brutalist and Plain",
         "Warm Analog Feel",
@@ -198,10 +343,27 @@
         "Dark Academia Vibe",
         "Wabi Sabi Imperfect",
         "Maximalist Chaos"
+      ],
+      "subItems_zh": [
+        "粗野而朴素",
+        "温暖的模拟感",
+        "终端美学",
+        "奢侈品般的质感",
+        "全手绘风格",
+        "黑白编辑风",
+        "复古操作系统风",
+        "如精致文具般的质感",
+        "需要时才出现",
+        "田园系温馨",
+        "赛博朋克锋芒",
+        "暗黑学院风",
+        "侘寂式的不完美",
+        "极繁主义的混乱美"
       ]
     },
     {
       "category": "Outcome Twist",
+      "category_zh": "结果转折",
       "subItems": [
         "A Finished Artifact in Hand",
         "One Habit That Sticks",
@@ -216,25 +378,52 @@
         "Foster Deep Belonging",
         "Rediscover Playfulness",
         "Navigate Uncertainty"
+      ],
+      "subItems_zh": [
+        "手中握有成品",
+        "养成一个持久习惯",
+        "终于做出决定",
+        "能展示给孩子看的东西",
+        "求得释怀，而非优化",
+        "先有信心，后有能力",
+        "让看不见的被看见",
+        "快速获得第一个小胜利",
+        "建立持久的传承",
+        "治愈旧伤",
+        "培养深层归属感",
+        "重拾玩心",
+        "穿越不确定性"
       ]
     },
     {
       "category": "Distribution Twist",
+      "category_zh": "传播转折",
       "subItems": [
         "Lives in the Group Chat",
         "Passed Person to Person",
         "Found in Physical Places",
         "Embedded Where You Already Work",
         "Invitation Only",
-        "Rides on Calendar Invites",
         "Sold Through Practitioners",
         "Starts as a Gift",
         "Desktop Widget Home",
         "Smartwatch Glances"
+      ],
+      "subItems_zh": [
+        "活在群聊里",
+        "口口相传",
+        "在实体场所被发现",
+        "嵌入你已在用的工具",
+        "仅限邀请",
+        "用户帮你营销",
+        "以礼物的形式开始",
+        "桌面小组件常驻",
+        "智能手表一瞥"
       ]
     },
     {
       "category": "Wildcard Mechanic Twist",
+      "category_zh": "万能机制转折",
       "subItems": [
         "You Can Only Do It Once",
         "Deletes Itself When Done",
@@ -249,6 +438,21 @@
         "One Button Magic",
         "Trade With Others",
         "Plant A Seed Daily"
+      ],
+      "subItems_zh": [
+        "只能做一次",
+        "完成后自我删除",
+        "你越进步它越难",
+        "每日随机任务",
+        "跳过需要付出代价",
+        "围绕实体仪式设计",
+        "扮演另一个人",
+        "一切都是一场小赌注",
+        "从结局开始",
+        "反着来模式",
+        "一键魔法",
+        "与他人交换",
+        "每天种下一颗种子"
       ]
     }
   ]

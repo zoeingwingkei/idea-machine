@@ -125,7 +125,7 @@ function SlotTitle() {
     <div className="relative shrink-0 w-full" data-name="slot-title">
       <div className="flex flex-row items-center overflow-clip rounded-[inherit] size-full">
         <div className="[word-break:break-word] content-stretch flex font-['Limelight:Regular',sans-serif] items-center leading-[normal] not-italic pt-[16px] px-[12px] relative size-full text-[15px] text-center text-white">
-          <p className="flex-[1_0_0] min-w-px relative">FORMAT</p>
+          <p className="flex-[1_0_0] min-w-px relative">FORM</p>
           <p className="flex-[1_0_0] min-w-px relative">SPACE</p>
           <p className="flex-[1_0_0] min-w-px relative">TWIST</p>
         </div>

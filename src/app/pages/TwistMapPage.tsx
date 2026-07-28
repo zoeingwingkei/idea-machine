@@ -1,16 +1,16 @@
-import twistsData from "@/imports/map-of-twists.json";
+import { useLanguage } from "@/app/i18n/LanguageContext";
+import { getTwistGroups, getTwistMeta } from "@/app/i18n/mapData";
 import { MapPage } from "./MapPage";
 
 export default function TwistMapPage() {
+  const { lang } = useLanguage();
+  const meta = getTwistMeta(lang);
   return (
     <MapPage
-      title={twistsData.meta.title}
-      subtitle={twistsData.meta.subtitle}
-      note={twistsData.meta.note}
-      groups={twistsData.categories.map((c) => ({
-        title: c.category,
-        items: c.subItems,
-      }))}
+      title={meta.title}
+      subtitle={meta.subtitle}
+      note={meta.note}
+      groups={getTwistGroups(lang)}
     />
   );
 }

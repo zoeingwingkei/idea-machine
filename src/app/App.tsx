@@ -9,9 +9,6 @@ import { Lock, LockOpen, X, ArrowUpRight } from "lucide-react";
 import { Link } from "react-router";
 import ticketSvgPaths from "@/imports/Ticket-1/svg-jkajgizkpe";
 import machinePaths from "@/imports/SlotMachine-1/svg-u88248n22q";
-import productFormsData from "@/imports/map-of-product-forms.json";
-import humanLifeData from "@/imports/map-of-human-life.json";
-import twistsData from "@/imports/map-of-twists.json";
 import {
   SlotWindow,
   DECEL_MS,
@@ -25,6 +22,15 @@ import {
   type SlotCategory,
 } from "@/app/components/slot-machine/SlotSelectMenu";
 import { StarfieldBackground } from "@/app/components/StarfieldBackground";
+import { LanguageToggle } from "@/app/components/LanguageToggle";
+import { useLanguage, type Lang } from "@/app/i18n/LanguageContext";
+import { getStrings, type Strings } from "@/app/i18n/strings";
+import {
+  getFormatGroups,
+  getSpaceGroups,
+  getTwistGroups,
+  translateItem,
+} from "@/app/i18n/mapData";
 
 // Devices with no hover capability (touchscreens) never fire the
 // onMouseEnter that normally reveals the lock icon, so those icons must be
@@ -56,28 +62,6 @@ function useIsMobile(breakpoint = 640): boolean {
   }, [breakpoint]);
   return isMobile;
 }
-
-const FORMAT_ITEMS = productFormsData.categories.flatMap(
-  (c) => c.subItems,
-);
-const SPACE_ITEMS = humanLifeData.domains.flatMap(
-  (d) => d.subItems,
-);
-const TWIST_ITEMS = twistsData.categories.flatMap(
-  (c) => c.subItems,
-);
-
-const FORMAT_CATEGORIES: SlotCategory[] =
-  productFormsData.categories.map((c) => ({
-    category: c.category,
-    items: c.subItems,
-  }));
-const SPACE_CATEGORIES: SlotCategory[] = humanLifeData.domains.map(
-  (d) => ({ category: d.domain, items: d.subItems }),
-);
-const TWIST_CATEGORIES: SlotCategory[] = twistsData.categories.map(
-  (c) => ({ category: c.category, items: c.subItems }),
-);
 
 // ─── Constants ────────────────────────────────────────────────────────────────
 // Machine natural coordinate space: 1800px wide (matching the slot SVG paths)
@@ -126,10 +110,14 @@ function GoldenTicket({
   format,
   space,
   twist,
+  lang,
+  t,
 }: {
   format: string;
   space: string;
   twist: string;
+  lang: Lang;
+  t: Strings;
 }) {
   return (
     <div
@@ -210,7 +198,7 @@ function GoldenTicket({
               whiteSpace: "nowrap",
             }}
           >
-            YOUR IDEA
+            {t.yourIdea}
           </span>
           <div
             style={{
@@ -247,12 +235,25 @@ function GoldenTicket({
             margin: 0,
           }}
         >
-          <em>{articleFor(format)} </em>
-          <strong>{format}</strong>
-          <em> for </em>
-          <strong>{space}</strong>
-          {" — "}
-          <strong>{twist}.</strong>
+          {lang === "en" ? (
+            <>
+              <em>{articleFor(format)} </em>
+              <strong>{format}</strong>
+              <em> for </em>
+              <strong>{space}</strong>
+              {" — "}
+              <strong>{twist}.</strong>
+            </>
+          ) : (
+            <>
+              <em>为 </em>
+              <strong>{space}</strong>
+              <em> 打造的 </em>
+              <strong>{format}</strong>
+              {" —— "}
+              <strong>{twist}。</strong>
+            </>
+          )}
         </p>
       </div>
     </div>
@@ -344,7 +345,7 @@ function TitleSection({ scale }: { scale: number }) {
 }
 
 // ─── Slot Title Label ─────────────────────────────────────────────────────────
-// Column header (FORMAT / SPACE / TWIST) with a lock/unlock toggle. Only the
+// Column header (SPACE / FORM / TWIST) with a lock/unlock toggle. Only the
 // label text is centered in the column — the icon is absolutely positioned
 // off the label itself (not laid out in flow), so its presence never shifts
 // the title off-center.
@@ -353,6 +354,7 @@ function SlotTitleLabel({
   locked,
   hovered,
   hasValue,
+  ariaLabel,
   onToggleLock,
   onMouseEnter,
   onMouseLeave,
@@ -361,6 +363,7 @@ function SlotTitleLabel({
   locked: boolean;
   hovered: boolean;
   hasValue: boolean;
+  ariaLabel: string;
   onToggleLock: () => void;
   onMouseEnter: () => void;
   onMouseLeave: () => void;
@@ -384,7 +387,7 @@ function SlotTitleLabel({
         <button
           type="button"
           onClick={onToggleLock}
-          aria-label={locked ? `Unlock ${label}` : `Lock ${label}`}
+          aria-label={ariaLabel}
           aria-pressed={locked}
           style={{
             position: "absolute",
@@ -423,12 +426,14 @@ function AboutHeader({
   open,
   onToggle,
   containerRef,
+  t,
 }: {
   open: boolean;
   onToggle: () => void;
   // Measured by the starfield background so stars never blink behind the
   // "About" label or its close icon.
   containerRef: React.RefObject<HTMLDivElement | null>;
+  t: Strings;
 }) {
   return (
     <div
@@ -457,12 +462,12 @@ function AboutHeader({
           color: open ? "white" : "rgba(255,255,255,0.75)",
         }}
       >
-        About
+        {t.about}
       </button>
       <button
         type="button"
         onClick={onToggle}
-        aria-label="Close about"
+        aria-label={t.closeAbout}
         className="about-close-btn"
         style={{
           background: "none",
@@ -494,7 +499,7 @@ function AboutHeader({
 // it, and on mobile it always ignored the machine's scale anyway — so there
 // is no longer a scaling relationship to track here. `paddingTop` reserves
 // room for the fixed AboutHeader sitting above it (both layouts stack them).
-function AboutBody() {
+function AboutBody({ t }: { t: Strings }) {
   return (
     <div style={{ paddingTop: 24 }}>
       <div
@@ -504,29 +509,22 @@ function AboutBody() {
         }}
       >
         <p style={{ margin: "0 0 12px" }}>
-          The Idea Machine is a playful generator that combines
-          three things: a{" "}
+          {t.aboutP1Pre}
           <Link to="/maps/space" className="about-inline-link">
-            human need
+            {t.aboutHumanNeed}
           </Link>
-          , a{" "}
+          {t.aboutP1Mid1}
           <Link to="/maps/format" className="about-inline-link">
-            product form
+            {t.aboutProductForm}
           </Link>
-          , and an{" "}
+          {t.aboutP1Mid2}
           <Link to="/maps/twist" className="about-inline-link">
-            unexpected twist
+            {t.aboutTwist}
           </Link>
-          .
+          {t.aboutP1End}
         </p>
-        <p style={{ margin: "0 0 12px" }}>
-          Pull the lever to discover one of more than 1,000,000
-          possible ideas.
-        </p>
-        <p style={{ margin: 0 }}>
-          Built on a simple belief: good ideas often begin with an
-          unlikely combination — and a little serendipity.
-        </p>
+        <p style={{ margin: "0 0 12px" }}>{t.aboutP2}</p>
+        <p style={{ margin: 0 }}>{t.aboutP3}</p>
       </div>
       <a
         href="https://github.com/zoeingwingkei/idea-machine"
@@ -543,7 +541,7 @@ function AboutBody() {
           textDecoration: "none",
         }}
       >
-        Github
+        {t.github}
         <ArrowUpRight size={20} />
       </a>
     </div>
@@ -562,11 +560,13 @@ function AboutBody() {
 function AboutSidebar({
   open,
   panelRef,
+  t,
 }: {
   open: boolean;
   // Measured by the starfield background — its width goes 0 → w as the
   // panel opens, so this always reflects exactly the visible clipped box.
   panelRef: React.RefObject<HTMLDivElement | null>;
+  t: Strings;
 }) {
   const w = `min(50vw, ${ABOUT_SIDEBAR_MAX}px)`;
   return (
@@ -587,7 +587,7 @@ function AboutSidebar({
           paddingLeft: 24,
         }}
       >
-        <AboutBody />
+        <AboutBody t={t} />
       </div>
     </div>
   );
@@ -600,11 +600,13 @@ function AboutSidebar({
 function AboutPanelMobile({
   open,
   panelRef,
+  t,
 }: {
   open: boolean;
   // Measured by the starfield background — its height goes 0fr → 1fr as
   // the panel opens, so this always reflects exactly the visible box.
   panelRef: React.RefObject<HTMLDivElement | null>;
+  t: Strings;
 }) {
   return (
     <div
@@ -621,7 +623,7 @@ function AboutPanelMobile({
     >
       <div style={{ overflow: "hidden", minHeight: 0 }}>
         <div style={{ width: "calc(100% - 40px)", margin: "0 auto" }}>
-          <AboutBody />
+          <AboutBody t={t} />
         </div>
       </div>
     </div>
@@ -651,6 +653,39 @@ export default function App() {
   const [aboutOpen, setAboutOpen] = useState(false);
   const isMobile = useIsMobile();
 
+  const { lang } = useLanguage();
+  const t = useMemo(() => getStrings(lang), [lang]);
+
+  const formatGroups = useMemo(() => getFormatGroups(lang), [lang]);
+  const spaceGroups = useMemo(() => getSpaceGroups(lang), [lang]);
+  const twistGroups = useMemo(() => getTwistGroups(lang), [lang]);
+
+  const FORMAT_ITEMS = useMemo(
+    () => formatGroups.flatMap((g) => g.items),
+    [formatGroups],
+  );
+  const SPACE_ITEMS = useMemo(
+    () => spaceGroups.flatMap((g) => g.items),
+    [spaceGroups],
+  );
+  const TWIST_ITEMS = useMemo(
+    () => twistGroups.flatMap((g) => g.items),
+    [twistGroups],
+  );
+
+  const FORMAT_CATEGORIES: SlotCategory[] = useMemo(
+    () => formatGroups.map((g) => ({ category: g.title, items: g.items })),
+    [formatGroups],
+  );
+  const SPACE_CATEGORIES: SlotCategory[] = useMemo(
+    () => spaceGroups.map((g) => ({ category: g.title, items: g.items })),
+    [spaceGroups],
+  );
+  const TWIST_CATEGORIES: SlotCategory[] = useMemo(
+    () => twistGroups.map((g) => ({ category: g.title, items: g.items })),
+    [twistGroups],
+  );
+
   // The machine's own container is the "machine column" div rendered below
   // (ref attached there) — by default it's the screen width minus page
   // margins (flexbox gives it the full row when About is closed), and the
@@ -671,8 +706,9 @@ export default function App() {
   // starfield simply skips.
   const aboutHeaderRef = useRef<HTMLDivElement>(null);
   const aboutPanelRef = useRef<HTMLDivElement>(null);
+  const langToggleRef = useRef<HTMLDivElement>(null);
   const starShieldRefs = useMemo(
-    () => [aboutHeaderRef, aboutPanelRef],
+    () => [aboutHeaderRef, aboutPanelRef, langToggleRef],
     [],
   );
   const [containerWidth, setContainerWidth] = useState(
@@ -743,6 +779,24 @@ export default function App() {
 
   useEffect(() => () => clearAll(), [clearAll]);
 
+  // Translates any already-picked slot values in place when the language
+  // toggles, instead of resetting them to blank. Keyed only on `lang` (not
+  // `finalValues`) so this never fires — and never snaps a slot to its
+  // final value early — while a spin animation is in flight.
+  const prevLangRef = useRef(lang);
+  useEffect(() => {
+    if (prevLangRef.current === lang) return;
+    prevLangRef.current = lang;
+    const translated = finalValues.map((v) =>
+      v ? (translateItem(v) ?? v) : v,
+    );
+    setFinalValues(translated);
+    translated.forEach((v, i) => {
+      if (v) slotRefs[i].current?.setStatic(v);
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [lang]);
+
   const toggleLock = useCallback((i: number) => {
     setLocked((prev) => {
       const next = [...prev] as [boolean, boolean, boolean];
@@ -774,7 +828,7 @@ export default function App() {
     if (locked.every(Boolean)) return;
     clearAll();
 
-    const itemsBySlot = [FORMAT_ITEMS, SPACE_ITEMS, TWIST_ITEMS];
+    const itemsBySlot = [SPACE_ITEMS, FORMAT_ITEMS, TWIST_ITEMS];
     const finals = finalValues.map((prev, i) =>
       locked[i] ? prev : pick(itemsBySlot[i]),
     );
@@ -872,6 +926,8 @@ export default function App() {
         .about-close-btn:hover, .about-github-link:hover { opacity: 0.6; }
         .about-inline-link { color: inherit; text-decoration: underline; transition: opacity 0.2s ease; }
         .about-inline-link:hover { opacity: 0.6; }
+        .lang-toggle-btn { transition: color 0.2s ease, border-color 0.2s ease; }
+        .lang-toggle-btn:hover { color: white; border-color: rgba(255,255,255,0.6); }
       `}</style>
 
       {/* Ambient line-art starfield — fixed full-viewport canvas between the
@@ -886,7 +942,9 @@ export default function App() {
         open={aboutOpen}
         onToggle={() => setAboutOpen((o) => !o)}
         containerRef={aboutHeaderRef}
+        t={t}
       />
+      <LanguageToggle containerRef={langToggleRef} />
 
       <div
         style={{
@@ -913,12 +971,14 @@ export default function App() {
           <AboutPanelMobile
             open={aboutOpen}
             panelRef={aboutPanelRef}
+            t={t}
           />
         )}
         {!stackAboutAndMachine && (
           <AboutSidebar
             open={aboutOpen}
             panelRef={aboutPanelRef}
+            t={t}
           />
         )}
 
@@ -1006,10 +1066,13 @@ export default function App() {
                 }}
               >
                 <SlotTitleLabel
-                  label="FORMAT"
+                  label={t.space}
                   locked={locked[0]}
                   hovered={hoveredSlot === 0 || noHoverPointer}
                   hasValue={finalValues[0] !== ""}
+                  ariaLabel={
+                    locked[0] ? t.unlock(t.space) : t.lock(t.space)
+                  }
                   onToggleLock={() => toggleLock(0)}
                   onMouseEnter={() => setHoveredSlot(0)}
                   onMouseLeave={() =>
@@ -1017,10 +1080,13 @@ export default function App() {
                   }
                 />
                 <SlotTitleLabel
-                  label="SPACE"
+                  label={t.format}
                   locked={locked[1]}
                   hovered={hoveredSlot === 1 || noHoverPointer}
                   hasValue={finalValues[1] !== ""}
+                  ariaLabel={
+                    locked[1] ? t.unlock(t.format) : t.lock(t.format)
+                  }
                   onToggleLock={() => toggleLock(1)}
                   onMouseEnter={() => setHoveredSlot(1)}
                   onMouseLeave={() =>
@@ -1028,10 +1094,13 @@ export default function App() {
                   }
                 />
                 <SlotTitleLabel
-                  label="TWIST"
+                  label={t.twist}
                   locked={locked[2]}
                   hovered={hoveredSlot === 2 || noHoverPointer}
                   hasValue={finalValues[2] !== ""}
+                  ariaLabel={
+                    locked[2] ? t.unlock(t.twist) : t.lock(t.twist)
+                  }
                   onToggleLock={() => toggleLock(2)}
                   onMouseEnter={() => setHoveredSlot(2)}
                   onMouseLeave={() =>
@@ -1058,31 +1127,29 @@ export default function App() {
                     padding: 39,
                   }}
                 >
-                  {(
-                    [
-                      {
-                        label: "FORMAT",
-                        mapHref: "/maps/format",
-                        items: FORMAT_ITEMS,
-                        ref: slot0Ref,
-                        categories: FORMAT_CATEGORIES,
-                      },
-                      {
-                        label: "SPACE",
-                        mapHref: "/maps/space",
-                        items: SPACE_ITEMS,
-                        ref: slot1Ref,
-                        categories: SPACE_CATEGORIES,
-                      },
-                      {
-                        label: "TWIST",
-                        mapHref: "/maps/twist",
-                        items: TWIST_ITEMS,
-                        ref: slot2Ref,
-                        categories: TWIST_CATEGORIES,
-                      },
-                    ] as const
-                  ).map(({ label, mapHref, items, ref, categories }, i) => (
+                  {[
+                    {
+                      label: t.space,
+                      mapHref: "/maps/space",
+                      items: SPACE_ITEMS,
+                      ref: slot0Ref,
+                      categories: SPACE_CATEGORIES,
+                    },
+                    {
+                      label: t.format,
+                      mapHref: "/maps/format",
+                      items: FORMAT_ITEMS,
+                      ref: slot1Ref,
+                      categories: FORMAT_CATEGORIES,
+                    },
+                    {
+                      label: t.twist,
+                      mapHref: "/maps/twist",
+                      items: TWIST_ITEMS,
+                      ref: slot2Ref,
+                      categories: TWIST_CATEGORIES,
+                    },
+                  ].map(({ label, mapHref, items, ref, categories }, i) => (
                     <SlotSelectMenu
                       key={i}
                       label={label}
@@ -1171,7 +1238,7 @@ export default function App() {
                         cursor: "pointer",
                       }}
                     >
-                      PULL THE LEVER →
+                      {t.pullLever}
                     </div>
                   )}
                 </div>
@@ -1207,9 +1274,11 @@ export default function App() {
                     }}
                   >
                     <GoldenTicket
-                      format={finalValues[0]}
-                      space={finalValues[1]}
+                      format={finalValues[1]}
+                      space={finalValues[0]}
                       twist={finalValues[2]}
+                      lang={lang}
+                      t={t}
                     />
                   </div>
                 </div>
@@ -1242,7 +1311,7 @@ export default function App() {
               opacity: allLocked || roundInProgress ? 0.5 : 1,
             }}
           >
-            Start
+            {t.start}
           </button>
         )}
         </div>

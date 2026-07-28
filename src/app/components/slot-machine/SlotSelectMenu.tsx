@@ -7,6 +7,8 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/app/components/ui/dialog";
+import { useLanguage } from "@/app/i18n/LanguageContext";
+import { getStrings } from "@/app/i18n/strings";
 
 export interface SlotCategory {
   category: string;
@@ -38,6 +40,8 @@ export function SlotSelectMenu({
   const [activeCategory, setActiveCategory] = useState<string | null>(
     null,
   );
+  const { lang } = useLanguage();
+  const t = getStrings(lang);
 
   const handleOpenChange = (next: boolean) => {
     if (!next) setActiveCategory(null);
@@ -57,7 +61,7 @@ export function SlotSelectMenu({
             <button
               type="button"
               onClick={() => setActiveCategory(null)}
-              aria-label="Back to categories"
+              aria-label={t.backToCategories}
               className="flex shrink-0 items-center text-white/70 hover:text-[#EECC6D]"
             >
               <ChevronLeft size={22} />
@@ -69,7 +73,7 @@ export function SlotSelectMenu({
             style={{ fontFamily: "'Arvo', sans-serif" }}
             className="flex-1 truncate text-center text-lg text-[#EECC6D]"
           >
-            {active ? active.category : `Choose ${label}`}
+            {active ? active.category : t.chooseLabel(label)}
           </DialogTitle>
           <span className="w-[22px] shrink-0" />
         </div>
@@ -110,7 +114,7 @@ export function SlotSelectMenu({
           className="flex shrink-0 items-center justify-center gap-2 border-t border-[#EECC6D]/20 px-4 py-3 text-sm text-white/70 hover:bg-[#EECC6D]/10 hover:text-[#EECC6D]"
         >
           <Map size={16} />
-          View the full {label} map
+          {t.viewFullMap(label)}
         </Link>
       </DialogContent>
     </Dialog>

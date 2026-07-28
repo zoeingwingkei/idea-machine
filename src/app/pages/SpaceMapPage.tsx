@@ -1,16 +1,16 @@
-import humanLifeData from "@/imports/map-of-human-life.json";
+import { useLanguage } from "@/app/i18n/LanguageContext";
+import { getSpaceGroups, getSpaceMeta } from "@/app/i18n/mapData";
 import { MapPage } from "./MapPage";
 
 export default function SpaceMapPage() {
+  const { lang } = useLanguage();
+  const meta = getSpaceMeta(lang);
   return (
     <MapPage
-      title={humanLifeData.meta.title}
-      subtitle={humanLifeData.meta.subtitle}
-      note={humanLifeData.meta.note}
-      groups={humanLifeData.domains.map((d) => ({
-        title: d.domain,
-        items: d.subItems,
-      }))}
+      title={meta.title}
+      subtitle={meta.subtitle}
+      note={meta.note}
+      groups={getSpaceGroups(lang)}
     />
   );
 }
