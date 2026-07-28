@@ -92,10 +92,16 @@ const rand = (a: number, b: number) => a + Math.random() * (b - a);
 
 export function StarfieldBackground({
   machineRef,
+  shieldRefs = [],
 }: {
   // The scaled machine wrapper, used to compute the shield rectangle so stars
   // fade out over the machine and never clutter behind its text.
   machineRef: React.RefObject<HTMLElement | null>;
+  // Additional elements (e.g. the About button and its text panel) that get
+  // the same treatment: stars fully hidden behind them, fading back in just
+  // outside their edges. Skipped while an element is unmounted or collapsed
+  // to zero size (e.g. the About panel while closed).
+  shieldRefs?: React.RefObject<HTMLElement | null>[];
 }) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
@@ -164,28 +170,59 @@ export function StarfieldBackground({
       build();
     }
 
-    // Machine shield: fully hide stars anywhere over the machine's live box
-    // (plus a small margin for its border + lever overhang), fading them back
-    // in over ~80px just outside it. Re-measured each frame so it tracks the
-    // machine as it scales / when the About panel slides it. (An earlier version
-    // *inset* the covered zone by 6%/12%, which left the title at the top and
-    // the output/ticket at the bottom exposed — only the centre was protected.)
-    let m = { x: 0, y: 0, w: 0, h: 0 };
+    // Shields: fully hide stars anywhere over a live element's box (plus a
+    // margin), fading them back in over ~80px just outside it. Re-measured
+    // each frame so each shield tracks its element as it scales / slides /
+    // opens. The machine gets a proportional margin (for its border + lever
+    // overhang) — an earlier version *inset* the covered zone by 6%/12%,
+    // which left the title at top and the output/ticket at bottom exposed,
+    // only the centre was protected. The extra shields (About button, About
+    // text panel) are small fixed-size UI elements, so a flat pixel margin
+    // fits them better than a percentage of their own box.
+    type Rect = { x: number; y: number; w: number; h: number };
+    let shields: Rect[] = [];
     function measure() {
-      const el = machineRef.current;
-      if (!el) { m = { x: 0, y: 0, w: 0, h: 0 }; return; }
-      const r = el.getBoundingClientRect();
-      m = { x: r.left, y: r.top, w: r.width, h: r.height };
+      const rects: Rect[] = [];
+      const mEl = machineRef.current;
+      if (mEl) {
+        const r = mEl.getBoundingClientRect();
+        const mx = r.width * 0.05;
+        const my = r.height * 0.04;
+        rects.push({
+          x: r.left - mx,
+          y: r.top - my,
+          w: r.width + mx * 2,
+          h: r.height + my * 2,
+        });
+      }
+      for (const ref of shieldRefs) {
+        const el = ref.current;
+        if (!el) continue;
+        const r = el.getBoundingClientRect();
+        if (r.width === 0 || r.height === 0) continue; // collapsed/closed
+        const margin = 16;
+        rects.push({
+          x: r.left - margin,
+          y: r.top - margin,
+          w: r.width + margin * 2,
+          h: r.height + margin * 2,
+        });
+      }
+      shields = rects;
     }
     function mask(x: number, y: number): number {
-      if (m.w === 0) return 1;
-      const mx = m.w * 0.05;
-      const my = m.h * 0.04;
-      const dx = Math.max(m.x - mx - x, 0, x - (m.x + m.w + mx));
-      const dy = Math.max(m.y - my - y, 0, y - (m.y + m.h + my));
-      if (dx === 0 && dy === 0) return 0; // fully hidden over the machine
-      const d = Math.min(Math.hypot(dx, dy) / 80, 1);
-      return d;
+      let result = 1;
+      for (const rect of shields) {
+        const dx = Math.max(rect.x - x, 0, x - (rect.x + rect.w));
+        const dy = Math.max(rect.y - y, 0, y - (rect.y + rect.h));
+        const d =
+          dx === 0 && dy === 0
+            ? 0 // fully hidden inside this shield
+            : Math.min(Math.hypot(dx, dy) / 80, 1);
+        result = Math.min(result, d);
+        if (result === 0) break;
+      }
+      return result;
     }
 
     function drawFrame(t: number) {
@@ -243,7 +280,7 @@ export function StarfieldBackground({
       window.removeEventListener("resize", resize);
       if (raf) cancelAnimationFrame(raf);
     };
-  }, [machineRef]);
+  }, [machineRef, shieldRefs]);
 
   return (
     <canvas

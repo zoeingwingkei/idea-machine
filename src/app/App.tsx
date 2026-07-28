@@ -430,12 +430,17 @@ function SlotTitleLabel({
 function AboutHeader({
   open,
   onToggle,
+  containerRef,
 }: {
   open: boolean;
   onToggle: () => void;
+  // Measured by the starfield background so stars never blink behind the
+  // "About" label or its close icon.
+  containerRef: React.RefObject<HTMLDivElement | null>;
 }) {
   return (
     <div
+      ref={containerRef}
       style={{
         position: "fixed",
         top: 24,
@@ -562,10 +567,19 @@ function AboutBody() {
 // free, no extra JS needed for that part — see the App() layout below. No
 // right padding: the sidebar's box ends right where the machine's column
 // begins, so all of its width goes to the machine instead of a dead gap.
-function AboutSidebar({ open }: { open: boolean }) {
+function AboutSidebar({
+  open,
+  panelRef,
+}: {
+  open: boolean;
+  // Measured by the starfield background — its width goes 0 → w as the
+  // panel opens, so this always reflects exactly the visible clipped box.
+  panelRef: React.RefObject<HTMLDivElement | null>;
+}) {
   const w = `min(50vw, ${ABOUT_SIDEBAR_MAX}px)`;
   return (
     <div
+      ref={panelRef}
       style={{
         alignSelf: "flex-start",
         flexShrink: 0,
@@ -591,9 +605,18 @@ function AboutSidebar({ open }: { open: boolean }) {
 // via height (grid "0fr → 1fr", which — unlike a max-height cap — always
 // animates to the content's true height and so can never clip content
 // taller than an estimate, a real bug hit earlier with the GitHub link).
-function AboutPanelMobile({ open }: { open: boolean }) {
+function AboutPanelMobile({
+  open,
+  panelRef,
+}: {
+  open: boolean;
+  // Measured by the starfield background — its height goes 0fr → 1fr as
+  // the panel opens, so this always reflects exactly the visible box.
+  panelRef: React.RefObject<HTMLDivElement | null>;
+}) {
   return (
     <div
+      ref={panelRef}
       style={{
         display: "grid",
         gridTemplateRows: open ? "1fr" : "0fr",
@@ -648,6 +671,18 @@ export default function App() {
   // stars fade out over the machine (which is otherwise transparent) and never
   // clutter behind the slot text.
   const machineRef = useRef<HTMLDivElement>(null);
+  // Shields the starfield background measures in addition to the machine, so
+  // stars never blink behind the fixed "About" button or its (desktop
+  // sidebar / mobile stacked) text panel. Only one of the two panel refs is
+  // ever attached to a mounted element at a time (see stackAboutAndMachine
+  // below), and the unattached one's ref.current stays null, which the
+  // starfield simply skips.
+  const aboutHeaderRef = useRef<HTMLDivElement>(null);
+  const aboutPanelRef = useRef<HTMLDivElement>(null);
+  const starShieldRefs = useMemo(
+    () => [aboutHeaderRef, aboutPanelRef],
+    [],
+  );
   const [containerWidth, setContainerWidth] = useState(
     () => window.innerWidth,
   );
@@ -850,11 +885,15 @@ export default function App() {
       {/* Ambient line-art starfield — fixed full-viewport canvas between the
           black page background (body) and the machine. Machine content sits in
           the z-index:1 container below, so it always paints above the stars. */}
-      <StarfieldBackground machineRef={machineRef} />
+      <StarfieldBackground
+        machineRef={machineRef}
+        shieldRefs={starShieldRefs}
+      />
 
       <AboutHeader
         open={aboutOpen}
         onToggle={() => setAboutOpen((o) => !o)}
+        containerRef={aboutHeaderRef}
       />
 
       <div
@@ -879,10 +918,16 @@ export default function App() {
         }}
       >
         {stackAboutAndMachine && (
-          <AboutPanelMobile open={aboutOpen} />
+          <AboutPanelMobile
+            open={aboutOpen}
+            panelRef={aboutPanelRef}
+          />
         )}
         {!stackAboutAndMachine && (
-          <AboutSidebar open={aboutOpen} />
+          <AboutSidebar
+            open={aboutOpen}
+            panelRef={aboutPanelRef}
+          />
         )}
 
         {/* Machine column: flex:1 on desktop so it fills whatever width the
