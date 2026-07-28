@@ -16,11 +16,11 @@
     },
     {
       "category": "Automation",
-      "subItems": ["AI Agent", "Workflow Automation", "Messaging Bot", "Scheduled Digest", "Monitoring & Alerts", "Smart Reminders", "App-to-App Sync"]
+      "subItems": ["AI Agent", "Workflow Automation", "Messaging Bot", "Scheduled Digest", "Monitoring & Alerts", "Smart Reminders"]
     },
     {
       "category": "Developer Tool",
-      "subItems": ["API", "CLI Tool", "Open Source Library", "Starter Kit", "IDE Extension", "MCP Server"]
+      "subItems": ["API", "CLI Tool", "Open Source Library", "Starter Kit", "MCP Server"]
     },
     {
       "category": "Data & Analytics",
@@ -32,15 +32,15 @@
     },
     {
       "category": "Education",
-      "subItems": ["Online Course", "Cohort-Based Course", "Tutorial Series", "Bootcamp", "Coaching Program", "Certification", "Interactive Learning"]
+      "subItems": ["Online Course", "Tutorial Series", "Bootcamp", "Coaching Program", "Certification", "Interactive Learning"]
     },
     {
       "category": "Template & Asset",
-      "subItems": ["Notion Template", "Spreadsheet Template", "Design Kit", "Prompt Library", "Checklist & Worksheet", "Stock Asset Pack"]
+      "subItems": ["Notion Template", "Spreadsheet Template", "Design Kit", "Prompt Library", "Checklist & Worksheet"]
     },
     {
       "category": "Community",
-      "subItems": ["Paid Membership", "Forum", "Chat Community", "Mastermind Group", "Local Chapter", "Professional Network", "Accountability Group"]
+      "subItems": ["Forum", "Chat Community", "Accountability Group"]
     },
     {
       "category": "Marketplace",
@@ -48,7 +48,7 @@
     },
     {
       "category": "Service",
-      "subItems": ["Productized Service", "Consulting", "Agency", "Concierge Service", "Audit & Review", "On-Demand Service", "Subscription Service", "Custom Commission"]
+      "subItems": ["Consulting Service", "Agency", "Audit & Review Service", "On-Demand Service", "Subscription Service"]
     },
     {
       "category": "Physical Product",
@@ -56,7 +56,7 @@
     },
     {
       "category": "Experience",
-      "subItems": ["In-Person Workshop", "Retreat", "Conference", "Guided Tour", "Pop-Up", "Hackathon", "Challenge & Competition", "Salon & Dinner Series"]
+      "subItems": ["In-Person Workshop", "Retreat", "Conference", "Guided Tour", "Hackathon", "Challenge & Competition"]
     }
   ]
 }
