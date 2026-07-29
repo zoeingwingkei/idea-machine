@@ -5,10 +5,8 @@ import {
   useCallback,
   useMemo,
 } from "react";
-import { Lock, LockOpen, ArrowUpRight } from "lucide-react";
+import { Lock, LockOpen, ArrowUpRight, Share2 } from "lucide-react";
 import { Link } from "react-router";
-import ticketSvgPaths from "@/imports/Ticket-1/svg-jkajgizkpe";
-import machinePaths from "@/imports/SlotMachine-1/svg-u88248n22q";
 import {
   SlotWindow,
   DECEL_MS,
@@ -26,8 +24,11 @@ import {
   LanguageToggle,
   LANGUAGE_TOGGLE_NAV_HEIGHT,
 } from "@/app/components/LanguageToggle";
-import { useLanguage, type Lang } from "@/app/i18n/LanguageContext";
-import { getStrings, type Strings } from "@/app/i18n/strings";
+import { GoldenTicket } from "@/app/components/GoldenTicket";
+import { TitleSection } from "@/app/components/TitleSection";
+import { ShareDialog } from "@/app/components/ShareDialog";
+import { useLanguage } from "@/app/i18n/LanguageContext";
+import { getStrings } from "@/app/i18n/strings";
 import {
   getFormatGroups,
   getSpaceGroups,
@@ -93,259 +94,6 @@ const BG = "#000000";
 const ABOUT_SIDEBAR_MAX = 440;
 // Must match the ticket slide-in transition duration below (1.6s).
 const TICKET_SLIDE_MS = 1600;
-
-// ─── Golden Ticket ────────────────────────────────────────────────────────────
-// Background SVG is 500×187.5 viewBox (perforated ticket shape). Rendered at
-// exact 1600×600px (×3.2 scale) so the perforations stay round — never skewed.
-// overflow:hidden on the outer div crops whatever background extends below content.
-
-// Picks "a"/"an" by sound, not just spelling — handles the common exceptions
-// (silent-h words, "u-" words that start with a consonant sound) since new
-// product-form items can be added to the data later.
-function articleFor(word: string): "A" | "An" {
-  const firstWord = word.trim().split(/\s+/)[0]?.toLowerCase() ?? "";
-  if (/^(uni|use|user|one|eu)/.test(firstWord)) return "A";
-  if (/^(hour|honest|honor|heir)/.test(firstWord)) return "An";
-  return /^[aeiou]/.test(firstWord) ? "An" : "A";
-}
-
-function GoldenTicket({
-  format,
-  space,
-  twist,
-  lang,
-  t,
-}: {
-  format: string;
-  space: string;
-  twist: string;
-  lang: Lang;
-  t: Strings;
-}) {
-  return (
-    <div
-      style={{
-        position: "relative",
-        width: 1600,
-        overflow: "hidden",
-      }}
-    >
-      {/* Background at true proportional size — clipped, never stretched */}
-      <div
-        style={{
-          position: "absolute",
-          top: 0,
-          left: 0,
-          width: 1600,
-          height: 600,
-          pointerEvents: "none",
-        }}
-      >
-        <svg
-          width={1600}
-          height={600}
-          viewBox="0 0 500 187.5"
-          fill="none"
-        >
-          <path d={ticketSvgPaths.p4a02280} fill="#EECC6D" />
-        </svg>
-      </div>
-      {/* Content sits above background and drives the container height */}
-      <div
-        style={{
-          position: "relative",
-          zIndex: 1,
-          padding: "51px 77px",
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          gap: 13,
-        }}
-      >
-        {/* "YOUR IDEA" row with scroll decors */}
-        <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-            gap: 24,
-          }}
-        >
-          <div
-            style={{
-              width: 201,
-              height: 51,
-              position: "relative",
-              flexShrink: 0,
-            }}
-          >
-            <svg
-              style={{
-                position: "absolute",
-                inset: 0,
-                width: "100%",
-                height: "100%",
-              }}
-              fill="none"
-              preserveAspectRatio="none"
-              viewBox="0 0 62.9243 15.96"
-            >
-              <path d={ticketSvgPaths.p23e4f00} fill="black" />
-            </svg>
-          </div>
-          <span
-            style={{
-              fontFamily: "'Limelight', sans-serif",
-              fontSize: 48,
-              color: "black",
-              letterSpacing: 2,
-              whiteSpace: "nowrap",
-            }}
-          >
-            {t.yourIdea}
-          </span>
-          <div
-            style={{
-              width: 201,
-              height: 51,
-              position: "relative",
-              flexShrink: 0,
-              transform: "scaleX(-1)",
-            }}
-          >
-            <svg
-              style={{
-                position: "absolute",
-                inset: 0,
-                width: "100%",
-                height: "100%",
-              }}
-              fill="none"
-              preserveAspectRatio="none"
-              viewBox="0 0 62.9243 15.96"
-            >
-              <path d={ticketSvgPaths.p23e4f00} fill="black" />
-            </svg>
-          </div>
-        </div>
-        {/* Idea text */}
-        <p
-          style={{
-            fontFamily: "'Playfair Display', serif",
-            fontSize: 64,
-            textAlign: "center",
-            color: "black",
-            lineHeight: 1.3,
-            margin: 0,
-          }}
-        >
-          {lang === "en" ? (
-            <>
-              <em>{articleFor(format)} </em>
-              <strong>{format}</strong>
-              <em> for </em>
-              <strong>{space}</strong>
-              {" — "}
-              <strong>{twist}.</strong>
-            </>
-          ) : (
-            <>
-              <em>为 </em>
-              <strong>{space}</strong>
-              <em> 打造的 </em>
-              <strong>{format}</strong>
-              {" —— "}
-              <strong>{twist}。</strong>
-            </>
-          )}
-        </p>
-      </div>
-    </div>
-  );
-}
-
-// ─── Title Section ───────────────────────────────────────────────────────────
-// Figma: h=188px in 564px-wide frame → ×3.192 = 600px. Oval inset -1.06%/-0.36%.
-// Text SVG: 464×130px → 1481×415px, vertically centered at 50%+29px (9×3.192).
-function TitleSection({ scale }: { scale: number }) {
-  return (
-    <div
-      style={{
-        position: "relative",
-        width: 1800,
-        height: 600,
-        flexShrink: 0,
-      }}
-    >
-      {/* Oval arch border — inset from Figma: -1.06% -0.36% */}
-      <div
-        style={{ position: "absolute", inset: "-1.06% -0.36%" }}
-      >
-        <svg
-          style={{
-            display: "block",
-            width: "100%",
-            height: "100%",
-          }}
-          fill="none"
-          preserveAspectRatio="none"
-          viewBox="0 0 564 192"
-        >
-          <path d={machinePaths.p794c270} fill="white" />
-        </svg>
-      </div>
-      {/* Text paths — 30 paths in 464×130 viewBox, centered with +9px vertical offset.
-          Glow matches the starfield's warm off-white halo. Blur is divided by
-          `scale` since this div sits inside the machine's outer scale(scale)
-          transform — that keeps the on-screen glow ~constant regardless of how
-          large or small the machine renders. */}
-      <div
-        style={{
-          position: "absolute",
-          left: "50%",
-          top: "calc(50% + 29px)",
-          transform: "translate(-50%, -50%)",
-          width: 1481,
-          height: 415,
-          filter: `drop-shadow(0 0 ${5 / scale}px rgba(251, 243, 221, 0.55)) drop-shadow(0 0 ${14 / scale}px rgba(251, 243, 221, 0.32))`,
-        }}
-      >
-        <svg
-          style={{
-            display: "block",
-            width: "100%",
-            height: "100%",
-          }}
-          fill="none"
-          preserveAspectRatio="none"
-          viewBox="0 0 464 130"
-        >
-          <path d={machinePaths.pCreateT01} fill="white" />
-          <path d={machinePaths.pCreateT02} fill="white" />
-          <path d={machinePaths.pCreateT03} fill="white" />
-          <path d={machinePaths.pCreateT04} fill="white" />
-          <path d={machinePaths.pCreateT05} fill="white" fillRule="evenodd" clipRule="evenodd" />
-          <path d={machinePaths.pCreateT06} fill="white" fillRule="evenodd" clipRule="evenodd" />
-          <path d={machinePaths.pCreateT07} fill="white" />
-          <path d={machinePaths.pCreateT08} fill="white" />
-          <path d={machinePaths.pCreateT09} fill="white" />
-          <path d={machinePaths.pCreateT10} fill="white" />
-          <path d={machinePaths.pCreateT11} fill="white" fillRule="evenodd" clipRule="evenodd" />
-          <path d={machinePaths.pCreateT12} fill="white" />
-          <path d={machinePaths.pCreateT13} fill="white" />
-          <path d={machinePaths.pCreateT14} fill="white" />
-          <path d={machinePaths.pCreateSparkle} fill="white" />
-          <path d={machinePaths.pCreateScript01} fill="white" />
-          <path d={machinePaths.pCreateScript02} fill="white" />
-          <path d={machinePaths.pCreateScript03} fill="white" fillRule="evenodd" clipRule="evenodd" />
-          <path d={machinePaths.pCreateScript04} fill="white" />
-          <path d={machinePaths.pCreateScript05} fill="white" fillRule="evenodd" clipRule="evenodd" />
-          <path d={machinePaths.pCreateScript06} fill="white" />
-          <path d={machinePaths.pCreateScript07} fill="white" fillRule="evenodd" clipRule="evenodd" />
-        </svg>
-      </div>
-    </div>
-  );
-}
 
 // ─── Machine Hint ─────────────────────────────────────────────────────────────
 // A small illuminated marquee sign, popping up above whatever it's anchored
@@ -559,6 +307,7 @@ export default function App() {
   const [finalValues, setFinalValues] = useState(["", "", ""]);
   const [activeLightGroup, setActiveLightGroup] = useState(-1);
   const [ticketVisible, setTicketVisible] = useState(false);
+  const [shareOpen, setShareOpen] = useState(false);
   const [locked, setLocked] = useState<
     [boolean, boolean, boolean]
   >([false, false, false]);
@@ -815,19 +564,21 @@ export default function App() {
   // - Mobile mode (container < MACHINE_MOBILE_BREAKPOINT): no lever to
   //   reserve room for, so fill the container width minus a 12px margin
   //   on each side.
-  // - Otherwise: cap width at 75% of the container and height at 80% of
-  //   the viewport, then use whichever is more restrictive — the machine
-  //   gets as large as it can while respecting both. Width is measured
-  //   against the lever-inclusive symmetric extent (not just the
-  //   1800-wide body) since centering is pinned to the body's own center,
-  //   so the lever's tip reaches further from that center than the body's
-  //   own left edge does — see MACHINE_SYMMETRIC_W above.
+  // - Otherwise: cap width at 75% of the container and height at 68% of
+  //   the viewport (previously 80% — shrunk to 85% of that so the Share
+  //   button fits below the machine without scrolling), then use whichever
+  //   is more restrictive — the machine gets as large as it can while
+  //   respecting both. Width is measured against the lever-inclusive
+  //   symmetric extent (not just the 1800-wide body) since centering is
+  //   pinned to the body's own center, so the lever's tip reaches further
+  //   from that center than the body's own left edge does — see
+  //   MACHINE_SYMMETRIC_W above.
   const scale = useMemo(() => {
     if (isMachineMobile) {
       return (containerWidth - 24) / MACHINE_BODY_W;
     }
     const widthCap = (containerWidth * 0.75) / MACHINE_SYMMETRIC_W;
-    const heightCap = (viewportSize.height * 0.8) / MACHINE_H;
+    const heightCap = (viewportSize.height * 0.68) / MACHINE_H;
     return Math.min(widthCap, heightCap);
   }, [containerWidth, viewportSize.height, isMachineMobile]);
 
@@ -1258,6 +1009,45 @@ export default function App() {
           </div>
         </div>
 
+        {/* Always mounted (even before the ticket appears) and just faded
+            in/out — so this reserves its layout space from the very first
+            render. The machine column's height (and therefore its
+            flex-centered position) never changes when the ticket arrives,
+            which would otherwise shift the whole machine upward at that
+            moment; reserving the space up front means it starts in that
+            already-shifted position instead. */}
+        {isMachineMobile && (
+          <button
+            type="button"
+            onClick={() => setShareOpen(true)}
+            aria-hidden={!ticketVisible}
+            tabIndex={ticketVisible ? 0 : -1}
+            style={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              gap: 8,
+              width: "calc(100% - 24px)",
+              margin: "24px auto 0",
+              padding: "10px",
+              background: "transparent",
+              border: "2px solid #EECC6D",
+              borderRadius: 12,
+              fontFamily: "'Limelight', sans-serif",
+              fontSize: 24,
+              letterSpacing: 1,
+              color: "#EECC6D",
+              cursor: ticketVisible ? "pointer" : "default",
+              opacity: ticketVisible ? 1 : 0,
+              pointerEvents: ticketVisible ? "auto" : "none",
+              transition: "opacity 0.3s ease",
+            }}
+          >
+            <Share2 size={20} />
+            {t.share}
+          </button>
+        )}
+
         {isMachineMobile && (
           <button
             type="button"
@@ -1266,7 +1056,7 @@ export default function App() {
             style={{
               display: "block",
               width: "calc(100% - 24px)",
-              margin: "24px auto 0",
+              margin: "12px auto 0",
               padding: "10px",
               background: "#EECC6D",
               border: "none",
@@ -1285,8 +1075,56 @@ export default function App() {
             {t.start}
           </button>
         )}
+
+        {!isMachineMobile && (
+          <button
+            type="button"
+            onClick={() => setShareOpen(true)}
+            aria-hidden={!ticketVisible}
+            tabIndex={ticketVisible ? 0 : -1}
+            style={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              gap: 6,
+              width: "fit-content",
+              margin: "24px auto 0",
+              padding: "7.5px 21px",
+              background: "transparent",
+              border: "1.5px solid #EECC6D",
+              borderRadius: 9,
+              fontFamily: "'Limelight', sans-serif",
+              fontSize: 16.5,
+              letterSpacing: 0.75,
+              color: "#EECC6D",
+              cursor: ticketVisible ? "pointer" : "default",
+              opacity: ticketVisible ? 1 : 0,
+              pointerEvents: ticketVisible ? "auto" : "none",
+              transition: "opacity 0.3s ease, background-color 0.2s ease, color 0.2s ease",
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.backgroundColor = "#EECC6D";
+              e.currentTarget.style.color = "black";
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.backgroundColor = "transparent";
+              e.currentTarget.style.color = "#EECC6D";
+            }}
+          >
+            <Share2 size={15} />
+            {t.share}
+          </button>
+        )}
         </div>
       </div>
+
+      <ShareDialog
+        open={shareOpen}
+        onOpenChange={setShareOpen}
+        format={finalValues[1]}
+        space={finalValues[0]}
+        twist={finalValues[2]}
+      />
     </>
   );
 }

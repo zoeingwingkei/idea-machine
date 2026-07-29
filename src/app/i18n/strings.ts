@@ -23,6 +23,11 @@ export interface Strings {
   backToCategories: string;
   chooseLabel: (label: string) => string;
   viewFullMap: (label: string) => string;
+  share: string;
+  shareTitle: string;
+  scanForOne: string;
+  downloadImage: string;
+  generatingImage: string;
 }
 
 export const STRINGS: Record<Lang, Strings> = {
@@ -52,6 +57,11 @@ export const STRINGS: Record<Lang, Strings> = {
     backToCategories: "Back to categories",
     chooseLabel: (label) => `Choose ${label}`,
     viewFullMap: (label) => `View the full ${label} map`,
+    share: "Share",
+    shareTitle: "Share your idea",
+    scanForOne: "1,000,000+ ideas. Scan for one.",
+    downloadImage: "Download image",
+    generatingImage: "Generating…",
   },
   zh: {
     aboutP1Pre: "The Idea Machine（点子机）把三样东西摇在一起：一个",
@@ -76,6 +86,11 @@ export const STRINGS: Record<Lang, Strings> = {
     backToCategories: "返回分类",
     chooseLabel: (label) => `选择${label}`,
     viewFullMap: (label) => `查看完整的${label}地图`,
+    share: "分享",
+    shareTitle: "分享你的点子",
+    scanForOne: "一百多万个点子，扫码抽一个。",
+    downloadImage: "下载图片",
+    generatingImage: "生成中……",
   },
 };
 
