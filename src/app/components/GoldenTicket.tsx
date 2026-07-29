@@ -1,4 +1,4 @@
-import ticketSvgPaths from "@/imports/Ticket-1/svg-jkajgizkpe";
+import ticketSvgPaths from "@/assets/Ticket-1/svg-jkajgizkpe";
 import type { Lang } from "@/app/i18n/LanguageContext";
 import type { Strings } from "@/app/i18n/strings";
 

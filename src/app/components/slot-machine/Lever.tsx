@@ -1,5 +1,5 @@
 import { useRef, useState } from "react";
-import leverPaths from "@/imports/Slots-1/svg-2nolbmjll6";
+import leverPaths from "@/assets/Slots-1/svg-2nolbmjll6";
 
 // Figma: 34×64px div at 560px slot scale → ×3.214 = 109×206px in machine space.
 // SVG viewBox 0 0 100.89 253.785. Base is a near-full circle, center (17.22, 221.79).

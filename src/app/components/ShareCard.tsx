@@ -1,7 +1,7 @@
 import { forwardRef, useEffect, useLayoutEffect, useRef, useState } from "react";
 import QRCode from "qrcode";
-import slotSvgPaths from "@/imports/SlotMachine/svg-wjwgi5pl1w";
-import leverPaths from "@/imports/Slots-1/svg-2nolbmjll6";
+import slotSvgPaths from "@/assets/SlotMachine/svg-wjwgi5pl1w";
+import leverPaths from "@/assets/Slots-1/svg-2nolbmjll6";
 import { TitleSection } from "@/app/components/TitleSection";
 import { GoldenTicket } from "@/app/components/GoldenTicket";
 import type { Lang } from "@/app/i18n/LanguageContext";

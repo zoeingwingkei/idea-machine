@@ -1,4 +1,4 @@
-import machinePaths from "@/imports/SlotMachine-1/svg-u88248n22q";
+import machinePaths from "@/assets/SlotMachine-1/svg-u88248n22q";
 
 // Figma: h=188px in 564px-wide frame → ×3.192 = 600px. Oval inset -1.06%/-0.36%.
 // Text SVG: 464×130px → 1481×415px, vertically centered at 50%+29px (9×3.192).

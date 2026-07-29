@@ -1,6 +1,6 @@
-import productFormsData from "@/imports/map-of-product-forms.json";
-import humanLifeData from "@/imports/map-of-human-life.json";
-import twistsData from "@/imports/map-of-twists.json";
+import productFormsData from "@/data/maps/map-of-product-forms.json";
+import humanLifeData from "@/data/maps/map-of-human-life.json";
+import twistsData from "@/data/maps/map-of-twists.json";
 import type { Lang } from "./LanguageContext";
 
 export interface LocalizedGroup {

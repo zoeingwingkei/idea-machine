@@ -6,7 +6,7 @@ import {
   useImperativeHandle,
 } from "react";
 import { flushSync } from "react-dom";
-import svgPaths from "@/imports/SlotMachine/svg-wjwgi5pl1w";
+import svgPaths from "@/assets/SlotMachine/svg-wjwgi5pl1w";
 
 export function pick<T>(arr: T[]): T {
   return arr[Math.floor(Math.random() * arr.length)];

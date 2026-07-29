@@ -34,7 +34,7 @@ export interface Strings {
 export const STRINGS: Record<Lang, Strings> = {
   en: {
     documentTitle:
-      "What to Build — Random Project & App Idea Generator | The Idea Machine",
+      "The Idea Machine — Random Project & App Idea Generator",
     documentDescription:
       "Stuck on what to build next? Pull the lever to generate a random project or app idea — a surprise mashup of a life space, a product format, and a twist. Over 1,000,000 combinations.",
     aboutP1Pre:
@@ -68,7 +68,7 @@ export const STRINGS: Record<Lang, Strings> = {
     generatingImage: "Generating…",
   },
   zh: {
-    documentTitle: "灵感生成器 — 随机项目与产品点子生成 | The Idea Machine",
+    documentTitle: "The Idea Machine 点子机 — 随机项目与产品点子生成",
     documentDescription:
       "不知道该做什么项目？拉下拉杆，随机生成一个由生活场景、产品形态和意外转折组合而成的点子，超过一百万种可能。",
     aboutP1Pre: "The Idea Machine（点子机）把三样东西摇在一起：一个",
