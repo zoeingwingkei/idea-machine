@@ -2,6 +2,7 @@ import { Link } from "react-router";
 import { LanguageToggle } from "@/app/components/LanguageToggle";
 import { useLanguage } from "@/app/i18n/LanguageContext";
 import { getStrings } from "@/app/i18n/strings";
+import { useDocumentMeta } from "@/app/hooks/useDocumentMeta";
 
 const BG = "#000000";
 
@@ -40,6 +41,7 @@ function BulletIcon() {
 export function MapPage({ title, subtitle, groups }: MapPageProps) {
   const { lang } = useLanguage();
   const t = getStrings(lang);
+  useDocumentMeta(`${title} | The Idea Machine`, subtitle);
   return (
     <>
       <style>{`

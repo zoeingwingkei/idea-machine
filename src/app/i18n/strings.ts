@@ -1,6 +1,8 @@
 import type { Lang } from "./LanguageContext";
 
 export interface Strings {
+  documentTitle: string;
+  documentDescription: string;
   aboutP1Pre: string;
   aboutHumanNeed: string;
   aboutP1Mid1: string;
@@ -10,7 +12,6 @@ export interface Strings {
   aboutP1End: string;
   aboutP2: string;
   aboutP3: string;
-  github: string;
   pullLever: string;
   start: string;
   yourIdea: string;
@@ -32,6 +33,10 @@ export interface Strings {
 
 export const STRINGS: Record<Lang, Strings> = {
   en: {
+    documentTitle:
+      "What to Build — Random Project & App Idea Generator | The Idea Machine",
+    documentDescription:
+      "Stuck on what to build next? Pull the lever to generate a random project or app idea — a surprise mashup of a life space, a product format, and a twist. Over 1,000,000 combinations.",
     aboutP1Pre:
       "The Idea Machine is a playful generator that combines three things: a ",
     aboutHumanNeed: "space in human life",
@@ -44,7 +49,6 @@ export const STRINGS: Record<Lang, Strings> = {
       "Pull the lever to discover one of more than 1,000,000 possible ideas.",
     aboutP3:
       "Built on a simple belief: good ideas often begin with an unlikely combination — and a little serendipity.",
-    github: "Github",
     pullLever: "PULL THE LEVER →",
     start: "Start",
     yourIdea: "YOUR IDEA",
@@ -64,6 +68,9 @@ export const STRINGS: Record<Lang, Strings> = {
     generatingImage: "Generating…",
   },
   zh: {
+    documentTitle: "灵感生成器 — 随机项目与产品点子生成 | The Idea Machine",
+    documentDescription:
+      "不知道该做什么项目？拉下拉杆，随机生成一个由生活场景、产品形态和意外转折组合而成的点子，超过一百万种可能。",
     aboutP1Pre: "The Idea Machine（点子机）把三样东西摇在一起：一个",
     aboutHumanNeed: "生活场景",
     aboutP1Mid1: "、一种",
@@ -73,7 +80,6 @@ export const STRINGS: Record<Lang, Strings> = {
     aboutP1End: "。",
     aboutP2: "拉下拉杆，一百多万种可能里，蹦出一个只属于你的点子。",
     aboutP3: "好点子很少是想出来的，多半是撞出来的。",
-    github: "Github",
     pullLever: "拉下拉杆 →",
     start: "开始",
     yourIdea: "你的点子",

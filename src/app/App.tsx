@@ -5,7 +5,7 @@ import {
   useCallback,
   useMemo,
 } from "react";
-import { Lock, LockOpen, ArrowUpRight, Share2 } from "lucide-react";
+import { Lock, LockOpen, Share2 } from "lucide-react";
 import { Link } from "react-router";
 import {
   SlotWindow,
@@ -29,6 +29,7 @@ import { TitleSection } from "@/app/components/TitleSection";
 import { ShareDialog } from "@/app/components/ShareDialog";
 import { useLanguage } from "@/app/i18n/LanguageContext";
 import { getStrings } from "@/app/i18n/strings";
+import { useDocumentMeta } from "@/app/hooks/useDocumentMeta";
 import {
   getFormatGroups,
   getSpaceGroups,
@@ -224,24 +225,6 @@ function AboutBody({ t }: { t: Strings }) {
         <p style={{ margin: "0 0 12px" }}>{t.aboutP2}</p>
         <p style={{ margin: 0 }}>{t.aboutP3}</p>
       </div>
-      <a
-        href="https://github.com/zoeingwingkei/idea-machine"
-        target="_blank"
-        rel="noopener noreferrer"
-        className="about-github-link"
-        style={{
-          display: "inline-flex",
-          alignItems: "center",
-          gap: 4,
-          fontFamily: "'Inter', sans-serif",
-          fontSize: 16,
-          color: "white",
-          textDecoration: "none",
-        }}
-      >
-        {t.github}
-        <ArrowUpRight size={20} />
-      </a>
     </div>
   );
 }
@@ -329,6 +312,7 @@ export default function App() {
 
   const { lang } = useLanguage();
   const t = useMemo(() => getStrings(lang), [lang]);
+  useDocumentMeta(t.documentTitle, t.documentDescription);
 
   const formatGroups = useMemo(() => getFormatGroups(lang), [lang]);
   const spaceGroups = useMemo(() => getSpaceGroups(lang), [lang]);
@@ -599,8 +583,6 @@ export default function App() {
            the same class of Safari swipe-past-the-edge behavior. */
         html, body { overflow-x: hidden; overscroll-behavior-x: none; max-width: 100%; }
         body { background: ${BG}; }
-        .about-github-link { transition: opacity 0.2s ease; }
-        .about-github-link:hover { opacity: 0.6; }
         .about-inline-link { color: inherit; text-decoration: underline; transition: opacity 0.2s ease; }
         .about-inline-link:hover { opacity: 0.6; }
         .lang-toggle-btn { transition: color 0.2s ease, border-color 0.2s ease; }
@@ -656,6 +638,12 @@ export default function App() {
           50% { box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.5), 0 0 28px rgba(238, 204, 109, 0.75), 0 10px 24px rgba(0, 0, 0, 0.6); }
         }
       `}</style>
+
+      {/* Real (visually-hidden) heading text for crawlers/screen readers —
+          the visible title on the machine itself is decorative SVG art. */}
+      <h1 className="sr-only">
+        What to Build — Random Project &amp; App Idea Generator
+      </h1>
 
       {/* Ambient line-art starfield — fixed full-viewport canvas between the
           black page background (body) and the machine. Machine content sits in
