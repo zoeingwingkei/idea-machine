@@ -5,7 +5,7 @@ import {
   useCallback,
   useMemo,
 } from "react";
-import { Lock, LockOpen, X, ArrowUpRight } from "lucide-react";
+import { Lock, LockOpen, ArrowUpRight } from "lucide-react";
 import { Link } from "react-router";
 import ticketSvgPaths from "@/imports/Ticket-1/svg-jkajgizkpe";
 import machinePaths from "@/imports/SlotMachine-1/svg-u88248n22q";
@@ -22,7 +22,10 @@ import {
   type SlotCategory,
 } from "@/app/components/slot-machine/SlotSelectMenu";
 import { StarfieldBackground } from "@/app/components/StarfieldBackground";
-import { LanguageToggle } from "@/app/components/LanguageToggle";
+import {
+  LanguageToggle,
+  LANGUAGE_TOGGLE_NAV_HEIGHT,
+} from "@/app/components/LanguageToggle";
 import { useLanguage, type Lang } from "@/app/i18n/LanguageContext";
 import { getStrings, type Strings } from "@/app/i18n/strings";
 import {
@@ -415,93 +418,15 @@ function SlotTitleLabel({
   );
 }
 
-// ─── About ────────────────────────────────────────────────────────────────────
-// Always mounted, always at the same fixed position and size — collapsed and
-// expanded states are just this trigger with the close icon faded in/out, so
-// the "About" label itself never jumps or resizes when toggling. Sized at
-// the design's true 20px (not tied to the machine's scale): on desktop the
-// body text now lives in a fixed-max-width reading column rather than
-// scaling proportionally with the machine, so there's no ratio to track.
-function AboutHeader({
-  open,
-  onToggle,
-  containerRef,
-  t,
-}: {
-  open: boolean;
-  onToggle: () => void;
-  // Measured by the starfield background so stars never blink behind the
-  // "About" label or its close icon.
-  containerRef: React.RefObject<HTMLDivElement | null>;
-  t: Strings;
-}) {
-  return (
-    <div
-      ref={containerRef}
-      style={{
-        position: "fixed",
-        top: 24,
-        left: 24,
-        zIndex: 20,
-        display: "flex",
-        alignItems: "center",
-        gap: 10,
-      }}
-    >
-      <button
-        type="button"
-        onClick={onToggle}
-        className="about-toggle-btn"
-        style={{
-          background: "none",
-          border: "none",
-          padding: 0,
-          cursor: "pointer",
-          fontFamily: "'Limelight', sans-serif",
-          fontSize: 20,
-          color: open ? "white" : "rgba(255,255,255,0.75)",
-        }}
-      >
-        {t.about}
-      </button>
-      <button
-        type="button"
-        onClick={onToggle}
-        aria-label={t.closeAbout}
-        className="about-close-btn"
-        style={{
-          background: "none",
-          border: "none",
-          padding: 0,
-          cursor: "pointer",
-          color: "white",
-          display: "flex",
-          opacity: open ? 1 : 0,
-          transform: open ? "scale(1)" : "scale(0.5)",
-          pointerEvents: open ? "auto" : "none",
-          transition:
-            "opacity 0.25s ease, transform 0.25s ease",
-        }}
-      >
-        <X size={24} />
-      </button>
-    </div>
-  );
-}
-
-// Body copy shared by both layout variants. `unit` is the px-per-Figma-px
-// multiplier: 3.192 for desktop (rendered inside the machine's scaled
-// coordinate space, so the ambient CSS transform shrinks it with the
-// machine) or 1 for mobile (rendered unscaled, at true Figma sizes). The
-// "About" header itself lives outside this — see AboutHeader above.
-// True Figma sizes throughout: on desktop this now sits in a fixed-max-width
-// reading column beside the machine rather than scaling proportionally with
-// it, and on mobile it always ignored the machine's scale anyway — so there
-// is no longer a scaling relationship to track here. `paddingTop` reserves
-// room for the fixed AboutHeader sitting above it (both layouts stack them).
+// ─── Intro ────────────────────────────────────────────────────────────────────
+// Body copy shared by both layout variants. True Figma sizes throughout: on
+// desktop this sits in a fixed-max-width reading column beside the machine
+// rather than scaling proportionally with it, and on mobile it always
+// ignored the machine's scale anyway — so there is no scaling relationship
+// to track here. Always visible (no collapse/expand toggle).
 function AboutBody({ t }: { t: Strings }) {
   return (
-    <div style={{ paddingTop: 24 }}>
+    <div>
       <div
         className="text-body"
         style={{
@@ -548,23 +473,18 @@ function AboutBody({ t }: { t: Strings }) {
   );
 }
 
-// Desktop: a sidebar to the LEFT of the machine (not stacked above it). Its
-// width animates between 0 (closed) and min(50vw, 440px) (open); the inner
-// content is always rendered at that same open-width so text never
-// reflows mid-transition — the outer wrapper's overflow:hidden just wipes
-// it in/out. Because the machine sits in a flex:1 sibling column, shrinking
-// this sidebar's width smoothly reflows (and re-centers) the machine for
-// free, no extra JS needed for that part — see the App() layout below. No
-// right padding: the sidebar's box ends right where the machine's column
-// begins, so all of its width goes to the machine instead of a dead gap.
+// Desktop: a column to the LEFT of the machine (not stacked above it),
+// always visible. Because the machine sits in a flex:1 sibling column, this
+// column's own width reflows (and re-centers) the machine for free, no
+// extra JS needed for that part — see the App() layout below. No right
+// padding: this column's box ends right where the machine's column begins,
+// so all of its width goes to the machine instead of a dead gap. It shares
+// the row's own alignItems:center (no alignSelf override), so its vertical
+// center lines up with the machine's.
 function AboutSidebar({
-  open,
   panelRef,
   t,
 }: {
-  open: boolean;
-  // Measured by the starfield background — its width goes 0 → w as the
-  // panel opens, so this always reflects exactly the visible clipped box.
   panelRef: React.RefObject<HTMLDivElement | null>;
   t: Strings;
 }) {
@@ -573,58 +493,32 @@ function AboutSidebar({
     <div
       ref={panelRef}
       style={{
-        alignSelf: "flex-start",
         flexShrink: 0,
-        width: open ? w : 0,
-        overflow: "hidden",
-        transition: "width 0.45s ease",
+        width: w,
+        boxSizing: "border-box",
+        paddingLeft: 24,
       }}
     >
-      <div
-        style={{
-          width: w,
-          boxSizing: "border-box",
-          paddingLeft: 24,
-        }}
-      >
-        <AboutBody t={t} />
-      </div>
+      <AboutBody t={t} />
     </div>
   );
 }
 
-// Mobile: stacked above the machine instead of beside it, so it collapses
-// via height (grid "0fr → 1fr", which — unlike a max-height cap — always
-// animates to the content's true height and so can never clip content
-// taller than an estimate, a real bug hit earlier with the GitHub link).
+// Mobile: stacked above the machine instead of beside it, always visible.
 function AboutPanelMobile({
-  open,
   panelRef,
   t,
 }: {
-  open: boolean;
-  // Measured by the starfield background — its height goes 0fr → 1fr as
-  // the panel opens, so this always reflects exactly the visible box.
   panelRef: React.RefObject<HTMLDivElement | null>;
   t: Strings;
 }) {
   return (
     <div
       ref={panelRef}
-      style={{
-        display: "grid",
-        gridTemplateRows: open ? "1fr" : "0fr",
-        marginBottom: open ? 32 : 0,
-        opacity: open ? 1 : 0,
-        width: "100%",
-        transition:
-          "grid-template-rows 0.45s ease, margin-bottom 0.45s ease, opacity 0.35s ease",
-      }}
+      style={{ width: "100%", marginBottom: 32 }}
     >
-      <div style={{ overflow: "hidden", minHeight: 0 }}>
-        <div style={{ width: "calc(100% - 40px)", margin: "0 auto" }}>
-          <AboutBody t={t} />
-        </div>
+      <div style={{ width: "calc(100% - 40px)", margin: "0 auto" }}>
+        <AboutBody t={t} />
       </div>
     </div>
   );
@@ -650,7 +544,6 @@ export default function App() {
     number | null
   >(null);
   const noHoverPointer = useNoHoverPointer();
-  const [aboutOpen, setAboutOpen] = useState(false);
   const isMobile = useIsMobile();
 
   const { lang } = useLanguage();
@@ -688,27 +581,26 @@ export default function App() {
 
   // The machine's own container is the "machine column" div rendered below
   // (ref attached there) — by default it's the screen width minus page
-  // margins (flexbox gives it the full row when About is closed), and the
-  // right-hand share of the row once About opens as a desktop sidebar. It's
-  // measured directly via ResizeObserver rather than re-derived from
-  // window.innerWidth plus sidebar math, so the machine always matches
-  // what's actually on screen (including mid-transition as About opens).
+  // margins (flexbox gives it the full row when the intro is stacked above
+  // it), and the right-hand share of the row when the intro sits beside it
+  // as a desktop sidebar. It's measured directly via ResizeObserver rather
+  // than re-derived from window.innerWidth plus sidebar math, so the
+  // machine always matches what's actually on screen.
   const containerRef = useRef<HTMLDivElement>(null);
   // The scaled machine wrapper — measured by the starfield background so its
   // stars fade out over the machine (which is otherwise transparent) and never
   // clutter behind the slot text.
   const machineRef = useRef<HTMLDivElement>(null);
   // Shields the starfield background measures in addition to the machine, so
-  // stars never blink behind the fixed "About" button or its (desktop
-  // sidebar / mobile stacked) text panel. Only one of the two panel refs is
-  // ever attached to a mounted element at a time (see stackAboutAndMachine
-  // below), and the unattached one's ref.current stays null, which the
-  // starfield simply skips.
-  const aboutHeaderRef = useRef<HTMLDivElement>(null);
+  // stars never blink behind the (desktop sidebar / mobile stacked) intro
+  // text panel. Only one of the two panel refs is ever attached to a
+  // mounted element at a time (see stackAboutAndMachine below), and the
+  // unattached one's ref.current stays null, which the starfield simply
+  // skips.
   const aboutPanelRef = useRef<HTMLDivElement>(null);
   const langToggleRef = useRef<HTMLDivElement>(null);
   const starShieldRefs = useMemo(
-    () => [aboutHeaderRef, aboutPanelRef, langToggleRef],
+    () => [aboutPanelRef, langToggleRef],
     [],
   );
   const [containerWidth, setContainerWidth] = useState(
@@ -742,9 +634,9 @@ export default function App() {
   const isMachineMobile =
     containerWidth < MACHINE_MOBILE_BREAKPOINT;
 
-  // Stacking About above the machine (instead of beside it) is normally
-  // just a narrow-window thing (isMobile). But a desktop-width window with
-  // About expanded can still squeeze the machine's own share of the row
+  // Stacking the intro above the machine (instead of beside it) is normally
+  // just a narrow-window thing (isMobile). But a desktop-width window can
+  // still have the intro sidebar squeeze the machine's own share of the row
   // below the mobile breakpoint — in that case, prefer stacking over
   // rendering the machine in cramped mobile mode next to the sidebar.
   // This must be computed from the *hypothetical* row-layout width (a
@@ -752,10 +644,9 @@ export default function App() {
   // `isMachineMobile` itself: once stacked, the machine column regains the
   // full viewport width, which would flip `isMachineMobile` back to false
   // and immediately undo the stack — an infinite row/column ping-pong.
-  const wouldBeRowContainerWidth = aboutOpen
-    ? viewportSize.width -
-      Math.min(viewportSize.width / 2, ABOUT_SIDEBAR_MAX)
-    : viewportSize.width;
+  const wouldBeRowContainerWidth =
+    viewportSize.width -
+    Math.min(viewportSize.width / 2, ABOUT_SIDEBAR_MAX);
   const stackAboutAndMachine =
     isMobile ||
     wouldBeRowContainerWidth < MACHINE_MOBILE_BREAKPOINT;
@@ -920,10 +811,8 @@ export default function App() {
            the same class of Safari swipe-past-the-edge behavior. */
         html, body { overflow-x: hidden; overscroll-behavior-x: none; max-width: 100%; }
         body { background: ${BG}; }
-        .about-toggle-btn { transition: color 0.2s ease; }
-        .about-toggle-btn:hover { color: rgba(255,255,255,1); }
-        .about-close-btn, .about-github-link { transition: opacity 0.2s ease; }
-        .about-close-btn:hover, .about-github-link:hover { opacity: 0.6; }
+        .about-github-link { transition: opacity 0.2s ease; }
+        .about-github-link:hover { opacity: 0.6; }
         .about-inline-link { color: inherit; text-decoration: underline; transition: opacity 0.2s ease; }
         .about-inline-link:hover { opacity: 0.6; }
         .lang-toggle-btn { transition: color 0.2s ease, border-color 0.2s ease; }
@@ -938,12 +827,6 @@ export default function App() {
         shieldRefs={starShieldRefs}
       />
 
-      <AboutHeader
-        open={aboutOpen}
-        onToggle={() => setAboutOpen((o) => !o)}
-        containerRef={aboutHeaderRef}
-        t={t}
-      />
       <LanguageToggle containerRef={langToggleRef} />
 
       <div
@@ -952,38 +835,34 @@ export default function App() {
           // Background is transparent so the starfield canvas (behind, z-0)
           // shows through; the black base still comes from `body` (see the
           // <style> block above). This container is a z-index:1 stacking
-          // context, lifting all machine/About content above the stars.
+          // context, lifting all machine/intro content above the stars.
           position: "relative",
           zIndex: 1,
           display: "flex",
-          // Row: About sidebar and machine sit side by side. Column: About
-          // stacks above the machine — either because the window itself is
-          // narrow (isMobile), or because an expanded About sidebar would
+          // Row: intro and machine sit side by side, sharing this row's own
+          // alignItems:center so their vertical centers line up. Column: the
+          // intro stacks above the machine — either because the window
+          // itself is narrow (isMobile), or because the intro sidebar would
           // otherwise squeeze the machine's own share of the row into
           // mobile territory (see stackAboutAndMachine above).
           flexDirection: stackAboutAndMachine ? "column" : "row",
           alignItems: "center",
           justifyContent: "center",
-          padding: "60px 0",
+          // Extra top padding (rather than margin, which would collapse
+          // through this div's empty ancestors and overflow the viewport by
+          // that amount) reserves room for the fixed language-toggle nav bar.
+          padding: `${60 + LANGUAGE_TOGGLE_NAV_HEIGHT}px 0 60px`,
         }}
       >
         {stackAboutAndMachine && (
-          <AboutPanelMobile
-            open={aboutOpen}
-            panelRef={aboutPanelRef}
-            t={t}
-          />
+          <AboutPanelMobile panelRef={aboutPanelRef} t={t} />
         )}
         {!stackAboutAndMachine && (
-          <AboutSidebar
-            open={aboutOpen}
-            panelRef={aboutPanelRef}
-            t={t}
-          />
+          <AboutSidebar panelRef={aboutPanelRef} t={t} />
         )}
 
         {/* Machine column: flex:1 on desktop so it fills whatever width the
-            About sidebar leaves it, full-width on mobile as before. This is
+            intro sidebar leaves it, full-width on mobile as before. This is
             also the machine's measured "container" (see containerRef). */}
         <div
           ref={containerRef}

@@ -327,7 +327,7 @@
     },
     {
       "category": "Aesthetic Twist",
-      "category_zh": "美学转折",
+      "category_zh": "美学风格转折",
       "subItems": [
         "Brutalist and Plain",
         "Warm Analog Feel",
@@ -347,7 +347,7 @@
       "subItems_zh": [
         "粗野而朴素",
         "温暖的模拟感",
-        "终端美学",
+        "终端复古美学",
         "奢侈品般的质感",
         "全手绘风格",
         "黑白编辑风",
@@ -355,7 +355,7 @@
         "如精致文具般的质感",
         "需要时才出现",
         "田园系温馨",
-        "赛博朋克锋芒",
+        "赛博朋克风格",
         "暗黑学院风",
         "侘寂式的不完美",
         "极繁主义的混乱美"
@@ -423,7 +423,7 @@
     },
     {
       "category": "Wildcard Mechanic Twist",
-      "category_zh": "万能机制转折",
+      "category_zh": "万能转折",
       "subItems": [
         "You Can Only Do It Once",
         "Deletes Itself When Done",

@@ -1,8 +1,6 @@
 import type { Lang } from "./LanguageContext";
 
 export interface Strings {
-  about: string;
-  closeAbout: string;
   aboutP1Pre: string;
   aboutHumanNeed: string;
   aboutP1Mid1: string;
@@ -29,8 +27,6 @@ export interface Strings {
 
 export const STRINGS: Record<Lang, Strings> = {
   en: {
-    about: "About",
-    closeAbout: "Close about",
     aboutP1Pre:
       "The Idea Machine is a playful generator that combines three things: a ",
     aboutHumanNeed: "space in human life",
@@ -58,8 +54,6 @@ export const STRINGS: Record<Lang, Strings> = {
     viewFullMap: (label) => `View the full ${label} map`,
   },
   zh: {
-    about: "关于",
-    closeAbout: "关闭关于",
     aboutP1Pre: "The Idea Machine（点子机）把三样东西摇在一起：一个",
     aboutHumanNeed: "生活场景",
     aboutP1Mid1: "、一种",
