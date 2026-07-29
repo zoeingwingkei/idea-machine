@@ -12,6 +12,9 @@ export interface Strings {
   aboutP1End: string;
   aboutP2: string;
   aboutP3: string;
+  github: string;
+  contributeText: string;
+  contributeLinkLabel: string;
   pullLever: string;
   start: string;
   yourIdea: string;
@@ -49,6 +52,9 @@ export const STRINGS: Record<Lang, Strings> = {
       "Pull the lever to discover one of more than 1,000,000 possible ideas.",
     aboutP3:
       "Built on a simple belief: good ideas often begin with an unlikely combination — and a little serendipity.",
+    github: "GitHub",
+    contributeText: "Know a space, format, or twist we're missing?",
+    contributeLinkLabel: "Help expand this list on GitHub",
     pullLever: "PULL THE LEVER →",
     start: "Start",
     yourIdea: "YOUR IDEA",
@@ -80,6 +86,9 @@ export const STRINGS: Record<Lang, Strings> = {
     aboutP1End: "。",
     aboutP2: "拉下拉杆，一百多万种可能里，蹦出一个只属于你的点子。",
     aboutP3: "好点子很少是想出来的，多半是撞出来的。",
+    github: "GitHub",
+    contributeText: "还有什么场景、形态或转折没收录进来？",
+    contributeLinkLabel: "去 GitHub 一起扩充这份清单",
     pullLever: "拉下拉杆 →",
     start: "开始",
     yourIdea: "你的点子",

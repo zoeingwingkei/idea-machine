@@ -5,7 +5,7 @@ import {
   useCallback,
   useMemo,
 } from "react";
-import { Lock, LockOpen, Share2 } from "lucide-react";
+import { Lock, LockOpen, ArrowUpRight, Share2 } from "lucide-react";
 import { Link } from "react-router";
 import {
   SlotWindow,
@@ -225,6 +225,24 @@ function AboutBody({ t }: { t: Strings }) {
         <p style={{ margin: "0 0 12px" }}>{t.aboutP2}</p>
         <p style={{ margin: 0 }}>{t.aboutP3}</p>
       </div>
+      <a
+        href="https://github.com/zoeingwingkei/idea-machine"
+        target="_blank"
+        rel="noopener noreferrer"
+        className="about-github-link"
+        style={{
+          display: "inline-flex",
+          alignItems: "center",
+          gap: 4,
+          fontFamily: "'Inter', sans-serif",
+          fontSize: 16,
+          color: "white",
+          textDecoration: "none",
+        }}
+      >
+        {t.github}
+        <ArrowUpRight size={20} />
+      </a>
     </div>
   );
 }
@@ -585,6 +603,8 @@ export default function App() {
         body { background: ${BG}; }
         .about-inline-link { color: inherit; text-decoration: underline; transition: opacity 0.2s ease; }
         .about-inline-link:hover { opacity: 0.6; }
+        .about-github-link { transition: opacity 0.2s ease; }
+        .about-github-link:hover { opacity: 0.6; }
         .lang-toggle-btn { transition: color 0.2s ease, border-color 0.2s ease; }
         .lang-toggle-btn:hover { color: white; border-color: rgba(255,255,255,0.6); }
 

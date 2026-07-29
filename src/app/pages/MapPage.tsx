@@ -1,4 +1,5 @@
 import { Link } from "react-router";
+import { ArrowUpRight } from "lucide-react";
 import { LanguageToggle } from "@/app/components/LanguageToggle";
 import { useLanguage } from "@/app/i18n/LanguageContext";
 import { getStrings } from "@/app/i18n/strings";
@@ -62,6 +63,8 @@ export function MapPage({ title, subtitle, groups }: MapPageProps) {
         }
         .lang-toggle-btn { transition: color 0.2s ease, border-color 0.2s ease; }
         .lang-toggle-btn:hover { color: white; border-color: rgba(255,255,255,0.6); }
+        .map-page-github-link { transition: opacity 0.2s ease; }
+        .map-page-github-link:hover { opacity: 0.6; }
       `}</style>
 
       <LanguageToggle />
@@ -176,6 +179,41 @@ export function MapPage({ title, subtitle, groups }: MapPageProps) {
                 </div>
               </div>
             ))}
+          </div>
+
+          <div
+            style={{
+              marginTop: 40,
+              display: "flex",
+              flexWrap: "wrap",
+              alignItems: "center",
+              gap: 8,
+            }}
+          >
+            <p
+              className="text-body"
+              style={{ margin: 0, color: "rgba(255,255,255,0.55)" }}
+            >
+              {t.contributeText}
+            </p>
+            <a
+              href="https://github.com/zoeingwingkei/idea-machine"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="map-page-github-link"
+              style={{
+                display: "inline-flex",
+                alignItems: "center",
+                gap: 4,
+                fontFamily: "'Inter', sans-serif",
+                fontSize: 15,
+                color: "white",
+                textDecoration: "none",
+              }}
+            >
+              {t.contributeLinkLabel}
+              <ArrowUpRight size={18} />
+            </a>
           </div>
         </div>
       </div>
