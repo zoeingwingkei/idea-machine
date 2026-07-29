@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { toPng } from "html-to-image";
+import { toBlob } from "html-to-image";
 import { Download } from "lucide-react";
 import {
   Dialog,
@@ -61,16 +61,36 @@ export function ShareDialog({
     if (!cardEl || downloading) return;
     setDownloading(true);
     try {
-      const dataUrl = await toPng(cardEl, {
-        pixelRatio: 2,
-        cacheBust: true,
-      });
+      const blob = await toBlob(cardEl, { pixelRatio: 2, cacheBust: true });
+      if (!blob) throw new Error("toBlob returned null");
+      const filename = "the-idea-machine.png";
+      const file = new File([blob], filename, { type: "image/png" });
+
+      // iOS Safari (and several other mobile browsers) silently ignore the
+      // `download` attribute on <a> — a synthetic click just does nothing
+      // there, which is why this button previously appeared broken on
+      // mobile. The Web Share API's native share sheet includes "Save
+      // Image", which is the reliable way to get a file onto a mobile
+      // device, so prefer it wherever sharing files is supported.
+      if (navigator.canShare?.({ files: [file] })) {
+        await navigator.share({ files: [file] });
+        return;
+      }
+
+      const blobUrl = URL.createObjectURL(blob);
       const link = document.createElement("a");
-      link.download = "the-idea-machine.png";
-      link.href = dataUrl;
+      link.download = filename;
+      link.href = blobUrl;
+      document.body.appendChild(link);
       link.click();
+      link.remove();
+      URL.revokeObjectURL(blobUrl);
     } catch (err) {
-      console.error("Failed to generate share image", err);
+      // Dismissing the native share sheet throws AbortError — that's a
+      // cancellation, not a failure.
+      if ((err as Error)?.name !== "AbortError") {
+        console.error("Failed to generate share image", err);
+      }
     } finally {
       setDownloading(false);
     }
