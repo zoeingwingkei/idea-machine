@@ -104,7 +104,7 @@ export function Lever({
           >
             <path
               d={leverPaths.p244e4a00}
-              fill={disabled ? "#9E9E9E" : "#EE0000"}
+              fill={disabled ? "#9E9E9E" : "#EECC6D"}
               style={{ transition: "fill 0.25s ease" }}
             />
             <path d={leverPaths.p2cb82f00} fill="white" />

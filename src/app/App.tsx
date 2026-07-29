@@ -347,6 +347,27 @@ function TitleSection({ scale }: { scale: number }) {
   );
 }
 
+// ─── Machine Hint ─────────────────────────────────────────────────────────────
+// A small illuminated marquee sign, popping up above whatever it's anchored
+// to. Anchor must be `position: relative` (or itself `position: absolute`,
+// which also establishes a containing block) so the hint centers correctly.
+function MachineHint({
+  text,
+  visible,
+}: {
+  text: string;
+  visible: boolean;
+}) {
+  return (
+    <div
+      aria-hidden
+      className={`machine-hint${visible ? " machine-hint--visible" : ""}`}
+    >
+      {text}
+    </div>
+  );
+}
+
 // ─── Slot Title Label ─────────────────────────────────────────────────────────
 // Column header (SPACE / FORM / TWIST) with a lock/unlock toggle. Only the
 // label text is centered in the column — the icon is absolutely positioned
@@ -372,6 +393,7 @@ function SlotTitleLabel({
   onMouseLeave: () => void;
 }) {
   const showIcon = hasValue && (locked || hovered);
+  const [iconHovered, setIconHovered] = useState(false);
   return (
     <div
       onMouseEnter={onMouseEnter}
@@ -390,6 +412,8 @@ function SlotTitleLabel({
         <button
           type="button"
           onClick={onToggleLock}
+          onMouseEnter={() => setIconHovered(true)}
+          onMouseLeave={() => setIconHovered(false)}
           aria-label={ariaLabel}
           aria-pressed={locked}
           style={{
@@ -412,6 +436,7 @@ function SlotTitleLabel({
           }}
         >
           {locked ? <Lock size={44} /> : <LockOpen size={44} />}
+          <MachineHint text={ariaLabel} visible={showIcon && iconHovered} />
         </button>
       </span>
     </div>
@@ -540,6 +565,13 @@ export default function App() {
   const [hoveredSlot, setHoveredSlot] = useState<number | null>(
     null,
   );
+  // Separate from `hoveredSlot` (which also fires from the column-label
+  // hover, to preview the reel's glow) — this tracks the reel itself, so the
+  // "choose" hint doesn't collide with the lock button's own hint when only
+  // the label/icon is hovered.
+  const [reelHoveredSlot, setReelHoveredSlot] = useState<
+    number | null
+  >(null);
   const [selectOpenSlot, setSelectOpenSlot] = useState<
     number | null
   >(null);
@@ -817,6 +849,56 @@ export default function App() {
         .about-inline-link:hover { opacity: 0.6; }
         .lang-toggle-btn { transition: color 0.2s ease, border-color 0.2s ease; }
         .lang-toggle-btn:hover { color: white; border-color: rgba(255,255,255,0.6); }
+
+        /* Marquee-style hover hints for the lock toggle and the slot reels —
+           a small illuminated sign that pops up above the trigger, echoing
+           the machine's gold-on-black ticket/dialog styling. */
+        .machine-hint {
+          position: absolute;
+          left: 50%;
+          bottom: calc(100% + 24px);
+          padding: 16px 36px;
+          border-radius: 10px;
+          background: linear-gradient(180deg, #241c11, #14100a);
+          border: 2px solid rgba(238, 204, 109, 0.55);
+          box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.5), 0 0 16px rgba(238, 204, 109, 0.35), 0 10px 24px rgba(0, 0, 0, 0.6);
+          font-family: 'Arvo', sans-serif;
+          font-size: 34px;
+          font-weight: 700;
+          line-height: normal;
+          letter-spacing: 2.5px;
+          text-transform: uppercase;
+          color: #EECC6D;
+          text-shadow: 0 0 10px rgba(238, 204, 109, 0.65);
+          white-space: nowrap;
+          pointer-events: none;
+          z-index: 40;
+          opacity: 0;
+          transform: translate(-50%, 8px) scale(0.88);
+          transition: opacity 0.2s ease, transform 0.32s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        .machine-hint::after {
+          content: "";
+          position: absolute;
+          top: 100%;
+          left: 50%;
+          width: 18px;
+          height: 18px;
+          margin: -9px 0 0 -9px;
+          background: #14100a;
+          border-right: 2px solid rgba(238, 204, 109, 0.55);
+          border-bottom: 2px solid rgba(238, 204, 109, 0.55);
+          transform: rotate(45deg);
+        }
+        .machine-hint--visible {
+          opacity: 1;
+          transform: translate(-50%, 0) scale(1);
+          animation: machine-hint-pulse 1.7s ease-in-out 0.32s infinite;
+        }
+        @keyframes machine-hint-pulse {
+          0%, 100% { box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.5), 0 0 16px rgba(238, 204, 109, 0.35), 0 10px 24px rgba(0, 0, 0, 0.6); }
+          50% { box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.5), 0 0 28px rgba(238, 204, 109, 0.75), 0 10px 24px rgba(0, 0, 0, 0.6); }
+        }
       `}</style>
 
       {/* Ambient line-art starfield — fixed full-viewport canvas between the
@@ -1047,18 +1129,28 @@ export default function App() {
                           position: "relative",
                           cursor: "pointer",
                         }}
-                        onMouseEnter={() => setHoveredSlot(i)}
-                        onMouseLeave={() =>
+                        onMouseEnter={() => {
+                          setHoveredSlot(i);
+                          setReelHoveredSlot(i);
+                        }}
+                        onMouseLeave={() => {
                           setHoveredSlot((h) =>
                             h === i ? null : h,
-                          )
-                        }
+                          );
+                          setReelHoveredSlot((h) =>
+                            h === i ? null : h,
+                          );
+                        }}
                       >
                         <SlotWindow
                           ref={ref}
                           slotIdx={i}
                           allItems={items}
                           hovered={hoveredSlot === i}
+                        />
+                        <MachineHint
+                          text={t.chooseLabel(label)}
+                          visible={reelHoveredSlot === i}
                         />
                       </div>
                     </SlotSelectMenu>
