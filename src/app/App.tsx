@@ -380,8 +380,13 @@ export default function App() {
   // skips.
   const aboutPanelRef = useRef<HTMLDivElement>(null);
   const langToggleRef = useRef<HTMLDivElement>(null);
+  // Start/Share sit below the machine's own shielded rect (mobile Start and
+  // both the mobile/desktop Share buttons), so they need their own shields
+  // too — otherwise stars can blink in right behind their labels/borders.
+  const startButtonRef = useRef<HTMLButtonElement>(null);
+  const shareButtonRef = useRef<HTMLButtonElement>(null);
   const starShieldRefs = useMemo(
-    () => [aboutPanelRef, langToggleRef],
+    () => [aboutPanelRef, langToggleRef, startButtonRef, shareButtonRef],
     [],
   );
   const [containerWidth, setContainerWidth] = useState(
@@ -1018,6 +1023,7 @@ export default function App() {
             already-shifted position instead. */}
         {isMachineMobile && (
           <button
+            ref={shareButtonRef}
             type="button"
             onClick={() => setShareOpen(true)}
             aria-hidden={!ticketVisible}
@@ -1050,6 +1056,7 @@ export default function App() {
 
         {isMachineMobile && (
           <button
+            ref={startButtonRef}
             type="button"
             onClick={spin}
             disabled={allLocked || roundInProgress}
@@ -1078,6 +1085,7 @@ export default function App() {
 
         {!isMachineMobile && (
           <button
+            ref={shareButtonRef}
             type="button"
             onClick={() => setShareOpen(true)}
             aria-hidden={!ticketVisible}
