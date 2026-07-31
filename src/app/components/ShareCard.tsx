@@ -1,5 +1,5 @@
-import { forwardRef, useEffect, useLayoutEffect, useRef, useState } from "react";
-import QRCode from "qrcode";
+import { forwardRef, useLayoutEffect, useRef, useState } from "react";
+import shareQr from "@/assets/share-qr.svg";
 import slotSvgPaths from "@/assets/SlotMachine/svg-wjwgi5pl1w";
 import leverPaths from "@/assets/Slots-1/svg-2nolbmjll6";
 import { TitleSection } from "@/app/components/TitleSection";
@@ -256,24 +256,6 @@ export const ShareCard = forwardRef<
     t: Strings;
   }
 >(({ format, space, twist, lang, t }, ref) => {
-  const [qrDataUrl, setQrDataUrl] = useState<string | null>(null);
-  const shareUrl =
-    typeof window !== "undefined" ? window.location.origin : "";
-
-  useEffect(() => {
-    let cancelled = false;
-    QRCode.toDataURL(shareUrl, {
-      width: 240,
-      margin: 1,
-      color: { dark: "#000000ff", light: "#ffffffff" },
-    }).then((url) => {
-      if (!cancelled) setQrDataUrl(url);
-    });
-    return () => {
-      cancelled = true;
-    };
-  }, [shareUrl]);
-
   return (
     <div
       ref={ref}
@@ -308,15 +290,13 @@ export const ShareCard = forwardRef<
           {t.scanForOne}
         </span>
         <ScanArrow />
-        {qrDataUrl && (
-          <img
-            src={qrDataUrl}
-            alt=""
-            width={86}
-            height={86}
-            style={{ display: "block", borderRadius: 4 }}
-          />
-        )}
+        <img
+          src={shareQr}
+          alt=""
+          width={86}
+          height={86}
+          style={{ display: "block", borderRadius: 4 }}
+        />
       </div>
     </div>
   );

@@ -32,6 +32,8 @@ export interface Strings {
   scanForOne: string;
   downloadImage: string;
   generatingImage: string;
+  sayHi: string;
+  shareDescription: string;
 }
 
 export const STRINGS: Record<Lang, Strings> = {
@@ -72,6 +74,8 @@ export const STRINGS: Record<Lang, Strings> = {
     scanForOne: "1,000,000+ ideas. Scan for one.",
     downloadImage: "Download image",
     generatingImage: "Generating…",
+    sayHi: "Say hi",
+    shareDescription: "Preview and download an image of your idea to share.",
   },
   zh: {
     documentTitle: "The Idea Machine 点子机 — 随机项目与产品点子生成",
@@ -106,6 +110,8 @@ export const STRINGS: Record<Lang, Strings> = {
     scanForOne: "一百多万个点子，扫码抽一个。",
     downloadImage: "下载图片",
     generatingImage: "生成中……",
+    sayHi: "打个招呼",
+    shareDescription: "预览并下载你的点子图片，方便分享。",
   },
 };
 

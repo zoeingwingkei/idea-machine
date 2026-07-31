@@ -4,11 +4,13 @@ import { Download } from "lucide-react";
 import {
   Dialog,
   DialogContent,
+  DialogDescription,
   DialogTitle,
 } from "@/app/components/ui/dialog";
 import { ShareCard } from "@/app/components/ShareCard";
 import { useLanguage } from "@/app/i18n/LanguageContext";
 import { getStrings } from "@/app/i18n/strings";
+import { trackShareClick } from "@/app/analytics";
 
 export function ShareDialog({
   open,
@@ -63,6 +65,7 @@ export function ShareDialog({
     try {
       const blob = await toBlob(cardEl, { pixelRatio: 2, cacheBust: true });
       if (!blob) throw new Error("toBlob returned null");
+      trackShareClick();
       const filename = "the-idea-machine.png";
       const file = new File([blob], filename, { type: "image/png" });
 
@@ -105,6 +108,9 @@ export function ShareDialog({
         <DialogTitle className="text-center text-lg text-[#EECC6D]">
           {t.shareTitle}
         </DialogTitle>
+        <DialogDescription className="sr-only">
+          {t.shareDescription}
+        </DialogDescription>
 
         <div
           ref={setBoxEl}

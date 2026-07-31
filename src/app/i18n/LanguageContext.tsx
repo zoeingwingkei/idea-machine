@@ -5,6 +5,7 @@ import {
   useState,
   type ReactNode,
 } from "react";
+import { trackLanguageToggle } from "@/app/analytics";
 
 export type Lang = "en" | "zh";
 
@@ -30,7 +31,12 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
     document.documentElement.lang = lang === "zh" ? "zh-CN" : "en";
   }, [lang]);
 
-  const toggleLang = () => setLang((l) => (l === "en" ? "zh" : "en"));
+  const toggleLang = () =>
+    setLang((l) => {
+      const next = l === "en" ? "zh" : "en";
+      trackLanguageToggle(next);
+      return next;
+    });
 
   return (
     <LanguageContext.Provider value={{ lang, toggleLang }}>

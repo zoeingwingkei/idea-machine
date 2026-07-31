@@ -36,6 +36,12 @@ import {
   getTwistGroups,
   translateItem,
 } from "@/app/i18n/mapData";
+import { trackSpin, trackReelLock } from "@/app/analytics";
+
+// Slot index → reel key used by the GTM spec's event params (index 0 =
+// space, 1 = format/"form", 2 = twist — matches the SPACE/FORM/TWIST column
+// order below).
+const REEL_KEYS = ["space", "form", "twist"] as const;
 
 // Devices with no hover capability (touchscreens) never fire the
 // onMouseEnter that normally reveals the lock icon, so those icons must be
@@ -225,24 +231,44 @@ function AboutBody({ t }: { t: Strings }) {
         <p style={{ margin: "0 0 12px" }}>{t.aboutP2}</p>
         <p style={{ margin: 0 }}>{t.aboutP3}</p>
       </div>
-      <a
-        href="https://github.com/zoeingwingkei/idea-machine"
-        target="_blank"
-        rel="noopener noreferrer"
-        className="about-github-link"
-        style={{
-          display: "inline-flex",
-          alignItems: "center",
-          gap: 4,
-          fontFamily: "'Inter', sans-serif",
-          fontSize: 16,
-          color: "white",
-          textDecoration: "none",
-        }}
-      >
-        {t.github}
-        <ArrowUpRight size={20} />
-      </a>
+      <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+        <a
+          href="https://github.com/zoeingwingkei/idea-machine"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="about-github-link"
+          style={{
+            display: "inline-flex",
+            alignItems: "center",
+            gap: 4,
+            fontFamily: "'Inter', sans-serif",
+            fontSize: 16,
+            color: "white",
+            textDecoration: "none",
+          }}
+        >
+          {t.github}
+          <ArrowUpRight size={20} />
+        </a>
+        <a
+          href="https://tally.so/r/ODKxqY"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="about-github-link"
+          style={{
+            display: "inline-flex",
+            alignItems: "center",
+            gap: 4,
+            fontFamily: "'Inter', sans-serif",
+            fontSize: 16,
+            color: "white",
+            textDecoration: "none",
+          }}
+        >
+          {t.sayHi}
+          <ArrowUpRight size={20} />
+        </a>
+      </div>
     </div>
   );
 }
@@ -479,7 +505,9 @@ export default function App() {
   const toggleLock = useCallback((i: number) => {
     setLocked((prev) => {
       const next = [...prev] as [boolean, boolean, boolean];
-      next[i] = !next[i];
+      const willLock = !next[i];
+      next[i] = willLock;
+      if (willLock) trackReelLock(REEL_KEYS[i]);
       return next;
     });
   }, []);
@@ -495,6 +523,7 @@ export default function App() {
       next[i] = true;
       return next;
     });
+    trackReelLock(REEL_KEYS[i]);
     slotRefs[i].current?.setStatic(item);
     setSelectOpenSlot(null);
   }, []);
@@ -506,6 +535,10 @@ export default function App() {
     if (roundInProgress) return;
     if (locked.every(Boolean)) return;
     clearAll();
+
+    trackSpin(
+      REEL_KEYS.filter((_, i) => locked[i]),
+    );
 
     const itemsBySlot = [SPACE_ITEMS, FORMAT_ITEMS, TWIST_ITEMS];
     const finals = finalValues.map((prev, i) =>
