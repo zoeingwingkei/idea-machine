@@ -97,6 +97,14 @@ function articleFor(word: string): "A" | "An" {
   return /^[aeiou]/.test(first) ? "An" : "A";
 }
 
+/**
+ * End a sentence with `mark` unless it already ends in punctuation, so an
+ * item like "Only Works at 2 A.M." doesn't come out as "2 A.M..".
+ */
+function stop(text: string, mark: "." | "。"): string {
+  return /[.!?。！？]$/.test(text) ? text : text + mark;
+}
+
 const PRODUCT: Mode = {
   id: "product",
   path: "/",
@@ -117,18 +125,18 @@ const PRODUCT: Mode = {
   ],
   sentence: ([space, form, twist], lang) =>
     lang === "zh"
-      ? `为${space}打造的${form}——转折：${twist}。`
-      : `${articleFor(form)} ${form} for ${space}, with a twist: ${twist}.`,
+      ? stop(`为${space}打造的${form}——转折：${twist}`, "。")
+      : stop(`${articleFor(form)} ${form} for ${space}, with a twist: ${twist}`, "."),
   prompt: (texts, lang, locks) => {
     const [space, form, twist] = texts;
     const r = rules(texts, locks, lang);
     return (lang === "zh"
       ? [
-          `我在一台点子机上摇出了三个随机词：${space} × ${form} × ${twist}。`,
+          stop(`我在一台点子机上摇出了三个随机词：${space} × ${form} × ${twist}`, "。"),
           `${r}给我 3 个截然不同的产品点子，每个一句话。我选一个，然后我们一起把它完善。`,
         ]
       : [
-          `I rolled three random words on an idea machine: ${space} × ${form} × ${twist}.`,
+          stop(`I rolled three random words on an idea machine: ${space} × ${form} × ${twist}`, "."),
           `${r} Pitch me 3 very different product ideas they could become, one line each. I'll pick one and we'll develop it together.`,
         ]
     ).join("\n");
@@ -155,18 +163,18 @@ const HACKATHON: Mode = {
   ],
   sentence: ([topic, tech, twist], lang) =>
     lang === "zh"
-      ? `用${tech}，为${topic}做点什么——转折：${twist}。`
-      : `Build something for ${topic}, powered by ${tech}, with a twist: ${twist}.`,
+      ? stop(`用${tech}，为${topic}做点什么——转折：${twist}`, "。")
+      : stop(`Build something for ${topic}, powered by ${tech}, with a twist: ${twist}`, "."),
   prompt: (texts, lang, locks) => {
     const [topic, tech, twist] = texts;
     const r = rules(texts, locks, lang);
     return (lang === "zh"
       ? [
-          `我在参加黑客松，在一台点子机上摇出了三个随机词：${topic} × ${tech} × ${twist}。`,
+          stop(`我在参加黑客松，在一台点子机上摇出了三个随机词：${topic} × ${tech} × ${twist}`, "。"),
           `${r}给我 3 个截然不同的项目，每个一句话，再加上能打动评委的那个演示瞬间。我选一个，然后我们一起把它规划成 24 小时能做完的版本。`,
         ]
       : [
-          `I'm at a hackathon and rolled three random words on an idea machine: ${topic} × ${tech} × ${twist}.`,
+          stop(`I'm at a hackathon and rolled three random words on an idea machine: ${topic} × ${tech} × ${twist}`, "."),
           `${r} Pitch me 3 very different projects, one line each, plus the demo moment that would win over judges. I'll pick one and we'll scope it for 24 hours together.`,
         ]
     ).join("\n");
