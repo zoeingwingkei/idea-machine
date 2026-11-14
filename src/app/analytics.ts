@@ -4,7 +4,10 @@
 // the exact event/param names — see idea-machine-gtm-metrics.md for the
 // spec these implement.
 
-type ReelKey = "space" | "form" | "twist";
+// Which machine fired the event: the current Braun-style instrument, or the
+// original slot machine kept at /legacy. `mode` is the instrument's
+// cartridge ("product" | "hackathon"); the legacy machine is always product.
+type Ui = "instrument" | "legacy";
 
 declare global {
   interface Window {
@@ -23,22 +26,40 @@ function track(event: string, params?: Record<string, string | number>) {
   window.gtag?.("event", event, params);
 }
 
-// 1 & 2 — fire on every lever pull.
-export function trackSpin(lockedReels: ReelKey[]) {
+// 1 & 2 — fire on every roll / lever pull. Reel names come from the mode
+// (product: space/form/twist, hackathon: topic/tech/twist).
+export function trackSpin(lockedReels: string[], mode: string, ui: Ui) {
   track("spin", {
     locks_active: lockedReels.length,
     locked_reels: lockedReels.join(","),
+    mode,
+    ui,
   });
 }
 
 // 2 — fire when a reel is locked (never on unlock).
-export function trackReelLock(reel: ReelKey) {
-  track("reel_lock", { reel });
+export function trackReelLock(reel: string, mode: string, ui: Ui) {
+  track("reel_lock", { reel, mode, ui });
 }
 
 // 3a — fire when a share image has been generated.
-export function trackShareClick() {
-  track("share_click");
+export function trackShareClick(mode: string, ui: Ui) {
+  track("share_click", { mode, ui });
+}
+
+// Instrument only — "Copy prompt".
+export function trackCopyPrompt(mode: string) {
+  track("copy_prompt", { mode });
+}
+
+// Switching between Product and Hackathon mode, or between the instrument
+// and the legacy slot machine.
+export function trackModeSwitch(to: string) {
+  track("mode_switch", { to });
+}
+
+export function trackUiSwitch(to: Ui) {
+  track("ui_switch", { to });
 }
 
 // 7 — fire on language switch, naming the language switched TO.

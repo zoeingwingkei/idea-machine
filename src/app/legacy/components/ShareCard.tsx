@@ -2,8 +2,8 @@ import { forwardRef, useLayoutEffect, useRef, useState } from "react";
 import shareQr from "@/assets/share-qr.svg";
 import slotSvgPaths from "@/assets/SlotMachine/svg-wjwgi5pl1w";
 import leverPaths from "@/assets/Slots-1/svg-2nolbmjll6";
-import { TitleSection } from "@/app/components/TitleSection";
-import { GoldenTicket } from "@/app/components/GoldenTicket";
+import { TitleSection } from "@/app/legacy/components/TitleSection";
+import { GoldenTicket } from "@/app/legacy/components/GoldenTicket";
 import type { Lang } from "@/app/i18n/LanguageContext";
 import type { Strings } from "@/app/i18n/strings";
 

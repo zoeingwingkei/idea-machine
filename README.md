@@ -1,26 +1,58 @@
 # The Idea Machine
 
-A slot-machine idea generator: pull the lever and it mashes up a space in
-human life, a product form, and a twist into a random project idea — meant
-to spark inspiration, not hand you a validated idea.
+An idea generator: roll the machine and it mashes up three reels into a
+random project idea — meant to spark inspiration, not hand you a validated
+idea. It has two modes:
+
+- **Product** (`/`): a space in human life × a product form × a twist
+- **Hackathon** (`/hackathon`): a topic × a piece of tech × a twist
+
+Each mode has over 1,000,000 combinations, in English and Chinese.
 
 **Use it at [the-idea-machine.com](https://www.the-idea-machine.com/).** You
 don't need to run this code to use the app — the live site is the intended
 way to play with it.
+
+![The Idea Machine](public/og-image.png)
+
+## What you can do
+
+- **Roll** for a new idea, or **lock** a reel to keep it while the others change.
+- **Browse** a reel to pick an item yourself, or nudge it with the scroll
+  wheel, a drag, or the arrow keys.
+- **Copy prompt** — copies a prompt you can paste into an AI assistant to
+  brainstorm the idea. Locked words are passed on as required, the rest as
+  loose inspiration.
+- **Save image** — a shareable PNG card of your idea, with a QR code back
+  to the mode it came from.
+- **Share a link** — every idea has a code in the URL (e.g. `/#047-02-049`),
+  so the link opens the same idea.
+- **Recent** — your ideas from this browser session, kept per mode.
+
+The original slot-machine design (v1) is still available at
+[`/legacy`](https://www.the-idea-machine.com/legacy).
 
 ## Contributing
 
 This repo is open for contributions:
 
 - **Found a bug, or have an idea for a feature?** Open an issue.
-- **Want to expand the idea pool?** The generator draws from 3 "maps" —
-  plain JSON files under [`src/data/maps/`](src/data/maps/):
-  - `map-of-human-life.json` — spaces in human life (health, money, career...)
-  - `map-of-product-forms.json` — product forms (app, automation, dev tool...)
-  - `map-of-twists.json` — twists that make an idea feel fresh
-  
+- **Want to expand the idea pool?** Each mode draws from 3 "maps" —
+  plain JSON files under [`src/data/maps/`](src/data/maps/), all in the same
+  shape (`meta` + `categories[] { category, category_zh, subItems, subItems_zh }`):
+  - Product: `map-of-human-life.json` (spaces in human life),
+    `map-of-product-forms.json` (product forms), `map-of-twists.json` (twists)
+  - Hackathon: `map-of-hackathon-topics.json`, `map-of-hackathon-tech.json`,
+    `map-of-hackathon-twists.json`
+
   Adding a new domain, category, or twist to one of these files is one of the
-  easiest ways to contribute — no code changes required. PRs welcome.
+  easiest ways to contribute — no code changes required. Every item needs both
+  an English and a Chinese entry, in the same position in `subItems` and
+  `subItems_zh`. PRs welcome.
+
+  Note: idea codes in shared links are positions in these lists, so adding
+  items anywhere but the end of the last category shifts which idea an older
+  link opens. That's fine, just good to know.
 
 ### Running locally
 
@@ -35,7 +67,29 @@ npm run dev
 
 Then open the printed local URL (e.g. http://localhost:5173).
 
-To produce a production build: `npm run build` (output goes to `dist/`).
+To produce a production build: `npm run build` (output goes to `dist/`), and
+`npm run preview` to serve it locally.
+
+Where things live:
+
+- `src/app/instrument/` — the current machine. `modes.ts` defines the two
+  modes (which maps, reel names, prompt text); `machine.ts` is the state
+  (picking, locks, idea codes, history); `controller.ts` draws it and wires
+  the controls; `save.ts` is the Save image card; `InstrumentPage.tsx` is the
+  React page around it.
+- `src/app/legacy/` — the original slot machine at `/legacy`, kept as-is.
+- `src/app/pages/` — the map pages (`/maps/*`).
+- `src/app/analytics.ts` — the Google Analytics events the app sends.
+- `src/assets/share-qr*.svg` — the static QR codes on saved images, one per
+  mode.
+
+### Deployment
+
+Pushing to `main` builds and deploys the site to GitHub Pages
+(`.github/workflows/deploy.yml`). GitHub Pages only serves static files, so
+`npm run build` also writes a copy of `index.html` for each route
+(`scripts/generate-route-shells.mjs`) with that page's title, description and
+search settings, and `public/404.html` sends any other URL back to the app.
 
 ## License
 

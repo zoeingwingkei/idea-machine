@@ -1,0 +1,213 @@
+{
+  "meta": {
+    "title": "The Map of Hackathon Tech",
+    "title_zh": "黑客松技术地图",
+    "subtitle": "Capabilities, data, platforms, and hardware you can wire up in a weekend.",
+    "subtitle_zh": "一个周末就能接上的能力、数据、平台与硬件。",
+    "note": "Named by capability, not vendor, so the list doesn't date. Lock a tech to chase a sponsor prize. The Hardware category is the only one that needs parts.",
+    "note_zh": "按能力而非厂商命名，免得清单过时。想冲赞助商奖项，就锁定一项技术。只有“硬件”分类需要额外的零件。",
+    "reel_structure": {
+      "reel_1_topic": "map-of-hackathon-topics.json → categories[].subItems",
+      "reel_2_tech": "map-of-hackathon-tech.json → categories[].subItems",
+      "reel_3_twist": "map-of-hackathon-twists.json → categories[].subItems"
+    }
+  },
+  "categories": [
+    {
+      "category": "AI Superpowers",
+      "category_zh": "AI 超能力",
+      "subItems": [
+        "An LLM With a Persona",
+        "An Expressive AI Voice",
+        "Image Generation",
+        "Vision That Reads Photos",
+        "Real-Time Voice Chat",
+        "Speech-to-Text",
+        "A Browser-Using Agent",
+        "Semantic Search",
+        "A Small On-Device Model",
+        "Live Translation"
+      ],
+      "subItems_zh": [
+        "有人设的大模型",
+        "有感情的 AI 配音",
+        "AI 生图",
+        "看得懂照片的视觉模型",
+        "实时语音对话",
+        "语音转文字",
+        "会操作浏览器的智能体",
+        "语义搜索",
+        "端侧小模型",
+        "实时翻译"
+      ]
+    },
+    {
+      "category": "Senses & Inputs",
+      "category_zh": "感知与输入",
+      "subItems": [
+        "The Webcam",
+        "Hand Tracking",
+        "Face & Pose Tracking",
+        "Pitch Detection",
+        "Phone Tilt & Shake",
+        "Your Location",
+        "A Gamepad",
+        "QR Codes",
+        "Your Typing Rhythm",
+        "Ambient Noise Level"
+      ],
+      "subItems_zh": [
+        "摄像头",
+        "手势追踪",
+        "人脸与姿态识别",
+        "音高识别",
+        "手机倾斜与摇晃",
+        "你的定位",
+        "游戏手柄",
+        "二维码",
+        "你的打字节奏",
+        "环境噪音分贝"
+      ]
+    },
+    {
+      "category": "Open Data",
+      "category_zh": "开放数据",
+      "subItems": [
+        "Live Weather",
+        "Transit Arrivals",
+        "Space Data",
+        "Wikipedia",
+        "OpenStreetMap",
+        "Your Calendar",
+        "Your Listening History",
+        "Live Earthquake Feed",
+        "Flight Tracking",
+        "Museum Collections"
+      ],
+      "subItems_zh": [
+        "实时天气",
+        "公交地铁到站数据",
+        "太空数据",
+        "百科词条",
+        "开放地图数据",
+        "你的日历",
+        "你的听歌记录",
+        "实时地震数据",
+        "航班追踪",
+        "博物馆馆藏数据"
+      ]
+    },
+    {
+      "category": "Web Superpowers",
+      "category_zh": "网页黑科技",
+      "subItems": [
+        "Real-Time Multiplayer",
+        "GPU Shaders",
+        "A Browser Synth",
+        "3D in the Browser",
+        "Peer-to-Peer Video",
+        "Push Notifications",
+        "An Offline-First App",
+        "Web Bluetooth",
+        "A Physics Engine",
+        "An Infinite Canvas"
+      ],
+      "subItems_zh": [
+        "实时多人同步",
+        "GPU 着色器",
+        "浏览器合成器",
+        "网页 3D",
+        "点对点视频",
+        "推送通知",
+        "离线优先应用",
+        "网页蓝牙",
+        "物理引擎",
+        "无限画布"
+      ]
+    },
+    {
+      "category": "Where It Lives",
+      "category_zh": "落脚点",
+      "subItems": [
+        "A Chrome Extension",
+        "A Discord Bot",
+        "A Number You Can Text",
+        "A Command-Line Tool",
+        "A Menubar App",
+        "A Desktop Pet",
+        "An MCP Server",
+        "A Home-Screen Widget",
+        "A Screensaver",
+        "A Code Editor Plugin"
+      ],
+      "subItems_zh": [
+        "浏览器插件",
+        "群聊机器人",
+        "公众号机器人",
+        "命令行工具",
+        "菜单栏小工具",
+        "桌面宠物",
+        "MCP 服务器",
+        "手机桌面小组件",
+        "屏幕保护程序",
+        "代码编辑器插件"
+      ]
+    },
+    {
+      "category": "Hardware",
+      "category_zh": "硬件",
+      "subItems": [
+        "A Big Physical Button",
+        "A Thermal Receipt Printer",
+        "An E-Ink Display",
+        "An LED Matrix",
+        "Smart Light Bulbs",
+        "NFC Stickers",
+        "An Old Phone, Repurposed",
+        "A MIDI Keyboard",
+        "A Servo Motor",
+        "A Microcontroller Kit"
+      ],
+      "subItems_zh": [
+        "一个大号实体按钮",
+        "热敏小票打印机",
+        "墨水屏",
+        "LED 点阵屏",
+        "智能灯泡",
+        "NFC 贴纸",
+        "闲置旧手机再利用",
+        "MIDI 键盘",
+        "舵机",
+        "单片机开发板"
+      ]
+    },
+    {
+      "category": "Media & Making",
+      "category_zh": "媒体与创作",
+      "subItems": [
+        "Generative Music",
+        "Data Visualization",
+        "Animated GIFs",
+        "A Printable Zine",
+        "Generative Posters",
+        "Pixel Art Sprites",
+        "A Podcast Feed",
+        "A Live-Comment Overlay",
+        "Interactive Maps",
+        "Short Video Clips"
+      ],
+      "subItems_zh": [
+        "生成式音乐",
+        "数据可视化",
+        "动图",
+        "可打印的小册子",
+        "生成式海报",
+        "像素小人",
+        "播客节目",
+        "弹幕层",
+        "交互式地图",
+        "短视频剪辑"
+      ]
+    }
+  ]
+}

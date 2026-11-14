@@ -1,0 +1,381 @@
+{
+  "meta": {
+    "title": "The Map of Hackathon Twists",
+    "title_zh": "黑客松转折地图",
+    "subtitle": "Constraints, mechanics, tones, and demo-day moves that make a weekend project memorable.",
+    "subtitle_zh": "让周末项目令人难忘的限制、机制、调性与路演招数。",
+    "note": "These twists are designed to combine with most topics and most tech.",
+    "note_zh": "这些转折设计为可以与大多数题材和技术相搭配。",
+    "reel_structure": {
+      "reel_1_topic": "map-of-hackathon-topics.json → categories[].subItems",
+      "reel_2_tech": "map-of-hackathon-tech.json → categories[].subItems",
+      "reel_3_twist": "map-of-hackathon-twists.json → categories[].subItems"
+    }
+  },
+  "categories": [
+    {
+      "category": "Vibe",
+      "category_zh": "调性",
+      "subItems": [
+        "Passive-Aggressive",
+        "Wildly Overdramatic",
+        "Narrated Like a Documentary",
+        "Corporate Satire",
+        "Aggressively Wholesome",
+        "Speaks Like a Royal Herald",
+        "Deadpan Serious",
+        "Hopelessly Romantic",
+        "Sports Commentator Energy",
+        "Film Noir Detective"
+      ],
+      "subItems_zh": [
+        "阴阳怪气",
+        "戏精附体",
+        "纪录片旁白腔",
+        "职场黑话讽刺",
+        "暖到过分",
+        "圣旨腔",
+        "一本正经",
+        "恋爱脑",
+        "体育解说腔",
+        "侦探片独白腔"
+      ]
+    },
+    {
+      "category": "Constraint",
+      "category_zh": "限制",
+      "subItems": [
+        "Under 100 Lines of Code",
+        "One Button Only",
+        "No Keyboard Allowed",
+        "No Screen at All",
+        "A Single HTML File",
+        "Built in 4 Hours",
+        "Emoji Only",
+        "Works Fully Offline",
+        "Zero Dependencies",
+        "Black and White Only"
+      ],
+      "subItems_zh": [
+        "代码不超过 100 行",
+        "只有一个按钮",
+        "不准用键盘",
+        "完全没有屏幕",
+        "只有一个 HTML 文件",
+        "4 小时内做完",
+        "只能用表情符号",
+        "完全离线可用",
+        "零依赖",
+        "只有黑白两色"
+      ]
+    },
+    {
+      "category": "Body as Controller",
+      "category_zh": "身体当手柄",
+      "subItems": [
+        "Controlled by Your Face",
+        "Hum to Control It",
+        "Stomp to Confirm",
+        "Clap to Trigger",
+        "Draw Your Input",
+        "Blow Into the Mic",
+        "Blink to Select",
+        "Dance to Play",
+        "Whisper Only",
+        "No Looking Required"
+      ],
+      "subItems_zh": [
+        "用脸来操控",
+        "哼歌来操控",
+        "跺脚确认",
+        "拍手触发",
+        "画出来就是输入",
+        "对着麦克风吹气",
+        "眨眼来选择",
+        "跳舞来玩",
+        "只能悄悄说",
+        "不用看屏幕也能用"
+      ]
+    },
+    {
+      "category": "Multiplayer",
+      "category_zh": "多人",
+      "subItems": [
+        "Everyone Sees Everything",
+        "Strangers Must Cooperate",
+        "Exactly Two Players",
+        "The Whole Room Votes",
+        "Anonymous Leaderboard",
+        "Pass-and-Play on One Phone",
+        "Each Player Adds One Piece",
+        "Secret Roles",
+        "Spectators Can Interfere",
+        "Only People Nearby"
+      ],
+      "subItems_zh": [
+        "所有人都能看到一切",
+        "陌生人必须合作",
+        "只能两个人玩",
+        "全场投票决定",
+        "匿名排行榜",
+        "一部手机轮流玩",
+        "每人只添一笔",
+        "隐藏身份",
+        "观众可以捣乱",
+        "只限附近的人"
+      ]
+    },
+    {
+      "category": "Time",
+      "category_zh": "时间",
+      "subItems": [
+        "Only Works at 2 A.M.",
+        "Self-Destructs in 24 Hours",
+        "Once a Day, Every Day",
+        "Counts Down to Something",
+        "Slows Down Over Time",
+        "No Undo, Ever",
+        "Opens in One Year",
+        "Changes With the Seasons",
+        "Friday Afternoons Only",
+        "Ten-Second Sessions"
+      ],
+      "subItems_zh": [
+        "只在凌晨两点可用",
+        "24 小时后自毁",
+        "每天只能用一次",
+        "倒计时到某一刻",
+        "越用越慢",
+        "永远不能撤销",
+        "一年后才能打开",
+        "随季节变化",
+        "只在周五下午开放",
+        "每次只有十秒"
+      ]
+    },
+    {
+      "category": "Game Mechanic",
+      "category_zh": "游戏机制",
+      "subItems": [
+        "Everything Is a Duel",
+        "Has a Boss Fight",
+        "Collect the Whole Set",
+        "Tamagotchi Rules",
+        "Speedrun Mode",
+        "Random Loot Drops",
+        "Permadeath",
+        "Skill Tree",
+        "Daily Streaks",
+        "Escape Room Puzzles"
+      ],
+      "subItems_zh": [
+        "一切皆对决",
+        "有 Boss 战",
+        "集齐全套",
+        "电子宠物规则",
+        "速通模式",
+        "随机掉落奖励",
+        "永久死亡",
+        "技能树",
+        "连续打卡",
+        "密室解谜"
+      ]
+    },
+    {
+      "category": "AI Twist",
+      "category_zh": "AI 转折",
+      "subItems": [
+        "Two AIs Argue About It",
+        "The AI Is Your Rival",
+        "AI Speaks Only in Haiku",
+        "The AI Gets Jealous",
+        "AI Plays Devil's Advocate",
+        "AI Narrates Everything",
+        "The AI Is Overconfident",
+        "AI Never Forgets",
+        "AI Only Asks Questions",
+        "Train It Live on Stage"
+      ],
+      "subItems_zh": [
+        "两个 AI 吵起来",
+        "AI 是你的对手",
+        "AI 只说古诗",
+        "AI 会吃醋",
+        "AI 专门唱反调",
+        "AI 实时解说一切",
+        "AI 迷之自信",
+        "AI 永远记得",
+        "AI 只会反问",
+        "现场当众训练 AI"
+      ]
+    },
+    {
+      "category": "Look & Feel",
+      "category_zh": "视觉风格",
+      "subItems": [
+        "Looks Like a 1998 Website",
+        "Airport Departure Board",
+        "Museum Placard",
+        "8-Bit Arcade",
+        "Blueprint Style",
+        "Terminal Green",
+        "Hand-Drawn Doodles",
+        "Swiss Poster Grid",
+        "Claymation Style",
+        "VHS Tape Look"
+      ],
+      "subItems_zh": [
+        "像 1998 年的网页",
+        "机场航班信息屏",
+        "博物馆展签",
+        "8 位街机风",
+        "工程蓝图风",
+        "终端绿字",
+        "手绘涂鸦",
+        "瑞士海报网格",
+        "黏土动画风",
+        "录像带质感"
+      ]
+    },
+    {
+      "category": "Demo Day",
+      "category_zh": "路演",
+      "subItems": [
+        "Judges Become Players",
+        "The Demo Is a Performance",
+        "Survives a Live Stress Test",
+        "Works on Terrible Wi-Fi",
+        "Explained in 10 Seconds",
+        "Audience Phones Join In",
+        "Starts With a Magic Trick",
+        "No Slides, Only Product",
+        "Fails Gracefully on Stage",
+        "Personalized for Each Judge"
+      ],
+      "subItems_zh": [
+        "评委变玩家",
+        "演示就是表演",
+        "现场压测也不崩",
+        "网再差也能用",
+        "十秒讲清楚",
+        "观众手机一起加入",
+        "以一个魔术开场",
+        "不用 PPT，只演产品",
+        "台上翻车也优雅",
+        "为每位评委定制"
+      ]
+    },
+    {
+      "category": "Shareable Output",
+      "category_zh": "可分享的产出",
+      "subItems": [
+        "Prints a Receipt",
+        "Makes a Trading Card",
+        "Writes a Tiny Newspaper",
+        "Becomes a Horoscope",
+        "Exports a Calendar Invite",
+        "Sums Up Your Year",
+        "Awards a Badge",
+        "Ends as a Postcard",
+        "Cuts a Movie Trailer",
+        "Leaves a Physical Souvenir"
+      ],
+      "subItems_zh": [
+        "打印成一张小票",
+        "做成一张卡牌",
+        "印成一份迷你小报",
+        "变成一则星座运势",
+        "导出成日历邀请",
+        "生成年度总结",
+        "颁发一枚徽章",
+        "最后变成明信片",
+        "剪成一支预告片",
+        "留下一件实体纪念品"
+      ]
+    },
+    {
+      "category": "Point of View",
+      "category_zh": "视角",
+      "subItems": [
+        "Your Pet's Point of View",
+        "Told by the Object Itself",
+        "You Play the Villain",
+        "From Your Future Self",
+        "Through a Child's Eyes",
+        "A Robot's Diary",
+        "From the Year 1900",
+        "Your Grandma Explains It",
+        "Seen From Space",
+        "Opposite Day"
+      ],
+      "subItems_zh": [
+        "宠物视角",
+        "由物品自己讲述",
+        "你扮演反派",
+        "来自未来的你",
+        "用孩子的眼光看",
+        "机器人的日记",
+        "来自 1900 年",
+        "奶奶来讲解",
+        "从太空俯瞰",
+        "一切反着来"
+      ]
+    },
+    {
+      "category": "Scale",
+      "category_zh": "尺度",
+      "subItems": [
+        "One Million of Them",
+        "Tiny Enough for a Watch",
+        "Shown at Life Size",
+        "Built for an Audience of One",
+        "A Whole City at Once",
+        "Speaks Every Language",
+        "A Hundred Years of Data",
+        "Takes Up a Whole Wall",
+        "Fits on a Business Card",
+        "Infinite Scroll, Literally"
+      ],
+      "subItems_zh": [
+        "一百万个",
+        "小到能放进手表",
+        "按真实尺寸呈现",
+        "只为一个人而做",
+        "全城同时参与",
+        "什么语言都会说",
+        "一百年的数据",
+        "占满一整面墙",
+        "小到能印在名片上",
+        "真·无限滚动"
+      ]
+    },
+    {
+      "category": "Real World",
+      "category_zh": "现实世界",
+      "subItems": [
+        "Only Works Outdoors",
+        "Needs a Walk to Unlock",
+        "Hidden Around the City",
+        "Leaves Notes in Real Places",
+        "Needs a Real Object",
+        "Printed and Taped Up",
+        "Made for the Subway",
+        "Lives on the Fridge Door",
+        "Arrives by Real Mail",
+        "Two Phones Must Touch"
+      ],
+      "subItems_zh": [
+        "只能在户外用",
+        "走一走才能解锁",
+        "藏在城市各处",
+        "在真实地点留言",
+        "需要一件真实物品",
+        "打印出来贴在墙上",
+        "为地铁而生",
+        "贴在冰箱门上",
+        "通过真实邮寄送达",
+        "两部手机碰一碰"
+      ]
+    }
+  ]
+}

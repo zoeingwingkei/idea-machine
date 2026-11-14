@@ -7,7 +7,7 @@
     "note": "These twists are designed to be compatible with many human life areas and many product forms.",
     "note_zh": "这些转折设计为可以与多种生活场景和多种产品形态相搭配。",
     "reel_structure": {
-      "reel_1_space": "map-of-human-life.json → domains[].subItems",
+      "reel_1_space": "map-of-human-life.json → categories[].subItems",
       "reel_2_product_form": "map-of-product-forms.json → categories[].subItems",
       "reel_3_twist": "categories[].subItems"
     }

@@ -7,7 +7,7 @@
     "note": "A living framework, not exhaustive.",
     "note_zh": "这是一个不断发展的框架，并非详尽无遗。",
     "reel_structure": {
-      "reel_1_space": "map-of-human-life.json → domains[].subItems",
+      "reel_1_space": "map-of-human-life.json → categories[].subItems",
       "reel_2_product_form": "categories[].subItems",
       "reel_3_twist": "your twist list (separate file)"
     }

@@ -7,80 +7,80 @@
     "note": "A living framework, not exhaustive. This is meant to inspire, not validate. The builder is expected to dig into that space themselves.",
     "note_zh": "这是一个不断发展的框架，并非详尽无遗。它旨在激发灵感，而非验证想法——具体的探索仍需建造者自己深入挖掘。",
     "reel_structure": {
-      "reel_1_space": "domains[].subItems",
+      "reel_1_space": "categories[].subItems",
       "reel_2_product_form": "map-of-product-forms.json → categories[].subItems"
     }
   },
-  "domains": [
+  "categories": [
     {
-      "domain": "Health & Wellbeing",
-      "domain_zh": "健康与幸福",
+      "category": "Health & Wellbeing",
+      "category_zh": "健康与幸福",
       "subItems": ["Sleep", "Exercise & Fitness", "Nutrition & Eating", "Mental Health", "Stress Management", "Physical Health", "Healthcare", "Preventive Care", "Longevity"],
       "subItems_zh": ["睡眠", "运动与健身", "营养与饮食", "心理健康", "压力管理", "身体健康", "医疗", "保健", "长寿"]
     },
     {
-      "domain": "Money & Finances",
-      "domain_zh": "金钱与财务",
+      "category": "Money & Finances",
+      "category_zh": "金钱与财务",
       "subItems": ["Earning Income", "Saving Money", "Spending", "Investing", "Taxes", "Insurance", "Debt Management", "Financial Planning", "Retirement"],
       "subItems_zh": ["赚钱", "储蓄", "消费", "投资", "税务", "保险", "债务管理", "财务规划", "退休规划"]
     },
     {
-      "domain": "Career & Work",
-      "domain_zh": "职业与工作",
+      "category": "Career & Work",
+      "category_zh": "职业与工作",
       "subItems": ["Finding a Job", "Learning Skills", "Career Growth", "Networking", "Daily Productivity", "Collaboration", "Work-Life Balance", "Freelancing", "Entrepreneurship"],
       "subItems_zh": ["求职", "学习技能", "职业发展", "人脉拓展", "日常效率", "协作", "工作与生活平衡", "自由职业", "创业"]
     },
     {
-      "domain": "Relationships & Connections",
-      "domain_zh": "关系与连接",
+      "category": "Relationships & Connections",
+      "category_zh": "关系与连接",
       "subItems": ["Dating & Romance", "Friendships", "Family Relationships", "Parenting", "Communication", "Social Life", "Community", "Trust & Intimacy", "Conflict Resolution"],
       "subItems_zh": ["约会与恋爱", "友谊", "家庭关系", "育儿", "沟通", "社交生活", "社群归属", "信任与亲密", "冲突化解"]
     },
     {
-      "domain": "Productivity & Focus",
-      "domain_zh": "效率与专注",
+      "category": "Productivity & Focus",
+      "category_zh": "效率与专注",
       "subItems": ["Time Management", "Task Management", "Focus & Deep Work", "Habits & Routines", "Planning & Goals", "Decision Making", "Information Management", "Reduce Distractions", "Mental Clarity"],
       "subItems_zh": ["时间管理", "任务管理", "专注与深度工作", "习惯与日常", "计划与目标", "决策", "信息管理", "减少干扰", "清醒专注"]
     },
     {
-      "domain": "Home & Daily Life",
-      "domain_zh": "居家与日常生活",
+      "category": "Home & Daily Life",
+      "category_zh": "居家与日常生活",
       "subItems": ["Home Management", "Cleaning & Chores", "Cooking & Meals", "Organizing & Decluttering", "Home Maintenance", "Moving & Relocation", "Life Administration", "Documents & Paperwork", "Digital Life"],
       "subItems_zh": ["家事管理", "家务", "做饭", "收纳与断舍离", "房屋维护", "搬家", "生活事务管理", "文件与表格", "数字生活"]
     },
     {
-      "domain": "Travel & Exploration",
-      "domain_zh": "旅行与探索",
+      "category": "Travel & Exploration",
+      "category_zh": "旅行与探索",
       "subItems": ["Trip Planning", "Booking & Reservations", "Transportation", "Accommodation", "Navigation", "Packing", "Budget Travel", "Local Experiences", "Safety & Security"],
       "subItems_zh": ["行程规划", "行程预订", "交通", "住宿", "导航", "打包行李", "穷游", "本地体验", "旅行安全保障"]
     },
     {
-      "domain": "Learning & Growth",
-      "domain_zh": "学习与成长",
+      "category": "Learning & Growth",
+      "category_zh": "学习与成长",
       "subItems": ["Formal Education", "Online Learning", "Reading & Books", "Skill Development", "Memory & Retention", "Personal Growth", "Curiosity & Exploration", "Mentorship", "Teaching & Sharing"],
       "subItems_zh": ["正规教育", "在线学习", "阅读与书籍", "技能发展", "记忆与知识留存", "个人成长", "好奇心与探索", "导师指导", "教学与分享"]
     },
     {
-      "domain": "Creativity & Expression",
-      "domain_zh": "创造与表达",
+      "category": "Creativity & Expression",
+      "category_zh": "创造与表达",
       "subItems": ["Idea Generation", "Writing", "Design & Art", "Music & Performance", "Content Creation", "Creative Projects", "Storytelling", "Photography & Video", "Innovation"],
       "subItems_zh": ["创意生成", "写作", "设计与艺术", "音乐与表演", "内容创作", "创意项目", "讲故事", "摄影与视频", "创新"]
     },
     {
-      "domain": "Leisure & Enjoyment",
-      "domain_zh": "休闲与娱乐",
+      "category": "Leisure & Enjoyment",
+      "category_zh": "休闲与娱乐",
       "subItems": ["Hobbies", "Entertainment", "Sports & Recreation", "Gaming", "Relaxation", "Mindfulness", "Nature & Outdoors", "Fun & Play", "Passions"],
       "subItems_zh": ["爱好", "娱乐", "运动与休闲", "游戏", "放松", "正念", "自然与户外", "玩乐", "热爱"]
     },
     {
-      "domain": "Life Events & Transitions",
-      "domain_zh": "人生大事与转变",
+      "category": "Life Events & Transitions",
+      "category_zh": "人生大事与转变",
       "subItems": ["Marriage & Weddings", "Having Children", "Graduation", "Career Changes", "Moving", "Starting Over", "Sabbaticals", "Celebrations", "Loss & Grief"],
       "subItems_zh": ["婚姻与婚礼", "生育子女", "毕业", "转行", "搬迁", "重新开始", "长假与充电", "庆祝", "失去与哀悼"]
     },
     {
-      "domain": "Giving & Purpose",
-      "domain_zh": "给予与人生意义",
+      "category": "Giving & Purpose",
+      "category_zh": "给予与人生意义",
       "subItems": ["Helping Others", "Volunteering", "Donations", "Spirituality", "Faith", "Personal Values", "Making an Impact", "Legacy"],
       "subItems_zh": ["帮助他人", "志愿服务", "捐赠", "灵性", "信仰", "个人价值观", "创造影响力", "传承"]
     }

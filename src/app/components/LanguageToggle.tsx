@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, type ReactNode } from "react";
 import { useLanguage } from "@/app/i18n/LanguageContext";
 
 export const LANGUAGE_TOGGLE_NAV_HEIGHT = 64;
@@ -78,10 +78,13 @@ function useHideOnScrollDown(): boolean {
 // pattern for this kind of toggle.
 export function LanguageToggle({
   containerRef,
+  start,
 }: {
-  // Measured by the starfield background (App page only) so stars never
+  // Measured by the starfield background (legacy page only) so stars never
   // blink behind this button — see StarfieldBackground's shieldRefs.
   containerRef?: React.RefObject<HTMLDivElement | null>;
+  // Optional content pinned to the left end of the bar.
+  start?: ReactNode;
 }) {
   const { lang, toggleLang } = useLanguage();
   const hidden = useHideOnScrollDown();
@@ -102,13 +105,14 @@ export function LanguageToggle({
         background: "linear-gradient(to bottom, #000000 0%, transparent 100%)",
         display: "flex",
         alignItems: "center",
-        justifyContent: "flex-end",
+        justifyContent: start ? "space-between" : "flex-end",
         padding: "0 24px",
         zIndex: 20,
         transform: hidden ? "translateY(-100%)" : "translateY(0)",
         transition: "transform 0.25s ease",
       }}
     >
+      {start}
       <button
         type="button"
         onClick={toggleLang}
