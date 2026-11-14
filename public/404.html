@@ -7,7 +7,9 @@
     <script type="text/javascript">
       // Single Page Apps for GitHub Pages
       // https://github.com/rafgraph/spa-github-pages
-      var pathSegmentsToKeep = 1;
+      // 0 because the site is served from the root of a custom domain
+      // (www.the-idea-machine.com), not from a /<repo-name>/ project path.
+      var pathSegmentsToKeep = 0;
 
       var l = window.location;
       l.replace(

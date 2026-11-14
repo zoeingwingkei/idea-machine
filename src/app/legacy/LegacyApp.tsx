@@ -12,23 +12,23 @@ import {
   DECEL_MS,
   pick,
   type SlotWindowHandle,
-} from "@/app/components/slot-machine/SlotWindow";
-import { LightsRow } from "@/app/components/slot-machine/LightsRow";
-import { Lever } from "@/app/components/slot-machine/Lever";
+} from "@/app/legacy/components/slot-machine/SlotWindow";
+import { LightsRow } from "@/app/legacy/components/slot-machine/LightsRow";
+import { Lever } from "@/app/legacy/components/slot-machine/Lever";
 import {
   SlotSelectMenu,
   type SlotCategory,
-} from "@/app/components/slot-machine/SlotSelectMenu";
-import { StarfieldBackground } from "@/app/components/StarfieldBackground";
+} from "@/app/legacy/components/slot-machine/SlotSelectMenu";
+import { StarfieldBackground } from "@/app/legacy/components/StarfieldBackground";
 import {
   LanguageToggle,
   LANGUAGE_TOGGLE_NAV_HEIGHT,
 } from "@/app/components/LanguageToggle";
-import { GoldenTicket } from "@/app/components/GoldenTicket";
-import { TitleSection } from "@/app/components/TitleSection";
-import { ShareDialog } from "@/app/components/ShareDialog";
+import { GoldenTicket } from "@/app/legacy/components/GoldenTicket";
+import { TitleSection } from "@/app/legacy/components/TitleSection";
+import { ShareDialog } from "@/app/legacy/components/ShareDialog";
 import { useLanguage } from "@/app/i18n/LanguageContext";
-import { getStrings } from "@/app/i18n/strings";
+import { getStrings, type Strings } from "@/app/i18n/strings";
 import { useDocumentMeta } from "@/app/hooks/useDocumentMeta";
 import {
   getFormatGroups,
@@ -36,7 +36,7 @@ import {
   getTwistGroups,
   translateItem,
 } from "@/app/i18n/mapData";
-import { trackSpin, trackReelLock } from "@/app/analytics";
+import { trackSpin, trackReelLock, trackUiSwitch } from "@/app/analytics";
 
 // Slot index → reel key used by the GTM spec's event params (index 0 =
 // space, 1 = format/"form", 2 = twist — matches the SPACE/FORM/TWIST column
@@ -507,7 +507,7 @@ export default function App() {
       const next = [...prev] as [boolean, boolean, boolean];
       const willLock = !next[i];
       next[i] = willLock;
-      if (willLock) trackReelLock(REEL_KEYS[i]);
+      if (willLock) trackReelLock(REEL_KEYS[i], "product", "legacy");
       return next;
     });
   }, []);
@@ -523,7 +523,7 @@ export default function App() {
       next[i] = true;
       return next;
     });
-    trackReelLock(REEL_KEYS[i]);
+    trackReelLock(REEL_KEYS[i], "product", "legacy");
     slotRefs[i].current?.setStatic(item);
     setSelectOpenSlot(null);
   }, []);
@@ -538,6 +538,8 @@ export default function App() {
 
     trackSpin(
       REEL_KEYS.filter((_, i) => locked[i]),
+      "product",
+      "legacy",
     );
 
     const itemsBySlot = [SPACE_ITEMS, FORMAT_ITEMS, TWIST_ITEMS];
@@ -706,7 +708,27 @@ export default function App() {
         shieldRefs={starShieldRefs}
       />
 
-      <LanguageToggle containerRef={langToggleRef} />
+      <LanguageToggle
+        containerRef={langToggleRef}
+        start={
+          <Link
+            to="/"
+            className="lang-toggle-btn"
+            onClick={() => trackUiSwitch("instrument")}
+            style={{
+              border: "1px solid rgba(255,255,255,0.35)",
+              borderRadius: 999,
+              padding: "6px 14px",
+              fontFamily: "'Limelight', sans-serif",
+              fontSize: 16,
+              color: "rgba(255,255,255,0.85)",
+              textDecoration: "none",
+            }}
+          >
+            {t.newMachine}
+          </Link>
+        }
+      />
 
       <div
         style={{

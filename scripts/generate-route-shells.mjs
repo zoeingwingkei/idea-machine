@@ -1,5 +1,5 @@
 // Post-build step: GitHub Pages serves static files, and this app has only
-// 4 fixed routes, so rather than adopting a full SSG framework we just clone
+// a handful of fixed routes, so rather than adopting a full SSG framework we just clone
 // dist/index.html once per route with route-specific <title>/description/
 // canonical/OG/Twitter tags swapped in. The <div id="root"> and script tag
 // stay identical — the client app still hydrates and takes over routing
@@ -14,6 +14,22 @@ const distDir = join(__dirname, "..", "dist");
 const siteUrl = "https://www.the-idea-machine.com";
 
 const routes = [
+  {
+    path: "hackathon",
+    title: "Hackathon Idea Generator — The Idea Machine",
+    description:
+      "Need a hackathon project idea? Roll a topic, a piece of tech and a twist — over 1,000,000 weekend-sized combinations, plus a build prompt to scope it.",
+  },
+  {
+    path: "legacy",
+    title: "The Idea Machine — Classic Slot Machine",
+    description:
+      "The original slot-machine version of The Idea Machine: pull the lever for a random mashup of a life space, a product form and a twist.",
+    // Near-duplicate of the home page: keep it out of search results so
+    // searchers land on the current machine, but let crawlers follow its
+    // links (it's the only page in the UI that links to the map pages).
+    robots: "noindex, follow",
+  },
   {
     path: "maps/space",
     title:
@@ -39,10 +55,14 @@ const routes = [
 
 const template = readFileSync(join(distDir, "index.html"), "utf-8");
 
-function withRouteMeta(html, { path, title, description }) {
+function withRouteMeta(html, { path, title, description, robots }) {
   const url = `${siteUrl}/${path}`;
-  return html
+  const out = html
     .replace(/<title>.*?<\/title>/s, `<title>${title}</title>`)
+    .replace(
+      /(<meta name="robots" content=")[^"]*(")/,
+      `$1${robots ?? "index, follow"}$2`,
+    )
     .replace(
       /(<meta name="description" content=")[^"]*(")/,
       `$1${description}$2`,
@@ -71,6 +91,11 @@ function withRouteMeta(html, { path, title, description }) {
       /(<meta name="twitter:description" content=")[^"]*(")/,
       `$1${description}$2`,
     );
+  // Fail the build rather than silently ship a page with the wrong robots tag.
+  if (robots && !out.includes(`<meta name="robots" content="${robots}"`)) {
+    throw new Error(`robots meta not found in index.html for /${path}`);
+  }
+  return out;
 }
 
 for (const route of routes) {

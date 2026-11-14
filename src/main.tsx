@@ -1,7 +1,8 @@
 
   import { createRoot } from "react-dom/client";
   import { BrowserRouter, Routes, Route } from "react-router";
-  import App from "./app/App.tsx";
+  import InstrumentPage from "./app/instrument/InstrumentPage.tsx";
+  import LegacyApp from "./app/legacy/LegacyApp.tsx";
   import SpaceMapPage from "./app/pages/SpaceMapPage.tsx";
   import FormatMapPage from "./app/pages/FormatMapPage.tsx";
   import TwistMapPage from "./app/pages/TwistMapPage.tsx";
@@ -12,7 +13,10 @@
     <BrowserRouter>
       <LanguageProvider>
         <Routes>
-          <Route path="/" element={<App />} />
+          <Route path="/" element={<InstrumentPage modeId="product" />} />
+          <Route path="/hackathon" element={<InstrumentPage modeId="hackathon" />} />
+          {/* The original slot machine (Product mode only), kept as-is. */}
+          <Route path="/legacy" element={<LegacyApp />} />
           <Route path="/maps/space" element={<SpaceMapPage />} />
           <Route path="/maps/format" element={<FormatMapPage />} />
           <Route path="/maps/twist" element={<TwistMapPage />} />

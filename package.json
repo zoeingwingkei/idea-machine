@@ -1,8 +1,8 @@
 {
   "name": "the-idea-machine",
   "private": true,
-  "version": "0.0.1",
-  "description": "A slot-machine idea generator that mashes up a space in human life, a product form, and a twist to spark project ideas.",
+  "version": "2.0.0",
+  "description": "A random idea generator for side projects and hackathons: roll three reels (space × form × twist, or topic × tech × twist) to spark a project idea.",
   "license": "MIT",
   "repository": {
     "type": "git",

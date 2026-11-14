@@ -7,7 +7,7 @@ import {
   DialogDescription,
   DialogTitle,
 } from "@/app/components/ui/dialog";
-import { ShareCard } from "@/app/components/ShareCard";
+import { ShareCard } from "@/app/legacy/components/ShareCard";
 import { useLanguage } from "@/app/i18n/LanguageContext";
 import { getStrings } from "@/app/i18n/strings";
 import { trackShareClick } from "@/app/analytics";
@@ -65,7 +65,7 @@ export function ShareDialog({
     try {
       const blob = await toBlob(cardEl, { pixelRatio: 2, cacheBust: true });
       if (!blob) throw new Error("toBlob returned null");
-      trackShareClick();
+      trackShareClick("product", "legacy");
       const filename = "the-idea-machine.png";
       const file = new File([blob], filename, { type: "image/png" });
 

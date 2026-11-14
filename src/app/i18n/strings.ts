@@ -11,6 +11,8 @@ export interface Strings {
   aboutTwist: string;
   aboutP1End: string;
   aboutP2: string;
+  /** aboutP2 for the new machine, which has a Roll button instead of a lever. */
+  aboutP2Roll: string;
   aboutP3: string;
   github: string;
   contributeText: string;
@@ -34,6 +36,7 @@ export interface Strings {
   generatingImage: string;
   sayHi: string;
   shareDescription: string;
+  newMachine: string;
 }
 
 export const STRINGS: Record<Lang, Strings> = {
@@ -52,6 +55,8 @@ export const STRINGS: Record<Lang, Strings> = {
     aboutP1End: ".",
     aboutP2:
       "Pull the lever to discover one of more than 1,000,000 possible ideas.",
+    aboutP2Roll:
+      "Roll to discover one of more than 1,000,000 possible ideas.",
     aboutP3:
       "Built on a simple belief: good ideas often begin with an unlikely combination — and a little serendipity.",
     github: "GitHub",
@@ -76,6 +81,7 @@ export const STRINGS: Record<Lang, Strings> = {
     generatingImage: "Generating…",
     sayHi: "Say hi",
     shareDescription: "Preview and download an image of your idea to share.",
+    newMachine: "← New machine",
   },
   zh: {
     documentTitle: "The Idea Machine 点子机 — 随机项目与产品点子生成",
@@ -89,6 +95,7 @@ export const STRINGS: Record<Lang, Strings> = {
     aboutTwist: "意外转折",
     aboutP1End: "。",
     aboutP2: "拉下拉杆，一百多万种可能里，蹦出一个只属于你的点子。",
+    aboutP2Roll: "摇一摇，一百多万种可能里，蹦出一个只属于你的点子。",
     aboutP3: "好点子很少是想出来的，多半是撞出来的。",
     github: "GitHub",
     contributeText: "还有什么场景、形态或转折没收录进来？",
@@ -112,6 +119,7 @@ export const STRINGS: Record<Lang, Strings> = {
     generatingImage: "生成中……",
     sayHi: "打个招呼",
     shareDescription: "预览并下载你的点子图片，方便分享。",
+    newMachine: "← 新版点子机",
   },
 };
 

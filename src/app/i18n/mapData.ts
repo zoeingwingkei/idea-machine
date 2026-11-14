@@ -15,13 +15,6 @@ interface RawCategory {
   subItems_zh: string[];
 }
 
-interface RawDomain {
-  domain: string;
-  domain_zh: string;
-  subItems: string[];
-  subItems_zh: string[];
-}
-
 function localizeCategories(
   categories: RawCategory[],
   lang: Lang,
@@ -32,22 +25,12 @@ function localizeCategories(
   }));
 }
 
-function localizeDomains(
-  domains: RawDomain[],
-  lang: Lang,
-): LocalizedGroup[] {
-  return domains.map((d) => ({
-    title: lang === "zh" ? d.domain_zh : d.domain,
-    items: lang === "zh" ? d.subItems_zh : d.subItems,
-  }));
-}
-
 export function getFormatGroups(lang: Lang): LocalizedGroup[] {
   return localizeCategories(productFormsData.categories, lang);
 }
 
 export function getSpaceGroups(lang: Lang): LocalizedGroup[] {
-  return localizeDomains(humanLifeData.domains, lang);
+  return localizeCategories(humanLifeData.categories, lang);
 }
 
 export function getTwistGroups(lang: Lang): LocalizedGroup[] {
@@ -90,17 +73,11 @@ function buildTranslationMap(): Map<string, string> {
     map.set(a, b);
     map.set(b, a);
   };
-  for (const c of productFormsData.categories) {
-    add(c.category, c.category_zh);
-    c.subItems.forEach((item, i) => add(item, c.subItems_zh[i]));
-  }
-  for (const d of humanLifeData.domains) {
-    add(d.domain, d.domain_zh);
-    d.subItems.forEach((item, i) => add(item, d.subItems_zh[i]));
-  }
-  for (const c of twistsData.categories) {
-    add(c.category, c.category_zh);
-    c.subItems.forEach((item, i) => add(item, c.subItems_zh[i]));
+  for (const data of [humanLifeData, productFormsData, twistsData]) {
+    for (const c of data.categories) {
+      add(c.category, c.category_zh);
+      c.subItems.forEach((item, i) => add(item, c.subItems_zh[i]));
+    }
   }
   return map;
 }

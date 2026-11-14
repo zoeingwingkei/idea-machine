@@ -1,0 +1,353 @@
+{
+  "meta": {
+    "title": "The Map of Hackathon Topics",
+    "title_zh": "黑客松题材地图",
+    "subtitle": "Concrete, everyday things worth building for, grouped to line up with common hackathon tracks.",
+    "subtitle_zh": "值得为之动手的具体日常，按常见的黑客松赛道分组。",
+    "note": "A living framework, not exhaustive. Lock a topic that fits your hackathon's theme, then roll the rest.",
+    "note_zh": "这是一个不断发展的框架，并非详尽无遗。先锁定一个契合黑客松主题的题材，再摇其余两项。",
+    "reel_structure": {
+      "reel_1_topic": "map-of-hackathon-topics.json → categories[].subItems",
+      "reel_2_tech": "map-of-hackathon-tech.json → categories[].subItems",
+      "reel_3_twist": "map-of-hackathon-twists.json → categories[].subItems"
+    }
+  },
+  "categories": [
+    {
+      "category": "Digital Life",
+      "category_zh": "数字生活",
+      "subItems": [
+        "Your Browser Tabs",
+        "Your Camera Roll",
+        "Your Screen Time",
+        "Your Unread Emails",
+        "Your Downloads Folder",
+        "Your Notes App Graveyard",
+        "Your Phone Notifications",
+        "Your Saved-for-Later Pile",
+        "Your Old Screenshots",
+        "Your Emoji Habits"
+      ],
+      "subItems_zh": [
+        "你的浏览器标签页",
+        "你的相册",
+        "你的屏幕使用时间",
+        "你的未读邮件",
+        "你的下载文件夹",
+        "备忘录里的烂尾想法",
+        "你的手机通知",
+        "吃灰的收藏夹",
+        "你的旧截图",
+        "你的表情包习惯"
+      ]
+    },
+    {
+      "category": "Home & Objects",
+      "category_zh": "居家与物件",
+      "subItems": [
+        "Your Houseplants",
+        "Fridge Leftovers",
+        "Laundry Day",
+        "Lost Keys",
+        "The Junk Drawer",
+        "Roommate Chores",
+        "Your Desk Setup",
+        "Packages at Your Door",
+        "Your Closet",
+        "Your Bookshelf"
+      ],
+      "subItems_zh": [
+        "你的绿植",
+        "冰箱里的剩菜",
+        "洗衣日",
+        "找不到的钥匙",
+        "杂物抽屉",
+        "室友家务分工",
+        "你的桌面布置",
+        "门口的快递",
+        "你的衣柜",
+        "你的书架"
+      ]
+    },
+    {
+      "category": "Body & Focus",
+      "category_zh": "身体与专注",
+      "subItems": [
+        "Your Posture",
+        "Drinking Enough Water",
+        "Your Morning Routine",
+        "Deep Focus Sessions",
+        "Bedtime Scrolling",
+        "Taking Real Breaks",
+        "Your Daily Steps",
+        "Stretching at Your Desk",
+        "Your Breathing",
+        "Your Sleep Schedule"
+      ],
+      "subItems_zh": [
+        "你的坐姿",
+        "多喝水",
+        "你的晨间习惯",
+        "深度专注时间",
+        "睡前刷手机",
+        "好好休息一下",
+        "每日步数",
+        "工位拉伸",
+        "你的呼吸",
+        "你的作息"
+      ]
+    },
+    {
+      "category": "City & Getting Around",
+      "category_zh": "城市与出行",
+      "subItems": [
+        "The Bus Stop Wait",
+        "Your Commute",
+        "Finding Parking",
+        "Your Bike Rides",
+        "Your Neighborhood",
+        "Crosswalk Waits",
+        "Restaurant Waitlists",
+        "Local Landmarks",
+        "Getting Lost",
+        "Airport Layovers"
+      ],
+      "subItems_zh": [
+        "等公交",
+        "你的通勤",
+        "找车位",
+        "你的骑行",
+        "你住的街区",
+        "等红绿灯",
+        "餐厅排队等位",
+        "本地地标",
+        "迷路",
+        "机场转机"
+      ]
+    },
+    {
+      "category": "Planet & Climate",
+      "category_zh": "地球与气候",
+      "subItems": [
+        "Street Trees",
+        "Recycling Rules",
+        "Air Quality",
+        "Your Energy Bill",
+        "Food Waste",
+        "Your Carbon Footprint",
+        "Secondhand Swaps",
+        "Plastic Packaging",
+        "Heat Waves",
+        "Community Gardens"
+      ],
+      "subItems_zh": [
+        "行道树",
+        "垃圾分类",
+        "空气质量",
+        "你家的电费",
+        "食物浪费",
+        "你的碳足迹",
+        "二手闲置交换",
+        "塑料包装",
+        "高温天",
+        "社区菜园"
+      ]
+    },
+    {
+      "category": "People & Social",
+      "category_zh": "人际与社交",
+      "subItems": [
+        "The Group Chat",
+        "Splitting the Bill",
+        "Long-Distance Friends",
+        "Family Dinner",
+        "Birthday Gifts",
+        "First Dates",
+        "Elevator Small Talk",
+        "Remembering Names",
+        "Calling Your Parents",
+        "Group Trip Planning"
+      ],
+      "subItems_zh": [
+        "群聊",
+        "AA 分账",
+        "异地的好朋友",
+        "家庭聚餐",
+        "生日礼物",
+        "第一次约会",
+        "电梯里的寒暄",
+        "记住别人的名字",
+        "给爸妈打电话",
+        "结伴出游计划"
+      ]
+    },
+    {
+      "category": "Learning & School",
+      "category_zh": "学习与校园",
+      "subItems": [
+        "Lecture Notes",
+        "Flashcards",
+        "Group Projects",
+        "Learning a Language",
+        "Study Buddies",
+        "Your Class Schedule",
+        "Exam Week",
+        "Procrastinated Homework",
+        "Practicing an Instrument",
+        "Campus Lost & Found"
+      ],
+      "subItems_zh": [
+        "课堂笔记",
+        "背单词卡",
+        "小组作业",
+        "学一门外语",
+        "学习搭子",
+        "你的课表",
+        "考试周",
+        "拖到最后的作业",
+        "练乐器",
+        "校园失物招领"
+      ]
+    },
+    {
+      "category": "Work & Meetings",
+      "category_zh": "工作与会议",
+      "subItems": [
+        "Daily Standups",
+        "Meeting Overload",
+        "Code Reviews",
+        "Work Chat Threads",
+        "First-Day Onboarding",
+        "The Office Coffee Machine",
+        "Your To-Do List",
+        "Weekly Status Updates",
+        "Out-of-Office Replies",
+        "Bug Reports"
+      ],
+      "subItems_zh": [
+        "每日站会",
+        "开不完的会",
+        "代码评审",
+        "工作群消息",
+        "入职第一天",
+        "公司咖啡机",
+        "你的待办清单",
+        "周报",
+        "休假自动回复",
+        "Bug 反馈"
+      ]
+    },
+    {
+      "category": "Money & Shopping",
+      "category_zh": "钱与消费",
+      "subItems": [
+        "Your Subscriptions",
+        "Impulse Buys",
+        "Receipts",
+        "Your Budget",
+        "Saving for Something",
+        "Price Tracking",
+        "Points and Coupons",
+        "Your Shopping Cart",
+        "Pocket Money",
+        "Spare Change"
+      ],
+      "subItems_zh": [
+        "你的各种订阅",
+        "冲动消费",
+        "购物小票",
+        "你的预算",
+        "为一件东西攒钱",
+        "比价",
+        "积分与优惠券",
+        "你的购物车",
+        "零花钱",
+        "零钱"
+      ]
+    },
+    {
+      "category": "Food & Drink",
+      "category_zh": "吃吃喝喝",
+      "subItems": [
+        "Lunch Decisions",
+        "Your Coffee Order",
+        "The Spice Rack",
+        "Scaling a Recipe",
+        "The Snack Stash",
+        "Potluck Planning",
+        "Late-Night Snack Runs",
+        "Bubble Tea Orders",
+        "What's in Season",
+        "Cooking for One"
+      ],
+      "subItems_zh": [
+        "中午吃什么",
+        "你的咖啡点单",
+        "调料架",
+        "菜谱按人数换算",
+        "囤的零食",
+        "聚餐各带一道菜",
+        "深夜觅食",
+        "奶茶点单",
+        "当季食材",
+        "一人食"
+      ]
+    },
+    {
+      "category": "Culture & Play",
+      "category_zh": "文化与玩乐",
+      "subItems": [
+        "Wikipedia Rabbit Holes",
+        "Movie Night Picks",
+        "Karaoke Night",
+        "Board Game Night",
+        "Fan Theories",
+        "Museum Visits",
+        "Your Playlists",
+        "Memes",
+        "Concert Nights",
+        "Book Club"
+      ],
+      "subItems_zh": [
+        "越看越远的百科词条",
+        "今晚看什么电影",
+        "K 歌之夜",
+        "桌游之夜",
+        "粉丝脑洞",
+        "逛博物馆",
+        "你的歌单",
+        "梗图",
+        "看演唱会",
+        "读书会"
+      ]
+    },
+    {
+      "category": "Pets & Nature",
+      "category_zh": "宠物与自然",
+      "subItems": [
+        "Your Dog's Walks",
+        "Your Cat's Moods",
+        "Birds at Your Window",
+        "The Moon Tonight",
+        "Rainy Days",
+        "Garden Bugs",
+        "Tonight's Sunset",
+        "Weekend Hikes",
+        "Stargazing",
+        "Wildflowers"
+      ],
+      "subItems_zh": [
+        "遛狗",
+        "猫主子的心情",
+        "窗外的鸟",
+        "今晚的月亮",
+        "下雨天",
+        "花园里的小虫",
+        "今天的晚霞",
+        "周末徒步",
+        "看星星",
+        "路边的野花"
+      ]
+    }
+  ]
+}
