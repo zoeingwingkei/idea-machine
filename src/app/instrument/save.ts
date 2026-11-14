@@ -62,7 +62,7 @@ function cardHtml(c: SaveCard): string {
       </div>
       <div class="svc-main">
         <div class="svc-bezel">${channels}</div>
-        <div class="svc-dial"><div class="svc-dial-in"><canvas></canvas></div></div>
+        <div class="svc-dial"><div class="svc-dial-in"><img class="svc-glyph" alt="" width="${GLYPH_CSS_SIZE}" height="${GLYPH_CSS_SIZE}"></div></div>
       </div>
     </div>
     <div class="svc-brief">
@@ -142,6 +142,8 @@ export function createSaver(
     if (saving) return;
     setSaving(true);
     try {
+      // The glyph and QR must be decoded before export, or WebKit can paint them blank.
+      await Promise.all([...card.querySelectorAll("img")].map((img) => img.decode().catch(() => {})));
       const blob = await toBlob(card, { pixelRatio: EXPORT_RATIO, cacheBust: true });
       if (!blob) throw new Error("toBlob returned null");
       onSaved();
@@ -168,14 +170,12 @@ export function createSaver(
       words = w;
       setSaving(false);
       card.innerHTML = cardHtml(c);
-      // Draw the glyph at export resolution so it stays sharp in the PNG.
-      drawGlyph(
-        card.querySelector("canvas")!,
-        makeGlyph(c.serial, { accent: true }),
-        GLYPH_CSS_SIZE,
-        DIAL_THEME,
-        EXPORT_RATIO,
-      );
+      // Draw the glyph at export resolution so it stays sharp in the PNG, then
+      // put it in the card as an <img>: html-to-image loses <canvas> content
+      // in WebKit (Safari and every iOS browser), leaving a blank dial.
+      const glyph = document.createElement("canvas");
+      drawGlyph(glyph, makeGlyph(c.serial, { accent: true }), GLYPH_CSS_SIZE, DIAL_THEME, EXPORT_RATIO);
+      card.querySelector<HTMLImageElement>(".svc-glyph")!.src = glyph.toDataURL("image/png");
       dialog.showModal();
       ro.observe(stage);
       ro.observe(card);
