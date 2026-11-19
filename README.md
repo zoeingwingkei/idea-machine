@@ -5,7 +5,7 @@ random project idea — meant to spark inspiration, not hand you a validated
 idea. It has two modes:
 
 - **Product** (`/`): a space in human life × a product form × a twist
-- **Hackathon** (`/hackathon`): a topic × a piece of tech × a twist
+- **Hackathon** (`/hackathon/`): a topic × a piece of tech × a twist
 
 Each mode has over 1,000,000 combinations, in English and Chinese.
 
@@ -29,8 +29,17 @@ way to play with it.
   so the link opens the same idea.
 - **Recent** — your ideas from this browser session, kept per mode.
 
-The original slot-machine design (v1) is still available at
-[`/legacy`](https://www.the-idea-machine.com/legacy).
+Around the machine:
+
+- [**About**](https://www.the-idea-machine.com/about/) — how it works, the two
+  modes, and FAQ.
+- [**Examples**](https://www.the-idea-machine.com/examples/) — real rolls
+  from both modes, each with a one-line pitch.
+- [**Maps**](https://www.the-idea-machine.com/maps/) — every item on each
+  mode's three reels, by category
+  ([Hackathon](https://www.the-idea-machine.com/maps/hackathon/)).
+- [**Legacy**](https://www.the-idea-machine.com/legacy/) — the original
+  slot-machine design (v1).
 
 ## Contributing
 
@@ -76,9 +85,15 @@ Where things live:
   modes (which maps, reel names, prompt text); `machine.ts` is the state
   (picking, locks, idea codes, history); `controller.ts` draws it and wires
   the controls; `save.ts` is the Save image card; `InstrumentPage.tsx` is the
-  React page around it.
-- `src/app/legacy/` — the original slot machine at `/legacy`, kept as-is.
-- `src/app/pages/` — the map pages (`/maps/*`).
+  React page around it; `SiteChrome.tsx` is the top bar and footer shared
+  with the other pages.
+- `src/app/pages/` — the About (`/about/`), Examples (`/examples/`) and Maps
+  (`/maps/`, `/maps/hackathon/`) pages.
+- `src/data/site-content.json` — every word around the machine: the model
+  plate (each machine page's `<h1>`) and description, and the About,
+  Examples and Maps copy, in English and Chinese. `src/app/siteContent.ts`
+  reads it for the app.
+- `src/app/legacy/` — the original slot machine at `/legacy/`, kept as-is.
 - `src/app/analytics.ts` — the Google Analytics events the app sends.
 - `src/assets/share-qr*.svg` — the static QR codes on saved images, one per
   mode.
@@ -87,9 +102,19 @@ Where things live:
 
 Pushing to `main` builds and deploys the site to GitHub Pages
 (`.github/workflows/deploy.yml`). GitHub Pages only serves static files, so
-`npm run build` also writes a copy of `index.html` for each route
-(`scripts/generate-route-shells.mjs`) with that page's title, description and
-search settings, and `public/404.html` sends any other URL back to the app.
+`npm run build` also runs `scripts/generate-route-shells.mjs`, which:
+
+- writes a copy of `index.html` for each route with that page's title,
+  description, canonical URL and structured data, plus the page's text
+  (from `site-content.json` and the maps) inside `<div id="root">`, so
+  crawlers and AI agents that don't run JavaScript can read it. React
+  replaces that markup when the app loads;
+- writes redirect pages from the v1 map URLs (`/maps/space/`,
+  `/maps/format/`, `/maps/twist/`) to the matching section of `/maps/`;
+- writes `sitemap.xml`, `llms.txt` and `llms-full.txt`.
+
+URLs end in `/` (that's what GitHub Pages serves). `public/404.html` sends
+any other URL back to the app.
 
 ## License
 

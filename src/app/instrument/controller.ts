@@ -13,6 +13,7 @@ import { DEVICE_HTML } from "./template";
 import { sound } from "./sound";
 import { DIAL_THEME, animateGlyph, blankGlyph, drawGlyph, makeGlyph, type Glyph } from "./glyph";
 import { createSaver } from "./save";
+import { getLabels, getModeContent } from "@/app/siteContent";
 import { copyText, esc, reducedMotion, store, wait } from "./util";
 import {
   trackCopyPrompt,
@@ -103,6 +104,11 @@ export function mountInstrument(root: HTMLElement, opts: InstrumentOptions): Ins
       n.setAttribute("aria-label", w()[n.dataset.tLabel as WordKey]);
     });
     el<HTMLInputElement>("pkSearch").placeholder = w().search;
+    // The model plate printed on the body is the page's <h1> (also written
+    // into the static HTML by scripts/generate-route-shells.mjs).
+    const plate = getModeContent(m.mode.id, m.lang);
+    el("plate").textContent = plate.h1;
+    el("model").textContent = `${getLabels(m.lang).model} ${plate.model}`;
     setRollLabel();
   }
 

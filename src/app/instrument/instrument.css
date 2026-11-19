@@ -265,7 +265,6 @@
 
 /* ---------- page chrome: top bar and footer ---------- */
 .instrument .im-nav { max-width: 960px; margin: 0 auto; padding: 16px 16px 0; display: flex; align-items: center; gap: 12px 18px; font: 500 11px/1 var(--mono); letter-spacing: .08em; text-transform: uppercase; white-space: nowrap; }
-.instrument .im-nav h1 { margin: 0; font: inherit; letter-spacing: inherit; color: var(--ink); }
 .instrument .im-nav .sp { flex: 1; }
 .instrument .im-nav a { color: var(--ink-3); text-decoration: none; padding: 6px 0; transition: color .15s; }
 .instrument .im-nav a:hover { color: var(--ink); }
@@ -277,13 +276,93 @@
 .instrument .im-modes a .led { background: #CFCAC1; box-shadow: inset 0 1px 1px rgba(0,0,0,.25); }
 .instrument .im-modes a[aria-current="page"] { background: var(--bezel); color: var(--reel-ink); box-shadow: 0 1px 0 rgba(255,255,255,.8), 0 2px 4px rgba(0,0,0,.25); }
 .instrument .im-modes a[aria-current="page"] .led { background: var(--orange); box-shadow: 0 0 6px 1px rgba(255,90,31,.7); }
-.instrument .im-nav a:focus-visible, .instrument .im-about a:focus-visible { outline: 2px solid var(--orange); outline-offset: 3px; border-radius: 4px; }
+/* page links (Map, About, Classic) and the language button on pages without the machine */
+.instrument .im-links { display: flex; align-items: center; gap: 18px; }
+.instrument .im-links a[aria-current="page"] { color: var(--ink); }
+.instrument .im-lang { border: 0; background: none; padding: 6px 0; font: inherit; letter-spacing: inherit; text-transform: inherit; color: var(--ink-3); cursor: pointer; transition: color .15s; }
+.instrument .im-lang:hover { color: var(--ink); }
+.instrument a:focus-visible, .instrument .im-lang:focus-visible { outline: 2px solid var(--orange); outline-offset: 3px; border-radius: 4px; }
 
+/* model plate printed on the body: the page's <h1> */
+.instrument .plate { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; margin: -6px 4px 18px; }
+.instrument .plate h1 { margin: 0; font: 600 11px/1.35 var(--mono); letter-spacing: .16em; text-transform: uppercase; color: var(--ink-2); }
+.instrument .plate .model { font: 500 10px/1.35 var(--mono); letter-spacing: .16em; text-transform: uppercase; color: var(--ink-3); white-space: nowrap; }
+.instrument:lang(zh) .plate h1, .instrument:lang(zh) .plate .model { letter-spacing: .08em; }
+/* static HTML only (before the app mounts): hold the panel's place under the plate */
+.instrument .im-ssr-panel { min-height: min(440px, 60vh); }
+
+/* description under the machine */
 .instrument .im-about { max-width: 960px; margin: 40px auto 0; padding: 0 10px; }
 .instrument .im-about p { margin: 0 0 10px; max-width: 62ch; color: var(--ink-2); font-size: 16px; line-height: 1.6; }
-.instrument .im-about nav { margin-top: 16px; display: flex; flex-wrap: wrap; gap: 8px 20px; font: 500 10.5px/1 var(--mono); letter-spacing: .08em; text-transform: uppercase; }
-.instrument .im-about a { color: var(--ink-2); text-decoration: none; padding: 4px 0; }
-.instrument .im-about a:hover { color: var(--ink); }
+
+/* footer links on every page */
+.instrument .im-footlinks { margin-top: 16px; display: flex; flex-wrap: wrap; gap: 8px 20px; font: 500 10.5px/1 var(--mono); letter-spacing: .08em; text-transform: uppercase; }
+.instrument nav.im-footlinks a { color: var(--ink-2); text-decoration: none; padding: 4px 0; }
+.instrument nav.im-footlinks a:hover { color: var(--ink); }
+
+/* ---------- About: a printed manual ---------- */
+.instrument .im-doc { max-width: 960px; margin: 28px auto 0; padding: 0 10px; color: var(--ink-2); font-size: 16px; line-height: 1.6; }
+.instrument .im-doc > * { max-width: 62ch; }
+.instrument .im-doc h1 { margin: 0 0 14px; font: 600 28px/1.2 var(--sans); letter-spacing: -.015em; color: var(--ink); }
+.instrument .im-doc h2 { margin: 40px 0 12px; font: 500 10.5px/1.2 var(--mono); letter-spacing: .1em; text-transform: uppercase; color: var(--ink-3); }
+.instrument .im-doc h3 { margin: 0 0 4px; font: 600 16px/1.4 var(--sans); color: var(--ink); }
+.instrument .im-doc p { margin: 0 0 10px; }
+.instrument .im-doc ol, .instrument .im-doc ul { margin: 0; padding: 0 0 0 1.3em; }
+.instrument .im-doc ol { list-style: decimal; } /* Tailwind's preflight strips list markers */
+.instrument .im-doc li { margin: 0 0 6px; }
+.instrument .im-doc ol li::marker { font: 500 12px var(--mono); color: var(--ink-3); }
+.instrument .im-doc .im-maplinks { list-style: none; padding: 0; }
+.instrument .im-roll { display: block; margin-bottom: 2px; font: 500 10.5px/1.4 var(--mono); letter-spacing: .06em; text-transform: uppercase; color: var(--orange-lo); }
+.instrument .im-doc .im-mode { margin: 0 0 22px; }
+.instrument .im-doc .im-mode p { margin: 0 0 6px; }
+/* FAQ: accordions, closed by default (the answers stay in the HTML) */
+.instrument .im-faqs { border-top: 1px solid var(--edge); }
+.instrument .im-faq { border-bottom: 1px solid var(--edge); }
+.instrument .im-faq summary { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 14px 0; cursor: pointer; list-style: none; }
+.instrument .im-faq summary::-webkit-details-marker { display: none; }
+.instrument .im-faq summary:focus-visible { outline: 2px solid var(--orange); outline-offset: 3px; border-radius: 4px; }
+.instrument .im-doc .im-faq summary h3 { margin: 0; }
+.instrument .im-faq p { margin: 0 0 16px; }
+/* the +/– button: a small round key */
+.instrument .im-faq-mark { position: relative; flex: none; width: 24px; height: 24px; border-radius: 50%; background: linear-gradient(180deg, #FAF9F6, #E6E3DC); border: 1px solid #C6C1B8; box-shadow: 0 2px 0 #BAB5AB; }
+.instrument .im-faq-mark::before, .instrument .im-faq-mark::after { content: ""; position: absolute; left: 50%; top: 50%; width: 10px; height: 1.5px; border-radius: 1px; background: var(--ink-2); transform: translate(-50%, -50%); transition: transform .2s var(--ease-out); }
+.instrument .im-faq-mark::after { transform: translate(-50%, -50%) rotate(90deg); }
+.instrument .im-faq[open] .im-faq-mark::after { transform: translate(-50%, -50%) rotate(0deg); }
+.instrument .im-faq[open] .im-faq-mark { box-shadow: 0 0 0 #BAB5AB; transform: translateY(2px); }
+.instrument .im-doc a, .instrument .im-map-foot a { color: var(--ink); text-decoration: underline; text-decoration-color: var(--edge); text-underline-offset: 3px; }
+.instrument .im-doc a:hover, .instrument .im-map-foot a:hover { text-decoration-color: var(--ink); }
+.instrument .im-doc .im-maplinks span, .instrument .im-doc .im-maker { color: var(--ink-3); }
+.instrument .im-doc .im-maker { margin-top: 40px; font-size: 14px; }
+
+/* ---------- Map: every reel item, by category ---------- */
+.instrument .im-map { max-width: 960px; margin: 28px auto 0; padding: 0 10px; color: var(--ink-2); }
+.instrument .im-map h1 { margin: 0 0 12px; font: 600 28px/1.2 var(--sans); letter-spacing: -.015em; color: var(--ink); }
+.instrument .im-map-intro { margin: 0; max-width: 62ch; font-size: 16px; line-height: 1.6; }
+.instrument .im-reel { margin-top: 48px; scroll-margin-top: 16px; }
+.instrument .im-reel-head { margin-bottom: 16px; max-width: 62ch; }
+.instrument .im-reel-head h2 { margin: 6px 0 4px; font: 600 20px/1.3 var(--sans); color: var(--ink); }
+.instrument .im-reel-head p { margin: 0; font-size: 15px; line-height: 1.55; }
+.instrument .im-cats { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 12px; margin: 0; padding: 0; list-style: none; }
+.instrument .im-cat {
+  padding: 14px 16px 12px; border-radius: 14px;
+  background: linear-gradient(180deg, var(--body-hi), var(--body-lo)); border: 1px solid var(--edge);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.9), 0 1px 2px rgba(0,0,0,.05);
+}
+.instrument .im-cat h3 { display: flex; align-items: center; gap: 8px; margin: 0 0 10px; font: 500 10.5px/1.3 var(--mono); letter-spacing: .1em; text-transform: uppercase; color: var(--ink-2); }
+.instrument .im-cat ul { margin: 0; padding: 0; list-style: none; }
+.instrument .im-cat li { margin: 0; padding: 7px 0; border-top: 1px solid rgba(20,20,20,.09); font-size: 15px; line-height: 1.4; color: var(--ink); }
+.instrument .im-cat li:first-child { border-top: 0; padding-top: 0; }
+.instrument .im-cat li:last-child { padding-bottom: 2px; }
+/* example cards (Examples page) */
+.instrument .im-example { padding: 16px 16px 18px; }
+.instrument .im-example .im-roll { margin-bottom: 8px; }
+.instrument .im-example p { margin: 0; font-size: 15px; line-height: 1.5; color: var(--ink); }
+.instrument .im-more { margin: 14px 0 0; font-size: 15px; }
+.instrument .im-more a { color: var(--ink); text-decoration: underline; text-decoration-color: var(--edge); text-underline-offset: 3px; }
+.instrument .im-more a:hover { text-decoration-color: var(--ink); }
+.instrument:lang(zh) .im-cat h3 { letter-spacing: .04em; }
+.instrument .im-map-foot { margin-top: 48px; max-width: 62ch; font-size: 15px; line-height: 1.6; }
+.instrument .im-map-foot p { margin: 0 0 8px; }
 
 /* ---------- tablet ---------- */
 @media (max-width: 820px) {
@@ -298,10 +377,13 @@
 @media (max-width: 640px) {
   /* two rows: name + classic link, then the mode switch across the full width */
   .instrument .im-nav { flex-wrap: wrap; padding: 12px 12px 0; gap: 8px 10px; }
-  .instrument .im-classic .full { display: none; }
   .instrument .im-modes { order: 1; flex: 1 0 100%; }
   .instrument .im-modes a { flex: 1; justify-content: center; }
-  .instrument .im-about { padding: 0 12px; }
+  .instrument .im-about, .instrument .im-doc, .instrument .im-map { padding: 0 12px; }
+  .instrument .im-links { gap: 14px; }
+  .instrument .plate { margin: -2px 2px 14px; }
+  .instrument .plate .model { display: none; } /* room for the full title on one line */
+  .instrument .im-doc h1, .instrument .im-map h1 { font-size: 24px; }
   .instrument main { padding: 10px 10px 48px; }
   .instrument .device { padding: 14px 12px 12px; border-radius: 24px; }
   /* too narrow for side by side: the dial joins the roll button on top */

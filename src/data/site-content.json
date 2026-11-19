@@ -1,0 +1,215 @@
+{
+  "_comment": "Single source for the words around the machine: the model plate (the page's <h1>) and description on each landing page, the About page, and the Map pages. Read by the React pages AND by scripts/generate-route-shells.mjs, which writes the same text into each page's static HTML so crawlers that don't run JavaScript (ChatGPT, Claude, Perplexity) see it too. Edit wording only here. {n0} {n1} {n2} = item counts of a mode's three reels. Example rolls must use exact English item names from src/data/maps — the build fails if one isn't found.",
+  "siteUrl": "https://www.the-idea-machine.com",
+  "updated": "2026-11-19",
+  "maker": {
+    "name": "Kay Zhang",
+    "url": "https://kay-zhang.com/",
+    "github": "https://github.com/zoeingwingkei"
+  },
+  "repo": "https://github.com/zoeingwingkei/idea-machine",
+  "labels": {
+    "en": {
+      "nav": { "home": "Home", "about": "About", "examples": "Examples", "maps": "Maps", "legacy": "Legacy" },
+      "langToggle": "中文",
+      "model": "Model",
+      "how": "How it works",
+      "faq": "Questions",
+      "modes": "Two modes",
+      "tryMode": "Roll one →",
+      "lists": "The idea lists",
+      "madeBy": "Made by",
+      "updated": "Updated",
+      "reel": "Reel {i}",
+      "items": "{n} items",
+      "openMachine": "Open the machine →",
+      "contribute": "Know something these lists are missing?",
+      "contributeLink": "Add it on GitHub ↗"
+    },
+    "zh": {
+      "nav": { "home": "首页", "about": "关于", "examples": "示例", "maps": "地图", "legacy": "旧版" },
+      "langToggle": "English",
+      "model": "型号",
+      "how": "怎么用",
+      "faq": "常见问题",
+      "modes": "两种模式",
+      "tryMode": "去摇一个 →",
+      "lists": "点子清单",
+      "madeBy": "作者",
+      "updated": "更新于",
+      "reel": "转轮 {i}",
+      "items": "{n} 项",
+      "openMachine": "打开点子机 →",
+      "contribute": "还有什么没收录进这些清单？",
+      "contributeLink": "去 GitHub 补充 ↗"
+    }
+  },
+  "modes": {
+    "product": {
+      "model": "01",
+      "path": "",
+      "mapPath": "maps",
+      "reels": [
+        { "key": "space", "file": "map-of-human-life.json" },
+        { "key": "form", "file": "map-of-product-forms.json" },
+        { "key": "twist", "file": "map-of-twists.json" }
+      ],
+      "en": {
+        "name": "Product mode",
+        "h1": "Product Idea Generator",
+        "description": [
+          "The Idea Machine is a playful generator that combines three things: a space in human life, a product form, and an unexpected twist.",
+          "Roll to discover one of more than 1,000,000 possible ideas.",
+          "Built on a simple belief: good ideas often begin with an unlikely combination — and a little serendipity."
+        ],
+        "intro": "The Idea Machine is a free random idea generator for side projects, apps and products. Each roll combines a space in human life (like sleep or saving money), a product form (like a browser extension or a newsletter) and an unexpected twist into one idea. {n0} spaces, {n1} forms and {n2} twists make over 1,000,000 combinations.",
+        "mapTitle": "Project Idea Lists: {n0} Spaces, {n1} Product Forms & {n2} Twists",
+        "mapDescription": "Every item on The Idea Machine's Product reels: {n0} spaces in human life, {n1} product forms and {n2} twists to mix into a side project or app idea.",
+        "mapH1": "Project idea lists",
+        "mapIntro": "Every item on the Product machine's three reels: {n0} spaces in human life, {n1} product forms and {n2} twists, grouped by category. Combine any three into an idea, or let the machine roll them for you.",
+        "examples": [
+          { "roll": ["Sleep", "Personal Tracker", "Logged by Hand on Purpose"], "pitch": "A sleep journal you fill in by hand each morning, because writing it down is what makes you notice the patterns." },
+          { "roll": ["Cooking & Meals", "Browser Extension", "Brutally Honest"], "pitch": "An extension that reads the recipe you're on and tells you how long it will really take, before you start." },
+          { "roll": ["Friendships", "Scheduled Digest", "Sundays Only"], "pitch": "A Sunday-only email listing the friends you haven't talked to in a while, with one easy way to reach out." },
+          { "roll": ["Saving Money", "Chatbot", "Gently Judgmental"], "pitch": "A chatbot you message before an impulse buy, which asks one gentle question that makes you think twice." },
+          { "roll": ["Learning Skills", "Notion Template", "Confidence Before Competence"], "pitch": "A Notion template for learning a new skill that tracks small wins first, so you keep going before you're any good." },
+          { "roll": ["Trip Planning", "AI Agent", "AI Interviews You First"], "pitch": "A trip-planning agent that interviews you about what you actually enjoy before it suggests a single place." }
+        ]
+      },
+      "zh": {
+        "name": "产品模式",
+        "h1": "产品点子生成器",
+        "description": [
+          "The Idea Machine（点子机）把三样东西摇在一起：一个生活场景、一种产品形态、一个意外转折。",
+          "摇一摇，一百多万种可能里，蹦出一个只属于你的点子。",
+          "好点子很少是想出来的，多半是撞出来的。"
+        ],
+        "intro": "The Idea Machine（点子机）是一个免费的随机点子生成器，适合找副业项目、App 和产品灵感。每摇一次，它会把一个生活场景（比如睡眠、存钱）、一种产品形态（比如浏览器插件、newsletter）和一个意外转折组合成一个点子。{n0} 个场景、{n1} 种形态、{n2} 个转折，组合超过一百万种。",
+        "mapTitle": "产品点子清单：{n0} 个生活场景、{n1} 种产品形态、{n2} 个转折",
+        "mapDescription": "点子机产品模式三个转轮上的全部内容：{n0} 个生活场景、{n1} 种产品形态和 {n2} 个转折。",
+        "mapH1": "产品点子清单",
+        "mapIntro": "产品模式三个转轮上的全部内容：{n0} 个生活场景、{n1} 种产品形态和 {n2} 个转折，按类别整理。任选三个组合成一个点子，或者让点子机替你摇。",
+        "examples": [
+          { "roll": ["Sleep", "Personal Tracker", "Logged by Hand on Purpose"], "pitch": "一本每天早上手写的睡眠日记——正因为要亲手写下来，你才会注意到规律。" },
+          { "roll": ["Cooking & Meals", "Browser Extension", "Brutally Honest"], "pitch": "一个浏览器插件，读取你正在看的菜谱，在你动手之前告诉你它实际要花多久。" },
+          { "roll": ["Friendships", "Scheduled Digest", "Sundays Only"], "pitch": "一封只在周日发送的邮件，列出你好久没联系的朋友，并附上一个轻松打招呼的方式。" },
+          { "roll": ["Saving Money", "Chatbot", "Gently Judgmental"], "pitch": "冲动消费前先给它发条消息，这个聊天机器人会温和地问你一个问题，让你三思。" },
+          { "roll": ["Learning Skills", "Notion Template", "Confidence Before Competence"], "pitch": "一个学新技能的 Notion 模板，先记录小小的进步，让你在还不擅长时也能坚持下去。" },
+          { "roll": ["Trip Planning", "AI Agent", "AI Interviews You First"], "pitch": "一个旅行规划 AI 助手，先问清你真正喜欢什么，再推荐任何一个地方。" }
+        ]
+      }
+    },
+    "hackathon": {
+      "model": "02",
+      "path": "hackathon",
+      "mapPath": "maps/hackathon",
+      "reels": [
+        { "key": "topic", "file": "map-of-hackathon-topics.json" },
+        { "key": "tech", "file": "map-of-hackathon-tech.json" },
+        { "key": "twist", "file": "map-of-hackathon-twists.json" }
+      ],
+      "en": {
+        "name": "Hackathon mode",
+        "h1": "Hackathon Idea Generator",
+        "description": [
+          "In Hackathon mode, The Idea Machine combines three things: a topic, a piece of tech, and an unexpected twist — sized for a project you can build in a weekend.",
+          "Roll to discover one of more than 1,000,000 possible ideas.",
+          "Built on a simple belief: good ideas often begin with an unlikely combination — and a little serendipity."
+        ],
+        "intro": "The Idea Machine's Hackathon mode is a free random hackathon idea generator. It combines a topic (like your commute or your houseplants), a piece of tech (like a webcam, an LLM or an e-ink display) and a twist into a project you can build in a weekend. {n0} topics, {n1} technologies and {n2} twists make over 1,000,000 combinations.",
+        "mapTitle": "Hackathon Idea Lists: {n0} Topics, {n1} Technologies & {n2} Twists",
+        "mapDescription": "Every item on The Idea Machine's Hackathon reels: {n0} topics, {n1} technologies and {n2} twists to mix into a project you can build in a weekend.",
+        "mapH1": "Hackathon idea lists",
+        "mapIntro": "Every item on the Hackathon machine's three reels: {n0} topics, {n1} technologies and {n2} twists, grouped by category. Find the one that fits your theme or a sponsor prize, then lock it on the machine and roll the rest.",
+        "examples": [
+          { "roll": ["Your Houseplants", "A Thermal Receipt Printer", "Passive-Aggressive"], "pitch": "A soil sensor that prints a passive-aggressive receipt whenever you forget to water a plant." },
+          { "roll": ["The Bus Stop Wait", "Transit Arrivals", "Airport Departure Board"], "pitch": "A live arrivals board for your bus stop that flips like an airport departures display." },
+          { "roll": ["The Group Chat", "A Discord Bot", "Two AIs Argue About It"], "pitch": "A Discord bot where two AIs argue both sides whenever the group can't decide." },
+          { "roll": ["Your Posture", "The Webcam", "Has a Boss Fight"], "pitch": "A webcam posture coach that turns slouching into a boss fight you have to win." },
+          { "roll": ["Splitting the Bill", "A Number You Can Text", "Explained in 10 Seconds"], "pitch": "Text a photo of the receipt to a number and get back who owes what, in one message." },
+          { "roll": ["Birds at Your Window", "Vision That Reads Photos", "Makes a Trading Card"], "pitch": "A window camera that recognizes visiting birds and turns each one into a collectible trading card." }
+        ]
+      },
+      "zh": {
+        "name": "黑客松模式",
+        "h1": "黑客松点子生成器",
+        "description": [
+          "黑客松模式下，The Idea Machine（点子机）把三样东西摇在一起：一个题材、一项技术、一个意外转折，组合成一个周末就能做完的项目。",
+          "摇一摇，一百多万种可能里，蹦出一个只属于你的点子。",
+          "好点子很少是想出来的，多半是撞出来的。"
+        ],
+        "intro": "点子机的黑客松模式是一个免费的随机黑客松点子生成器。它把一个题材（比如通勤、家里的绿植）、一项技术（比如摄像头、大模型、墨水屏）和一个转折组合成一个周末就能做完的项目。{n0} 个题材、{n1} 项技术、{n2} 个转折，组合超过一百万种。",
+        "mapTitle": "黑客松点子清单：{n0} 个题材、{n1} 项技术、{n2} 个转折",
+        "mapDescription": "点子机黑客松模式三个转轮上的全部内容：{n0} 个题材、{n1} 项技术和 {n2} 个转折。",
+        "mapH1": "黑客松点子清单",
+        "mapIntro": "黑客松模式三个转轮上的全部内容：{n0} 个题材、{n1} 项技术和 {n2} 个转折，按类别整理。找到符合主题或赞助商奖项的那一项，在点子机上锁住它，再摇其余两项。",
+        "examples": [
+          { "roll": ["Your Houseplants", "A Thermal Receipt Printer", "Passive-Aggressive"], "pitch": "一个土壤传感器，只要你忘了浇水，就打印一张阴阳怪气的小票。" },
+          { "roll": ["The Bus Stop Wait", "Transit Arrivals", "Airport Departure Board"], "pitch": "为你家门口的公交站做一块实时到站牌，翻牌效果像机场出发显示屏。" },
+          { "roll": ["The Group Chat", "A Discord Bot", "Two AIs Argue About It"], "pitch": "一个 Discord 机器人：群里拿不定主意时，两个 AI 各执一词替你们吵一架。" },
+          { "roll": ["Your Posture", "The Webcam", "Has a Boss Fight"], "pitch": "一个用摄像头纠正坐姿的教练，把驼背变成一场必须打赢的 Boss 战。" },
+          { "roll": ["Splitting the Bill", "A Number You Can Text", "Explained in 10 Seconds"], "pitch": "把小票拍照发给一个号码，一条回复告诉你谁该付多少。" },
+          { "roll": ["Birds at Your Window", "Vision That Reads Photos", "Makes a Trading Card"], "pitch": "一个窗边摄像头，认出来访的鸟，并把每一只做成可收藏的卡牌。" }
+        ]
+      }
+    }
+  },
+  "examplesPage": {
+    "en": {
+      "title": "Example Side Project & Hackathon Ideas — The Idea Machine",
+      "description": "Twelve real rolls from The Idea Machine, each turned into a one-line project pitch: six side project and app ideas, and six weekend hackathon ideas.",
+      "h1": "Example ideas",
+      "intro": "Real rolls from the machine, each turned into a one-line pitch. Every idea starts as three random words; the pitch is just one way to read them, and yours can be completely different."
+    },
+    "zh": {
+      "title": "副业项目与黑客松点子示例 — The Idea Machine 点子机",
+      "description": "点子机真实摇出的 12 个组合，各配一句话的项目构想：6 个副业项目与 App 点子，6 个周末黑客松点子。",
+      "h1": "点子示例",
+      "intro": "从点子机真实摇出的组合，各配一句话的构想。每个点子都从三个随机的词开始，这里的构想只是其中一种理解，你的版本完全可以不一样。"
+    }
+  },
+  "about": {
+    "en": {
+      "title": "About The Idea Machine — How the Random Idea Generator Works",
+      "description": "How The Idea Machine turns three random reels into a side project or hackathon idea, what its two modes do, and answers to common questions about picking what to build.",
+      "h1": "About The Idea Machine",
+      "intro": "The Idea Machine is a free random idea generator for side projects and hackathons. Each roll combines three reels into one idea. Product mode mixes a space in human life, a product form and a twist. Hackathon mode mixes a topic, a piece of tech and a twist, sized for a weekend. Each mode has over 1,000,000 combinations, in English and Chinese.",
+      "belief": "Built on a simple belief: good ideas often begin with an unlikely combination — and a little serendipity.",
+      "how": [
+        "Press Roll. The three reels each land on one item.",
+        "Lock any reel you want to keep, then roll again to change only the others. At a hackathon, lock your theme or a sponsor's tech.",
+        "Browse a reel to pick an item yourself, or nudge it with the scroll wheel, a drag or the arrow keys.",
+        "Copy prompt hands the idea to ChatGPT, Claude or any AI assistant, which pitches three ways to build it. In Hackathon mode it also suggests the demo moment and scopes your pick for 24 hours.",
+        "Save image makes a shareable card, and every idea has its own link."
+      ],
+      "faq": [
+        { "q": "How do I come up with a hackathon idea?", "a": "Start from the hackathon's theme or a sponsor's tech, lock that reel in Hackathon mode, and roll the other two until a combination makes you laugh or say \"wait, that could work.\" Then test it against one question: can you show it working in a two-minute demo?" },
+        { "q": "How big should a hackathon project be?", "a": "Small enough to finish one complete, demoable flow in the time you have, usually 24 to 48 hours. Pick the one moment you want judges to see and build only what that moment needs. Hackathon mode's Copy prompt asks your AI assistant to scope the idea for 24 hours." },
+        { "q": "How is this different from asking ChatGPT for an idea?", "a": "Ask an AI assistant for an idea with no input and you tend to get the same safe suggestions. The Idea Machine starts from three random, hand-picked words, so you get combinations you wouldn't think to ask for. Copy prompt then hands them to your assistant to develop." },
+        { "q": "Are these ideas validated?", "a": "No, and they're not meant to be. The Idea Machine sparks ideas rather than judging them. Treat a roll as a prompt: if it reminds you of a problem you or people you know actually have, that's the idea worth digging into." },
+        { "q": "Is it free, and can I use the ideas?", "a": "Yes. It's free, needs no sign-up and runs in your browser. Any idea you roll is yours to build, sell or share, with no credit needed. The code and every idea list are open source under the MIT license on GitHub." }
+      ]
+    },
+    "zh": {
+      "title": "关于点子机 — 随机点子生成器是怎么运作的",
+      "description": "点子机如何把三个随机转轮组合成一个副业项目或黑客松点子，介绍两种模式，并解答常见问题。",
+      "h1": "关于点子机",
+      "intro": "The Idea Machine（点子机）是一个免费的随机点子生成器，适合找副业项目和黑客松点子。每摇一次，三个转轮组合成一个点子。产品模式组合一个生活场景、一种产品形态和一个转折；黑客松模式组合一个题材、一项技术和一个转折，大小正好一个周末做完。每个模式都有超过一百万种组合，支持中英文。",
+      "belief": "好点子很少是想出来的，多半是撞出来的。",
+      "how": [
+        "按下「摇一摇」，三个转轮各停在一项上。",
+        "锁住想保留的转轮，再摇一次，只换其余的。参加黑客松时，可以锁住主题或赞助商的技术。",
+        "也可以浏览某个转轮亲自挑选，或用滚轮、拖动、方向键微调。",
+        "「复制提示词」会把点子交给 ChatGPT、Claude 等 AI 助手，让它给出三种做法；黑客松模式还会给出演示亮点，并把选中的点子规划成 24 小时能做完的版本。",
+        "「保存图片」生成一张可分享的卡片，每个点子也都有自己的链接。"
+      ],
+      "faq": [
+        { "q": "怎么想出一个黑客松点子？", "a": "从黑客松的主题或赞助商的技术出发，在黑客松模式里锁住那个转轮，再摇另外两个，直到某个组合让你笑出来，或者让你说「等等，这个能做」。然后用一个问题检验它：你能在两分钟的演示里让它跑起来吗？" },
+        { "q": "黑客松项目应该做多大？", "a": "小到能在有限时间（通常 24 到 48 小时）里完成一条完整、可演示的流程。先想好最想让评委看到的那一刻，只做那一刻需要的部分。黑客松模式的「复制提示词」会请 AI 助手按 24 小时来规划。" },
+        { "q": "这和直接问 ChatGPT 要点子有什么不同？", "a": "什么都不给就问 AI 要点子，往往只会得到差不多的稳妥建议。点子机从三个随机、人工挑选的词出发，组合出你想不到去问的方向；「复制提示词」再把它们交给你的 AI 助手去展开。" },
+        { "q": "这些点子经过验证吗？", "a": "没有，也不打算验证。点子机负责激发灵感，而不是评判点子。把摇出的结果当作一个提示：如果它让你想起自己或身边人真实遇到的问题，那才是值得深挖的点子。" },
+        { "q": "免费吗？点子可以拿去用吗？", "a": "免费，不用注册，打开浏览器就能用。摇出的点子随你去做、去卖、去分享，不用署名。代码和所有点子清单都以 MIT 协议在 GitHub 开源。" }
+      ]
+    }
+  }
+}

@@ -145,7 +145,9 @@ const PRODUCT: Mode = {
 
 const HACKATHON: Mode = {
   id: "hackathon",
-  path: "/hackathon",
+  // Trailing slash: GitHub Pages serves hackathon/index.html here, and
+  // 301-redirects /hackathon to it.
+  path: "/hackathon/",
   name: { en: "Hackathon", zh: "黑客松" },
 
   documentTitle: {

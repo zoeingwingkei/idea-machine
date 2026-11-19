@@ -215,15 +215,15 @@ function AboutBody({ t }: { t: Strings }) {
       >
         <p style={{ margin: "0 0 12px" }}>
           {t.aboutP1Pre}
-          <Link to="/maps/space" className="about-inline-link">
+          <Link to="/maps/#space" className="about-inline-link">
             {t.aboutHumanNeed}
           </Link>
           {t.aboutP1Mid1}
-          <Link to="/maps/format" className="about-inline-link">
+          <Link to="/maps/#form" className="about-inline-link">
             {t.aboutProductForm}
           </Link>
           {t.aboutP1Mid2}
-          <Link to="/maps/twist" className="about-inline-link">
+          <Link to="/maps/#twist" className="about-inline-link">
             {t.aboutTwist}
           </Link>
           {t.aboutP1End}
@@ -910,21 +910,21 @@ export default function App() {
                   {[
                     {
                       label: t.space,
-                      mapHref: "/maps/space",
+                      mapHref: "/maps/#space",
                       items: SPACE_ITEMS,
                       ref: slot0Ref,
                       categories: SPACE_CATEGORIES,
                     },
                     {
                       label: t.format,
-                      mapHref: "/maps/format",
+                      mapHref: "/maps/#form",
                       items: FORMAT_ITEMS,
                       ref: slot1Ref,
                       categories: FORMAT_CATEGORIES,
                     },
                     {
                       label: t.twist,
-                      mapHref: "/maps/twist",
+                      mapHref: "/maps/#twist",
                       items: TWIST_ITEMS,
                       ref: slot2Ref,
                       categories: TWIST_CATEGORIES,
