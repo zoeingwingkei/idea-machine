@@ -25,6 +25,7 @@ const channel = (ri: number) => `
 
 export const DEVICE_HTML = `
 <section class="device" data-t-label="machine">
+  <header class="plate"><h1 data-el="plate"></h1><span class="model" data-el="model"></span></header>
   <div class="panel">
     <div class="dial"><div class="dial-in"><canvas data-el="glyph" role="img" data-t-label="glyph"></canvas></div></div>
     <div class="keys">
